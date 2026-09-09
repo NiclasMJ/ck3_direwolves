@@ -1,0 +1,43 @@
+﻿dw_direwolf_maul_knight = {
+	type = knight
+
+	is_valid = {
+		has_trait = direwolf_companion
+		has_character_flag = dw_wolf_in_combat
+		NOT = { has_character_flag = dw_maul_cooldown }
+		dw_has_battle_ready_direwolf_trigger = yes
+		scope:combat_side.enemy_side = {
+			any_side_knight = { is_alive = yes }
+		}
+	}
+
+	chance = {
+		base = 20
+	}
+
+	effect = {
+		dw_direwolf_combat_maul_effect = yes
+	}
+}
+
+dw_direwolf_maul_commander = {
+	type = commander
+
+	is_valid = {
+		has_trait = direwolf_companion
+		has_character_flag = dw_wolf_in_combat
+		NOT = { has_character_flag = dw_maul_cooldown }
+		dw_has_battle_ready_direwolf_trigger = yes
+		scope:combat_side.enemy_side = {
+			any_side_knight = { is_alive = yes }
+		}
+	}
+
+	chance = {
+		base = 10
+	}
+
+	effect = {
+		dw_direwolf_combat_maul_effect = yes
+	}
+}

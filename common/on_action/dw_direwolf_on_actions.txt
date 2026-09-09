@@ -1,0 +1,400 @@
+﻿on_birthday = {
+	on_actions = {
+		dw_direwolf_on_birthday
+	}
+}
+
+on_death = {
+	on_actions = {
+		dw_direwolf_on_death
+	}
+}
+
+on_game_start_after_lobby = {
+	on_actions = {
+		dw_direwolf_on_game_start
+	}
+}
+
+yearly_playable_pulse = {
+	on_actions = {
+		dw_direwolf_yearly_pulse
+	}
+}
+
+yearly_global_pulse = {
+	on_actions = {
+		dw_direwolf_yearly_global_pulse
+	}
+}
+
+random_yearly_everyone_pulse = {
+	on_actions = {
+		dw_direwolf_feral_roam_pulse
+	}
+}
+
+on_scheme_discovered = {
+	on_actions = {
+		dw_direwolf_on_scheme_discovered
+	}
+}
+
+on_travel_plan_movement = {
+	on_actions = {
+		dw_direwolf_on_travel_movement
+	}
+}
+
+dw_direwolf_on_birthday = {
+	effect = {
+		if = {
+			limit = { has_trait = direwolf }
+			dw_direwolf_set_growth_stage_effect = yes
+		}
+		if = {
+			limit = { has_trait = direwolf_companion }
+			dw_direwolf_deepen_bond_effect = yes
+		}
+	}
+}
+
+dw_direwolf_on_death = {
+	effect = {
+		if = {
+			limit = { has_trait = direwolf }
+			remove_list_global_variable = { name = dw_all_wolves  target = this }
+		}
+
+		if = {
+			limit = { dw_direwolf_is_feral_trigger = yes }
+			dw_direwolf_leave_feral_effect = yes
+		}
+
+		if = {
+			limit = {
+				OR = {
+					has_trait = direwolf
+					has_trait = direwolf_companion
+				}
+			}
+			dw_break_direwolf_bond_effect = yes
+		}
+
+		if = {
+			limit = {
+				is_human = yes
+				dw_can_bond_with_direwolf_trigger = yes
+				liege ?= {
+					is_landed = yes
+					any_courtier = { has_trait = direwolf }
+					NOT = { has_character_flag = dw_great_howl_cooldown }
+				}
+			}
+			liege ?= {
+				add_character_flag = {
+					flag = dw_great_howl_cooldown
+					years = 2
+				}
+
+				trigger_event = dw_direwolf.0620
+			}
+		}
+
+		if = {
+			limit = {
+				has_trait = direwolf
+				exists = liege
+				liege = { is_landed = yes }
+			}
+			liege = {
+				dw_direwolf_refresh_pack_full_effect = yes
+			}
+		}
+	}
+}
+
+dw_direwolf_on_game_start = {
+	effect = {
+		dynasty:dynn_Stark ?= {
+			dw_direwolf_mark_dynasty_wolf_blooded_effect = yes
+		}
+
+		if = {
+			limit = { NOT = { has_global_variable = dw_all_wolves_seeded } }
+			set_global_variable = dw_all_wolves_seeded
+			every_ruler = {
+				every_courtier = {
+					limit = {
+						has_trait = direwolf
+						NOT = { is_target_in_global_variable_list = { name = dw_all_wolves  target = this } }
+					}
+					add_to_global_variable_list = { name = dw_all_wolves  target = this }
+				}
+			}
+			every_in_global_list = {
+				variable = dw_feral_wolves
+				limit = {
+					is_alive = yes
+					NOT = { is_target_in_global_variable_list = { name = dw_all_wolves  target = this } }
+				}
+				add_to_global_variable_list = { name = dw_all_wolves  target = this }
+			}
+		}
+
+		every_in_global_list = {
+			variable = dw_feral_wolves
+			limit = { is_alive = yes }
+			make_unprunable = yes
+		}
+
+		every_in_global_list = {
+			variable = dw_feral_wolves
+			limit = {
+				is_alive = yes
+				has_character_flag = dw_feral_leader
+			}
+			dw_direwolf_feral_make_alpha_effect = yes
+		}
+
+		every_player = {
+			if = {
+				limit = {
+					has_trait = direwolf_companion
+					is_from_ruler_designer = yes
+					NOT = { exists = var:bonded_direwolf }
+				}
+				trigger_event = dw_direwolf.0110
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = { has_global_variable = dw_canon_litter_done }
+				dw_direwolf_canon_history_exists_trigger = yes
+			}
+			set_global_variable = dw_canon_litter_done
+			dw_direwolf_bond_canon_history_effect = yes
+		}
+		if = {
+			limit = { NOT = { has_global_variable = dw_starting_pack_spawned } }
+			set_global_variable = dw_starting_pack_spawned
+			while = {
+				count = dw_direwolf_starting_pack_count_value
+				dw_direwolf_spawn_feral_pack_beyond_wall_effect = yes
+			}
+		}
+	}
+}
+
+dw_direwolf_yearly_global_pulse = {
+	effect = {
+		if = {
+			limit = {
+				NOT = { has_global_variable = dw_canon_litter_done }
+				has_game_rule = agot_story_historical_events_historical_outcomes
+				dw_direwolf_canon_history_exists_trigger = no
+				current_date >= 8296.1.1
+				character:Stark_3 ?= { is_alive = yes }
+			}
+			set_global_variable = dw_canon_litter_done
+			character:Stark_3 = {
+				trigger_event = dw_direwolf.0500
+			}
+		}
+
+		random = {
+			chance = 15
+			if = {
+				limit = { dw_direwolf_world_under_cap_trigger = yes }
+				dw_direwolf_spawn_feral_pack_beyond_wall_effect = yes
+			}
+		}
+	}
+}
+
+dw_direwolf_feral_roam_pulse = {
+	effect = {
+		dw_direwolf_feral_roam_one_effect = yes
+	}
+}
+
+dw_direwolf_yearly_pulse = {
+    effect = {
+        if = {
+            limit = {
+				has_trait = direwolf_companion
+				has_trait = dragonrider }
+            dw_direwolf_refresh_combat_modifier_effect = yes
+        }
+
+        if = {
+            limit = {
+                NOT = { has_character_flag = dw_dragon_wolf_incident }
+                OR = {
+                    dw_dragon_devours_wolf_possible_trigger = yes
+                    dw_wolf_devours_dragon_possible_trigger = yes
+                }
+            }
+
+            add_character_flag = {
+                flag = dw_dragon_wolf_incident
+                years = 15
+            }
+
+            random = {
+                chance = 35
+
+                if = {
+                    limit = { dw_dragon_devours_wolf_possible_trigger = yes }
+                    trigger_event = dw_direwolf.1200
+                }
+                else_if = {
+                    limit = { dw_wolf_devours_dragon_possible_trigger = yes }
+                    trigger_event = dw_direwolf.1210
+                }
+            }
+        }
+
+        if = {
+            limit = {
+                dw_is_wolf_blooded_trigger = yes
+                NOT = { has_trait = direwolf_companion }
+                is_landed = yes
+                NOT = { has_global_variable = dw_direwolf_global_cooldown }
+                dw_direwolf_world_under_cap_trigger = yes
+            }
+
+            random = {
+                chance = 2
+                trigger_event = dw_direwolf.0300
+                set_global_variable = {
+                    name = dw_direwolf_global_cooldown
+                    value = yes
+                    years = 65
+                }
+            }
+
+            random = {
+                chance = 2
+                trigger_event = dw_direwolf.0302
+                set_global_variable = {
+                    name = dw_direwolf_global_cooldown
+                    value = yes
+                    years = 65
+                }
+            }
+        }
+
+		if = {
+			limit = { dw_has_direwolf_pack_trigger = yes }
+
+			dw_direwolf_refresh_pack_full_effect = yes
+			dw_direwolf_pack_mating_effect = yes
+
+			if = {
+				limit = {
+					dw_direwolf_pack_under_cap_trigger = yes
+					dw_direwolf_world_under_cap_trigger = yes
+				}
+				every_courtier = {
+					limit = {
+						has_trait = direwolf
+						is_female = yes
+						is_alive = yes
+						dw_direwolf_is_grown_trigger = yes
+						NOT = { has_character_modifier = dw_denning_modifier }
+						any_relation = {
+							type = direwolf_mate
+							is_alive = yes
+						}
+					}
+					random = {
+						chance = 33
+						dw_direwolf_conceive_effect = yes
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					any_courtier = { has_trait = direwolf_beta }
+					any_courtier = { has_trait = direwolf_alpha }
+				}
+				random = {
+					chance = 8
+					trigger_event = dw_direwolf.0610
+				}
+			}
+
+			if = {
+				limit = { any_courtier = { dw_direwolf_can_go_feral_trigger = yes } }
+				random = {
+					chance = 10
+					random_courtier = {
+						limit = { dw_direwolf_can_go_feral_trigger = yes }
+						dw_direwolf_go_feral_effect = yes
+					}
+					dw_direwolf_refresh_pack_full_effect = yes
+				}
+			}
+
+			dw_direwolf_trim_pack_effect = yes
+
+			if = {
+				limit = {
+					any_courtier = { has_trait = direwolf_pup }
+					any_courtier = { has_character_modifier = dw_denning_modifier }
+				}
+				random = {
+					chance = 20
+					trigger_event = dw_direwolf.0630
+				}
+			}
+
+			if = {
+				limit = {
+					any_courtier = { has_character_flag = dw_secret_mate }
+					any_courtier = { has_trait = direwolf_alpha }
+				}
+				random = {
+					chance = 35
+					trigger_event = dw_direwolf.0640
+				}
+			}
+		}
+    }
+}
+
+dw_direwolf_on_scheme_discovered = {
+	effect = {
+		if = {
+			limit = {
+				scheme_type = murder
+				scheme_target_character ?= {
+					is_alive = yes
+					dw_has_battle_ready_direwolf_trigger = yes
+				}
+			}
+			scheme_target_character = {
+				trigger_event = dw_direwolf.0400
+			}
+		}
+	}
+}
+
+dw_direwolf_on_travel_movement = {
+	effect = {
+		if = {
+			limit = {
+				is_alive = yes
+				exists = location
+				location.county ?= { dw_direwolf_county_has_feral_pack_trigger = yes }
+			}
+			random = {
+				chance = 20
+				trigger_event = dw_direwolf.0700
+			}
+		}
+	}
+}

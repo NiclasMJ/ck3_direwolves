@@ -1,0 +1,65 @@
+dw_direwolf_tree_check = {
+	scope = character
+
+	is_shown = {
+		has_trait = direwolf
+		OR = {
+			real_father ?= { has_trait = direwolf }
+			real_mother ?= { has_trait = direwolf }
+			any_child = { has_trait = direwolf }
+		}
+	}
+}
+
+dw_open_direwolf_tree = {
+	scope = character
+	saved_scopes = { opened_character }
+
+	effect = {
+		dw_direwolf_tree_clear_effect = yes
+
+		scope:opened_character = { save_scope_as = dw_tree_walker }
+
+		while = {
+			count = 5
+			if = {
+				limit = { scope:dw_tree_walker.real_mother ?= { has_trait = direwolf } }
+				scope:dw_tree_walker.real_mother = { save_scope_as = dw_tree_walker }
+			}
+			else_if = {
+				limit = { scope:dw_tree_walker.real_father ?= { has_trait = direwolf } }
+				scope:dw_tree_walker.real_father = { save_scope_as = dw_tree_walker }
+			}
+		}
+
+		set_variable = {
+			name = dw_tree_stump
+			value = scope:dw_tree_walker
+		}
+
+		add_to_variable_list = { name = dw_tree_gen_0  target = scope:dw_tree_walker }
+		add_to_variable_list = { name = dw_tree_all    target = scope:dw_tree_walker }
+
+		dw_direwolf_tree_descend_effect = { FROM = dw_tree_gen_0  INTO = dw_tree_gen_1 }
+		dw_direwolf_tree_descend_effect = { FROM = dw_tree_gen_1  INTO = dw_tree_gen_2 }
+		dw_direwolf_tree_descend_effect = { FROM = dw_tree_gen_2  INTO = dw_tree_gen_3 }
+		dw_direwolf_tree_descend_effect = { FROM = dw_tree_gen_3  INTO = dw_tree_gen_4 }
+
+		set_variable = {
+			name = dw_tree_total
+			value = dw_direwolf_tree_size_value
+		}
+		set_variable = {
+			name = dw_tree_living
+			value = dw_direwolf_tree_living_value
+		}
+	}
+}
+
+dw_close_direwolf_tree = {
+	scope = character
+
+	effect = {
+		dw_direwolf_tree_clear_effect = yes
+	}
+}

@@ -1,0 +1,14 @@
+﻿dw_direwolf_debug_spawn_feral_pack_effect = {
+	hidden_effect = {
+		location ?= { save_scope_as = dw_fpack_loc }
+		dw_direwolf_spawn_feral_pack_at_loc_effect = yes
+	}
+
+	if = {
+		limit = { exists = scope:dw_fpack_leader }
+		send_interface_toast = {
+			title = dw_debug_spawn_feral_pack_toast
+			left_icon = scope:dw_fpack_leader
+		}
+	}
+}

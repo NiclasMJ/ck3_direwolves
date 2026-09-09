@@ -1,0 +1,449 @@
+﻿dw_direwolf_starting_pack_count_value = {
+	value = 0
+
+	if = {
+		limit = { has_game_rule = dw_starting_packs_1 }
+		add = 1
+	}
+	else_if = {
+		limit = { has_game_rule = dw_starting_packs_2 }
+		add = 2
+	}
+	else_if = {
+		limit = { has_game_rule = dw_starting_packs_4 }
+		add = 4
+	}
+	else_if = {
+		limit = { has_game_rule = dw_starting_packs_5 }
+		add = 5
+	}
+	else = {
+		add = 3
+	}
+
+	min = 1
+	max = 5
+}
+
+dw_direwolf_wolf_blood_value = {
+	value = 0
+
+	if = {
+		limit = { dw_is_wolf_blooded_trigger = yes }
+		add = 100
+	}
+	else = {
+		if = {
+			limit = { real_father ?= { dw_is_wolf_blooded_trigger = yes } }
+			add = 50
+		}
+		else = {
+			if = {
+				limit = { real_father.real_father ?= { dw_is_wolf_blooded_trigger = yes } }
+				add = 25
+			}
+			if = {
+				limit = { real_father.real_mother ?= { dw_is_wolf_blooded_trigger = yes } }
+				add = 25
+			}
+		}
+
+		if = {
+			limit = { real_mother ?= { dw_is_wolf_blooded_trigger = yes } }
+			add = 50
+		}
+		else = {
+			if = {
+				limit = { real_mother.real_father ?= { dw_is_wolf_blooded_trigger = yes } }
+				add = 25
+			}
+			if = {
+				limit = { real_mother.real_mother ?= { dw_is_wolf_blooded_trigger = yes } }
+				add = 25
+			}
+		}
+	}
+
+	min = 0
+	max = 100
+}
+
+dw_direwolf_blooded_count_value = {
+	value = 0
+	every_living_character = {
+		limit = {
+			is_human = yes
+			dw_has_wolf_blood_trigger = yes
+		}
+		add = 1
+	}
+}
+
+dw_direwolf_full_blooded_count_value = {
+	value = 0
+	every_living_character = {
+		limit = {
+			is_human = yes
+			dw_direwolf_wolf_blood_value >= 100
+		}
+		add = 1
+	}
+}
+
+dw_direwolf_half_blooded_count_value = {
+	value = 0
+	every_living_character = {
+		limit = {
+			is_human = yes
+			dw_direwolf_wolf_blood_value >= 50
+			dw_direwolf_wolf_blood_value < 100
+		}
+		add = 1
+	}
+}
+
+dw_direwolf_thin_blooded_count_value = {
+	value = 0
+	every_living_character = {
+		limit = {
+			is_human = yes
+			dw_direwolf_wolf_blood_value >= 25
+			dw_direwolf_wolf_blood_value < 50
+		}
+		add = 1
+	}
+}
+
+dw_direwolf_blood_affinity_value = {
+	value = 0
+
+	if = {
+		limit = { dw_has_wolf_blood_trigger = yes }
+		add = 5
+		add = {
+			value = dw_direwolf_wolf_blood_value
+			multiply = 0.07
+		}
+	}
+	else_if = {
+		limit = { dw_direwolf_is_northman_trigger = yes }
+		add = 5
+	}
+	else = {
+		subtract = 12
+	}
+}
+
+dw_direwolf_bond_chance_value = {
+	value = 10
+
+	add = {
+		value = prowess
+		multiply = 1.5
+	}
+	add = {
+		value = learning
+		multiply = 1.0
+	}
+
+	if = {
+		limit = {
+			has_trait = calm
+		}
+		add = 15
+	}
+	if = {
+		limit = {
+			has_trait = lifestyle_hunter
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			has_trait = brave
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			has_trait = craven
+		}
+		subtract = 20
+	}
+	add = dw_direwolf_blood_affinity_value
+
+	min = 5
+	max = 85
+}
+
+dw_direwolf_canon_litter_age_value = {
+	value = current_year
+	add = -8296
+	min = 0
+}
+
+dw_direwolf_canon_bond_xp_value = {
+	value = dw_direwolf_canon_litter_age_value
+	multiply = 8
+}
+
+dw_direwolf_dominance_value = {
+	value = prowess
+
+	if = { limit = { has_trait = direwolf_massive }  add = 6 }
+	if = { limit = { has_trait = direwolf_savage }  add = 5 }
+	if = { limit = { has_trait = direwolf_scarred }  add = 3 }
+
+	if = { limit = { has_trait = direwolf_runt }  add = -6 }
+	if = { limit = { has_trait = direwolf_skittish }  add = -5 }
+	if = { limit = { has_trait = direwolf_docile }  add = -3 }
+
+	if = { limit = { has_trait = direwolf_alpha }  add = 4 }
+
+	if = { limit = { has_trait = direwolf_outcast }  add = -100 }
+
+	if = { limit = { has_trait = direwolf_pup }  add = -100 }
+	if = { limit = { has_character_modifier = dw_denning_modifier }  add = -100 }
+}
+
+dw_direwolf_ferocity_value = {
+	value = prowess
+
+	if = { limit = { has_trait = direwolf_massive }  add = 3 }
+	if = { limit = { has_trait = direwolf_savage }  add = 3 }
+	if = { limit = { has_trait = direwolf_scarred }  add = 2 }
+	if = { limit = { has_trait = direwolf_protective }  add = 2 }
+	if = { limit = { has_trait = direwolf_alpha }  add = 2 }
+
+	if = { limit = { has_trait = direwolf_docile }  add = -3 }
+	if = { limit = { has_trait = direwolf_skittish }  add = -2 }
+
+	min = 0
+}
+
+dw_direwolf_feral_pack_size_value = {
+	value = 0
+	every_in_global_list = {
+		variable = dw_feral_wolves
+		limit = {
+			is_alive = yes
+			OR = {
+				this = scope:dw_hunt_pack_leader
+				var:dw_feral_leader = scope:dw_hunt_pack_leader
+			}
+		}
+		add = 1
+	}
+	min = 1
+}
+
+dw_direwolf_hunt_pack_penalty_value = {
+	value = scope:dw_hunt_pack_size
+	subtract = 1
+	multiply = 9
+	min = 0
+}
+
+dw_direwolf_hunt_martial_value = {
+	value = 45
+	add = { value = prowess   multiply = 2.5 }
+	add = { value = martial   multiply = 1.5 }
+	subtract = { value = scope:dw_hunt_pack_ferocity  multiply = 1.5 }
+	subtract = dw_direwolf_hunt_pack_penalty_value
+	min = 5
+	max = 95
+}
+
+dw_direwolf_hunt_intrigue_value = {
+	value = 45
+	add = { value = prowess   multiply = 2.5 }
+	add = { value = intrigue  multiply = 1.5 }
+	subtract = { value = scope:dw_hunt_pack_ferocity  multiply = 1.5 }
+	subtract = { value = dw_direwolf_hunt_pack_penalty_value  multiply = 0.8 }
+	min = 5
+	max = 95
+}
+
+dw_direwolf_hunt_learning_value = {
+	value = 45
+	add = { value = prowess   multiply = 2.5 }
+	add = { value = learning  multiply = 1.5 }
+	subtract = { value = scope:dw_hunt_pack_ferocity  multiply = 1.5 }
+	subtract = { value = dw_direwolf_hunt_pack_penalty_value  multiply = 0.6 }
+	min = 5
+	max = 95
+}
+
+dw_direwolf_hunt_reward_value = {
+	value = 250
+	add = { value = scope:dw_hunt_pack_size  multiply = 125 }
+}
+
+dw_direwolf_hunt_kills_value = {
+	value = scope:dw_hunt_pack_size
+	divide = 2
+	floor = yes
+	add = 1
+	min = 1
+	max = scope:dw_hunt_pack_size
+}
+
+dw_direwolf_maul_win_chance_value = {
+	value = dw_direwolf_ferocity_value
+	multiply = 2
+	divide = {
+		value = dw_direwolf_ferocity_value
+		multiply = 2
+		add = scope:dw_maul_knight.prowess
+	}
+	multiply = 100
+	min = 5
+	max = 95
+}
+
+dw_direwolf_mate_desire_value = {
+	value = 10
+
+	if = { limit = { has_trait = direwolf_massive }  add = 10 }
+	if = { limit = { has_trait = direwolf_alpha }  add = 5 }
+	if = { limit = { has_trait = direwolf_savage }  add = 4 }
+	if = { limit = { has_trait = direwolf_scarred }  add = 3 }
+
+	if = { limit = { has_trait = direwolf_albino }  add = -8 }
+	if = { limit = { has_trait = direwolf_runt }  add = -6 }
+	if = { limit = { has_trait = direwolf_skittish }  add = -4 }
+	if = { limit = { has_trait = direwolf_omega }  add = -6 }
+
+	min = 1
+	max = 40
+}
+
+dw_direwolf_bond_dominance_value = {
+	value = 40
+
+	add = {
+		value = prowess
+		multiply = 0.6
+	}
+	if = { limit = { has_trait = brave }  add = 15 }
+	if = { limit = { has_trait = wrathful }  add = 10 }
+	if = { limit = { has_trait = craven }  subtract = 20 }
+
+	if = { limit = { scope:the_wolf = { has_trait = direwolf_savage } }  subtract = 25 }
+	if = { limit = { scope:the_wolf = { has_trait = direwolf_docile } }  add = 12 }
+	if = { limit = { scope:the_wolf = { has_trait = direwolf_pup } }  add = 15 }
+	add = dw_direwolf_blood_affinity_value
+
+	min = 10
+	max = 95
+}
+
+dw_direwolf_bond_patience_value = {
+	value = 62
+
+	if = { limit = { has_variable = dw_bond_fed }  add = 15 }
+	if = { limit = { has_trait = patient }  add = 8 }
+	if = { limit = { has_trait = impatient }  subtract = 10 }
+
+	if = { limit = { scope:the_wolf = { has_trait = direwolf_savage } }  subtract = 15 }
+	if = { limit = { scope:the_wolf = { has_trait = direwolf_docile } }  add = 8 }
+	if = { limit = { scope:the_wolf = { has_trait = direwolf_pup } }  add = 10 }
+	add = dw_direwolf_blood_affinity_value
+
+	min = 30
+	max = 95
+}
+
+dw_direwolf_dragon_rescue_chance_value = {
+	value = 20
+
+	if = { limit = { prowess >= 8 }   add = 8 }
+	if = { limit = { prowess >= 12 }  add = 8 }
+	if = { limit = { prowess >= 16 }  add = 9 }
+	if = { limit = { has_trait = brave }  add = 10 }
+	if = { limit = { has_trait = craven }  subtract = 15 }
+	if = { limit = { has_trait = dragonrider }  add = 10 }
+
+	if = { limit = { scope:the_wolf ?= { has_trait = direwolf_massive } }  add = 10 }
+	if = { limit = { scope:the_wolf ?= { has_trait = direwolf_runt } }  subtract = 10 }
+	if = { limit = { scope:the_wolf ?= { has_trait = direwolf_pup } }  subtract = 15 }
+
+	min = 5
+	max = 80
+}
+
+dw_direwolf_dragon_rescue_fail_value = {
+	value = 100
+	subtract = dw_direwolf_dragon_rescue_chance_value
+}
+
+dw_direwolf_dragon_recall_chance_value = {
+	value = 15
+
+	if = { limit = { has_trait = dragonrider }  add = 25 }
+	if = { limit = { diplomacy >= 12 }  add = 8 }
+	if = { limit = { diplomacy >= 18 }  add = 9 }
+
+	if = { limit = { scope:the_dragon ?= { has_trait = dragon_accepting } }  add = 12 }
+	if = { limit = { scope:the_dragon ?= { has_trait = dragon_cooperative } }  add = 8 }
+	if = { limit = { scope:the_dragon ?= { has_trait = dragon_defiant } }  subtract = 15 }
+	if = { limit = { scope:the_dragon ?= { has_trait = dragon_cannibal } }  subtract = 15 }
+
+	min = 5
+	max = 75
+}
+
+dw_direwolf_dragon_recall_fail_value = {
+	value = 100
+	subtract = dw_direwolf_dragon_recall_chance_value
+}
+
+dw_direwolf_mate_hunt_chance_value = {
+	value = 28
+
+	add = dw_direwolf_blood_affinity_value
+
+	if = { limit = { prowess >= 8 }   add = 6 }
+	if = { limit = { prowess >= 12 }  add = 6 }
+	if = { limit = { prowess >= 16 }  add = 6 }
+	if = { limit = { martial >= 12 }  add = 5 }
+	if = { limit = { martial >= 18 }  add = 5 }
+
+	if = { limit = { has_trait = brave }  add = 5 }
+	if = { limit = { has_trait = craven }  subtract = 8 }
+	if = { limit = { has_trait = lifestyle_hunter }  add = 10 }
+	if = { limit = { has_trait = strong }  add = 5 }
+	if = { limit = { has_trait = weak }  subtract = 8 }
+
+	if = { limit = { dw_direwolf_is_in_the_north_trigger = yes }  add = 8 }
+
+	min = 5
+	max = 90
+}
+
+dw_direwolf_mate_hunt_fail_value = {
+	value = 100
+	subtract = dw_direwolf_mate_hunt_chance_value
+}
+
+dw_direwolf_canon_mother_age_value = {
+	value = dw_direwolf_canon_litter_age_value
+	add = 6
+}
+
+dw_direwolf_tree_size_value = {
+	value = 0
+	every_in_list = {
+		variable = dw_tree_all
+		add = 1
+	}
+}
+
+dw_direwolf_tree_living_value = {
+	value = 0
+	every_in_list = {
+		variable = dw_tree_all
+		limit = { is_alive = yes }
+		add = 1
+	}
+}

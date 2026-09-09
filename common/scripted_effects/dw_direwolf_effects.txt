@@ -1,0 +1,1347 @@
+﻿dw_direwolf_set_growth_stage_effect = {
+    remove_trait = direwolf_pup
+    remove_trait = direwolf_young_wolf
+    remove_trait = direwolf_adult
+
+    if = {
+        limit = { age < 1 }
+        add_trait = direwolf_pup
+    }
+    else_if = {
+        limit = { age < 3 }
+        add_trait = direwolf_young_wolf
+    }
+    else = {
+        add_trait = direwolf_adult
+    }
+}
+
+dw_bond_direwolf_effect = {
+    set_relation_direwolf_companion = { reason = dw_direwolf_bond_reason  target = $WOLF$ }
+
+    add_trait = direwolf_companion
+    add_trait_xp = { trait = direwolf_companion  track = direwolf_companion  value = 10 }
+
+    set_variable = { name = bonded_direwolf  value = $WOLF$ }
+    save_temporary_scope_as = dw_new_warg
+
+    $WOLF$ = {
+        set_variable = { name = bonded_warg  value = root }
+
+        remove_trait = direwolf_wild
+        add_trait = direwolf_bonded
+    }
+    create_character_memory = {
+        type = dw_bonded_direwolf_memory
+        participants = { dw_wolf = $WOLF$ }
+    }
+
+    dw_direwolf_check_wolf_blooded_dynasty_effect = yes
+}
+
+dw_direwolf_mark_dynasty_wolf_blooded_effect = {
+    set_variable = dw_wolf_blooded
+
+    every_dynasty_member = {
+        limit = { is_alive = yes }
+        house ?= {
+            if = {
+                limit = { NOT = { has_house_modifier = has_direwolf_companion } }
+                add_house_modifier = has_direwolf_companion
+            }
+        }
+    }
+}
+
+dw_direwolf_check_wolf_blooded_dynasty_effect = {
+    if = {
+        limit = {
+            exists = dynasty
+            dynasty ?= { NOT = { has_variable = dw_wolf_blooded } }
+            dw_direwolf_dynasty_earns_blood_trigger = yes
+        }
+        dynasty = { dw_direwolf_mark_dynasty_wolf_blooded_effect = yes }
+
+        if = {
+            limit = { is_ai = no }
+            send_interface_toast = {
+                title = dw_direwolf_dynasty_wolf_blooded_toast
+                left_icon = root
+            }
+        }
+    }
+}
+
+dw_break_direwolf_bond_effect = {
+    if = {
+        limit = { has_trait = direwolf }
+
+        if = {
+            limit = {
+                exists = var:bonded_warg
+                var:bonded_warg ?= { has_trait = direwolf_companion }
+            }
+            var:bonded_warg = { dw_direwolf_grieve_effect = yes }
+        }
+        else = {
+            every_relation = {
+                type = direwolf_companion
+                limit = { has_trait = direwolf_companion }
+                dw_direwolf_grieve_effect = yes
+            }
+        }
+
+        if = {
+            limit = { exists = var:bonded_warg }
+            var:bonded_warg ?= {
+                remove_trait = direwolf_companion
+                remove_variable = bonded_direwolf
+            }
+        }
+        every_relation = {
+            type = direwolf_companion
+            remove_relation_direwolf_companion = root
+            remove_trait = direwolf_companion
+            remove_variable = bonded_direwolf
+        }
+        remove_variable = bonded_warg
+
+        remove_trait = direwolf_bonded
+        add_trait = direwolf_wild
+    }
+    else = {
+        if = {
+            limit = { exists = var:bonded_direwolf }
+            var:bonded_direwolf ?= {
+                remove_variable = bonded_warg
+                remove_trait = direwolf_bonded
+                add_trait = direwolf_wild
+            }
+        }
+        every_relation = {
+            type = direwolf_companion
+            remove_relation_direwolf_companion = root
+            remove_variable = bonded_warg
+            remove_trait = direwolf_bonded
+            add_trait = direwolf_wild
+        }
+        remove_trait = direwolf_companion
+        remove_variable = bonded_direwolf
+    }
+}
+
+dw_direwolf_deepen_bond_effect = {
+    if = {
+        limit = {
+            has_trait = direwolf_companion
+            exists = var:bonded_direwolf
+            var:bonded_direwolf = { is_alive = yes }
+        }
+        add_trait_xp = { trait = direwolf_companion  track = direwolf_companion  value = 8 }
+    }
+}
+
+# Names come from the culture, not from script. Every direwolf template sets
+# culture = culture:wolf_culture, so leaving `name` off create_character makes
+# the engine draw a gender-correct name from that culture's list -
+# common/culture/name_lists/dw_direwolf_name_lists_wolf.txt. Add, remove or
+# re-gender names THERE; nothing here needs to change. The canon Stark wolves
+# (and their mother Winter) are the only ones still named explicitly, because
+# those names are fixed by the books - see dw_direwolf_give_canon_pup_effect.
+dw_create_direwolf_effect = {
+    create_character = {
+        location = $OWNER$.location
+        template = $TEMPLATE$
+        random_traits = no
+        save_scope_as = new_direwolf
+    }
+
+    $OWNER$ = {
+        add_courtier = scope:new_direwolf
+    }
+
+    add_to_global_variable_list = { name = dw_all_wolves  target = scope:new_direwolf }
+}
+
+# The two wrappers below are the albino roll, not a name roll - call sites read
+# "5 = albino / 95 = ordinary". Both let the culture name the wolf.
+dw_direwolf_roll_name_effect = {
+    dw_create_direwolf_effect = { OWNER = $OWNER$  TEMPLATE = $TEMPLATE$ }
+}
+
+dw_direwolf_roll_albino_name_effect = {
+    dw_create_direwolf_effect = { OWNER = $OWNER$  TEMPLATE = $TEMPLATE$ }
+    scope:new_direwolf = { add_trait = direwolf_albino }
+}
+
+dw_spawn_direwolf_pup_effect = {
+    hidden_effect = {
+        random_list = {
+            5 = { dw_direwolf_roll_albino_name_effect = { OWNER = $OWNER$  TEMPLATE = dw_direwolf_pup_template } }
+            95 = { dw_direwolf_roll_name_effect = { OWNER = $OWNER$  TEMPLATE = dw_direwolf_pup_template } }
+        }
+    }
+}
+
+dw_spawn_direwolf_adult_effect = {
+    hidden_effect = {
+        random_list = {
+            5 = { dw_direwolf_roll_albino_name_effect = { OWNER = $OWNER$  TEMPLATE = dw_direwolf_adult_template } }
+            95 = { dw_direwolf_roll_name_effect = { OWNER = $OWNER$  TEMPLATE = dw_direwolf_adult_template } }
+        }
+    }
+}
+
+dw_direwolf_create_canon_pup_effect = {
+    create_character = {
+        location = root.location
+        template = dw_direwolf_canon_template
+        name = $NAME$
+        gender = $GENDER$
+        age = dw_direwolf_canon_litter_age_value
+        mother = scope:dw_canon_mother
+        random_traits = no
+        save_scope_as = new_direwolf
+    }
+    add_courtier = scope:new_direwolf
+    add_to_global_variable_list = { name = dw_all_wolves  target = scope:new_direwolf }
+
+    scope:new_direwolf = {
+        add_trait = direwolf_wild
+        add_trait = $TEMPER$
+        add_trait = $BUILD$
+        add_trait = $COAT$
+        dw_direwolf_set_growth_stage_effect = yes
+    }
+
+    scope:dw_canon_child = {
+        dw_bond_direwolf_effect = { WOLF = scope:new_direwolf }
+    }
+}
+
+dw_direwolf_give_canon_pup_effect = {
+    if = {
+        limit = {
+            any_child = {
+                has_character_flag = $FLAG$
+                is_alive = yes
+                NOT = { has_trait = direwolf_companion }
+            }
+        }
+        random_child = {
+            limit = {
+                has_character_flag = $FLAG$
+                is_alive = yes
+                NOT = { has_trait = direwolf_companion }
+            }
+            save_scope_as = dw_canon_child
+        }
+        hidden_effect = {
+            dw_direwolf_create_canon_pup_effect = { NAME = $NAME$  GENDER = $GENDER$  TEMPER = $TEMPER$  BUILD = $BUILD$  COAT = $COAT$ }
+        }
+    }
+}
+
+dw_direwolf_canon_litter_effect = {
+    dw_direwolf_create_canon_mother_effect = { LOCATION = root.location }
+
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_6   NAME = "Greywind"   GENDER = male    TEMPER = direwolf_savage      BUILD = direwolf_massive  COAT = direwolf }
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_7   NAME = "Ghost"      GENDER = male    TEMPER = direwolf_protective  BUILD = direwolf_runt     COAT = direwolf_albino }
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_8   NAME = "Lady"       GENDER = female  TEMPER = direwolf_docile      BUILD = direwolf          COAT = direwolf }
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_9   NAME = "Nymeria"    GENDER = female  TEMPER = direwolf_savage      BUILD = direwolf_massive  COAT = direwolf }
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_10  NAME = "Summer"     GENDER = male    TEMPER = direwolf_protective  BUILD = direwolf          COAT = direwolf }
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_11  NAME = "Shaggydog"  GENDER = male    TEMPER = direwolf_savage      BUILD = direwolf          COAT = direwolf }
+
+    dw_direwolf_kill_canon_mother_effect = yes
+}
+
+
+
+dw_direwolf_offer_naming_effect = {
+    if = {
+        limit = {
+            is_ai = no
+            exists = $WOLF$
+            $WOLF$ = {
+                is_alive = yes
+                has_trait = direwolf
+            }
+        }
+        $WOLF$ = { save_scope_as = child }
+        trigger_event = dw_direwolf.0100
+    }
+}
+
+dw_direwolf_roll_personality_effect = {
+    add_trait = direwolf_wild
+
+    random_list = {
+        30 = { add_trait = direwolf_savage }
+        30 = { add_trait = direwolf_protective }
+        25 = { add_trait = direwolf_docile }
+        15 = { add_trait = direwolf_skittish }
+    }
+
+    random_list = {
+        70 = { }
+        15 = { add_trait = direwolf_runt }
+        15 = { add_trait = direwolf_massive }
+    }
+}
+
+dw_direwolf_refresh_combat_modifier_effect = {
+
+    dw_direwolf_clear_combat_tiers_effect = yes
+
+    if = {
+        limit = {
+            dw_has_battle_ready_direwolf_trigger = yes
+            has_character_flag = dw_wolf_in_combat
+        }
+
+        if = {
+            limit = { var:bonded_direwolf = { dw_direwolf_ferocity_value >= 20 } }
+            add_character_modifier = dw_bonded_direwolf_combat_modifier_fearsome
+        }
+        else_if = {
+            limit = { var:bonded_direwolf = { dw_direwolf_ferocity_value >= 14 } }
+            add_character_modifier = dw_bonded_direwolf_combat_modifier_strong
+        }
+        else_if = {
+            limit = { var:bonded_direwolf = { dw_direwolf_ferocity_value >= 8 } }
+            add_character_modifier = dw_bonded_direwolf_combat_modifier
+        }
+        else = {
+            add_character_modifier = dw_bonded_direwolf_combat_modifier_lesser
+        }
+
+        if = {
+            limit = { NOT = { has_character_modifier = dw_direwolf_guard_modifier } }
+            add_character_modifier = dw_direwolf_guard_modifier
+        }
+    }
+    else = {
+        remove_character_modifier = dw_direwolf_guard_modifier
+    }
+}
+
+dw_direwolf_clear_combat_tiers_effect = {
+    remove_character_modifier = dw_bonded_direwolf_combat_modifier_lesser
+    remove_character_modifier = dw_bonded_direwolf_combat_modifier
+    remove_character_modifier = dw_bonded_direwolf_combat_modifier_strong
+    remove_character_modifier = dw_bonded_direwolf_combat_modifier_fearsome
+}
+
+dw_direwolf_grieve_effect = {
+    add_stress = major_stress_gain
+    add_character_modifier = {
+        modifier = dw_grieving_bond_modifier
+        years = 5
+    }
+    dw_direwolf_clear_combat_tiers_effect = yes
+    remove_character_modifier = dw_direwolf_guard_modifier
+
+    if = {
+        limit = { exists = var:bonded_direwolf }
+
+        var:bonded_direwolf = {
+            make_unprunable = yes
+            save_scope_as = dw_dead_wolf
+        }
+
+        create_character_memory = {
+            type = dw_lost_direwolf_memory
+            participants = { dw_wolf = scope:dw_dead_wolf }
+        }
+
+        trigger_event = dw_direwolf.1500
+    }
+}
+
+dw_direwolf_assign_pack_ranks_effect = {
+    every_courtier = {
+        limit = { has_trait = direwolf }
+        remove_trait = direwolf_alpha
+        remove_trait = direwolf_beta
+        remove_trait = direwolf_omega
+        remove_trait = direwolf_outcast
+    }
+
+    if = {
+        limit = { NOT = { dw_pack_ranks_active_trigger = yes } }
+        dw_direwolf_mark_pack_rep_effect = yes
+    }
+    else = { dw_direwolf_rank_pack_effect = yes }
+}
+
+dw_direwolf_rank_pack_effect = {
+    every_courtier = {
+        limit = {
+            dw_direwolf_is_grown_trigger = yes
+            OR = {
+                has_trait = direwolf_albino
+                has_character_flag = dw_forced_outcast
+            }
+        }
+        add_trait = direwolf_outcast
+    }
+
+    ordered_courtier = {
+        limit = {
+            dw_direwolf_is_grown_trigger = yes
+            is_male = yes
+            NOT = { has_trait = direwolf_outcast }
+        }
+        order_by = dw_direwolf_dominance_value
+        max = 1
+        add_trait = direwolf_alpha
+    }
+    ordered_courtier = {
+        limit = {
+            dw_direwolf_is_grown_trigger = yes
+            is_female = yes
+            NOT = { has_trait = direwolf_outcast }
+        }
+        order_by = dw_direwolf_dominance_value
+        max = 1
+        add_trait = direwolf_alpha
+    }
+
+    every_courtier = {
+        limit = {
+            dw_direwolf_is_grown_trigger = yes
+            NOR = {
+                has_trait = direwolf_alpha
+                has_trait = direwolf_outcast
+            }
+            OR = {
+                has_trait = direwolf_runt
+                has_trait = direwolf_skittish
+            }
+        }
+        add_trait = direwolf_omega
+    }
+
+    every_courtier = {
+        limit = {
+            dw_direwolf_is_grown_trigger = yes
+            NOR = {
+                has_trait = direwolf_alpha
+                has_trait = direwolf_omega
+                has_trait = direwolf_outcast
+            }
+        }
+        add_trait = direwolf_beta
+    }
+}
+
+dw_direwolf_mark_pack_rep_effect = {
+    every_courtier = {
+        limit = { has_trait = direwolf }
+        remove_character_flag = dw_pack_rep
+    }
+    ordered_courtier = {
+        limit = { dw_direwolf_is_grown_trigger = yes }
+        order_by = dw_direwolf_dominance_value
+        max = 1
+        add_character_flag = dw_pack_rep
+    }
+}
+
+dw_direwolf_clear_temper_modifiers_effect = {
+    every_courtier = {
+        limit = { has_trait = direwolf }
+        remove_character_modifier = dw_pack_savage_modifier
+        remove_character_modifier = dw_pack_protective_modifier
+        remove_character_modifier = dw_pack_docile_modifier
+        remove_character_modifier = dw_pack_skittish_modifier
+
+        remove_character_modifier = dw_temperament_savage_modifier
+        remove_character_modifier = dw_temperament_protective_modifier
+        remove_character_modifier = dw_temperament_docile_modifier
+        remove_character_modifier = dw_temperament_skittish_modifier
+    }
+}
+
+dw_direwolf_own_temperament_effect = {
+    every_courtier = {
+        limit = { has_trait = direwolf }
+        if = {
+            limit = { has_trait = direwolf_savage }
+            add_character_modifier = dw_temperament_savage_modifier
+        }
+        else_if = {
+            limit = { has_trait = direwolf_protective }
+            add_character_modifier = dw_temperament_protective_modifier
+        }
+        else_if = {
+            limit = { has_trait = direwolf_docile }
+            add_character_modifier = dw_temperament_docile_modifier
+        }
+        else_if = {
+            limit = { has_trait = direwolf_skittish }
+            add_character_modifier = dw_temperament_skittish_modifier
+        }
+    }
+}
+
+dw_direwolf_refresh_pack_effect = {
+    dw_direwolf_clear_temper_modifiers_effect = yes
+
+    if = {
+        limit = { NOT = { dw_pack_ranks_active_trigger = yes } }
+        dw_direwolf_own_temperament_effect = yes
+    }
+    else_if = {
+        limit = {
+            any_courtier = {
+                has_trait = direwolf_alpha
+                is_male = yes
+            }
+        }
+        random_courtier = {
+            limit = {
+                has_trait = direwolf_alpha
+                is_male = yes
+            }
+            save_scope_as = dw_pack_leader
+        }
+
+        every_courtier = {
+            limit = {
+                has_trait = direwolf
+                NOT = { has_trait = direwolf_outcast }
+            }
+            if = {
+                limit = { scope:dw_pack_leader = { has_trait = direwolf_savage } }
+                add_character_modifier = dw_pack_savage_modifier
+            }
+            else_if = {
+                limit = { scope:dw_pack_leader = { has_trait = direwolf_protective } }
+                add_character_modifier = dw_pack_protective_modifier
+            }
+            else_if = {
+                limit = { scope:dw_pack_leader = { has_trait = direwolf_docile } }
+                add_character_modifier = dw_pack_docile_modifier
+            }
+            else_if = {
+                limit = { scope:dw_pack_leader = { has_trait = direwolf_skittish } }
+                add_character_modifier = dw_pack_skittish_modifier
+            }
+        }
+    }
+}
+
+dw_direwolf_pack_mating_effect = {
+    if = {
+        limit = { NOT = { dw_pack_ranks_active_trigger = yes } }
+        dw_direwolf_rankless_mating_effect = yes
+    }
+    else = { dw_direwolf_ranked_mating_effect = yes }
+}
+
+dw_direwolf_rankless_mating_effect = {
+    if = {
+        limit = {
+            any_courtier = {
+                dw_direwolf_can_mate_trigger = yes
+                is_male = yes
+                
+            }
+            any_courtier = {
+                dw_direwolf_can_mate_trigger = yes
+                is_female = yes
+            }
+        }
+        random_courtier = {
+            limit = {
+                dw_direwolf_can_mate_trigger = yes
+                is_male = yes
+            }
+            weight = {
+                base = 1
+                modifier = { add = dw_direwolf_mate_desire_value }
+            }
+            save_scope_as = dw_sire
+        }
+        random_courtier = {
+            limit = {
+                dw_direwolf_can_mate_trigger = yes
+                is_female = yes
+                NOT = { is_close_family_of = scope:dw_sire }
+            }
+            weight = {
+                base = 1
+                modifier = { add = dw_direwolf_mate_desire_value }
+            }
+            save_scope_as = dw_dam
+        }
+        if = {
+            limit = { exists = scope:dw_dam }
+            scope:dw_sire = {
+                set_relation_direwolf_mate = { reason = dw_direwolf_mate_reason  target = scope:dw_dam }
+            }
+        }
+    }
+}
+
+dw_direwolf_ranked_mating_effect = {
+    if = {
+        limit = {
+            any_courtier = {
+                has_trait = direwolf_alpha
+                is_male = yes
+                age > 8
+                dw_direwolf_can_mate_trigger = yes
+            }
+            any_courtier = {
+                has_trait = direwolf_alpha
+                is_female = yes
+                age > 8
+                dw_direwolf_can_mate_trigger = yes
+            }
+        }
+        random_courtier = {
+            limit = {
+                has_trait = direwolf_alpha
+                is_male = yes
+                age > 8
+                dw_direwolf_can_mate_trigger = yes
+            }
+            save_scope_as = dw_sire
+        }
+        random_courtier = {
+            limit = {
+                has_trait = direwolf_alpha
+                is_female = yes
+                age > 8
+                dw_direwolf_can_mate_trigger = yes
+                NOT = { is_close_family_of = scope:dw_sire }
+            }
+            save_scope_as = dw_dam
+        }
+        if = {
+            limit = { exists = scope:dw_dam }
+            scope:dw_sire = {
+                set_relation_direwolf_mate = { reason = dw_direwolf_mate_reason  target = scope:dw_dam }
+            }
+        }
+    }
+
+    if = {
+        limit = {
+            any_courtier = {
+                dw_direwolf_can_mate_trigger = yes
+                is_male = yes
+                age > 8
+                NOT = { has_trait = direwolf_alpha }
+            }
+            any_courtier = {
+                dw_direwolf_can_mate_trigger = yes
+                is_female = yes
+                age > 8
+                NOT = { has_trait = direwolf_alpha }
+            }
+        }
+        random = {
+            chance = 20
+
+            random_courtier = {
+                limit = {
+                    dw_direwolf_can_mate_trigger = yes
+                    is_male = yes
+                    NOT = { has_trait = direwolf_alpha }
+                }
+                weight = {
+                    base = 1
+                    modifier = { add = dw_direwolf_mate_desire_value }
+                }
+                save_scope_as = dw_secret_sire
+            }
+            random_courtier = {
+                limit = {
+                    dw_direwolf_can_mate_trigger = yes
+                    is_female = yes
+                    age > 8
+                    NOT = { has_trait = direwolf_alpha }
+                    NOT = { is_close_family_of = scope:dw_secret_sire }
+                }
+                weight = {
+                    base = 1
+                    modifier = { add = dw_direwolf_mate_desire_value }
+                }
+                save_scope_as = dw_secret_dam
+            }
+            if = {
+                limit = { exists = scope:dw_secret_dam }
+                scope:dw_secret_sire = {
+                    set_relation_direwolf_mate = { reason = dw_direwolf_mate_reason  target = scope:dw_secret_dam }
+                    add_character_flag = dw_secret_mate
+                }
+                scope:dw_secret_dam = {
+                    add_character_flag = dw_secret_mate
+                }
+            }
+        }
+    }
+}
+
+dw_direwolf_conceive_effect = {
+    add_character_modifier = {
+        modifier = dw_denning_modifier
+        months = 3
+    }
+    liege ?= {
+        trigger_event = {
+            id = dw_direwolf.0600
+            months = 3
+        }
+    }
+}
+
+dw_direwolf_inherit_traits_effect = {
+    add_trait = direwolf_wild
+
+    random_list = {
+        45 = {
+            if = { limit = { $DAM$ = { has_trait = direwolf_savage } }      add_trait = direwolf_savage }
+            else_if = { limit = { $DAM$ = { has_trait = direwolf_protective } }  add_trait = direwolf_protective }
+            else_if = { limit = { $DAM$ = { has_trait = direwolf_docile } }      add_trait = direwolf_docile }
+            else = { add_trait = direwolf_skittish }
+        }
+        45 = {
+            if = { limit = { $SIRE$ = { has_trait = direwolf_savage } }     add_trait = direwolf_savage }
+            else_if = { limit = { $SIRE$ = { has_trait = direwolf_protective } } add_trait = direwolf_protective }
+            else_if = { limit = { $SIRE$ = { has_trait = direwolf_docile } }     add_trait = direwolf_docile }
+            else = { add_trait = direwolf_skittish }
+        }
+        10 = {
+            random_list = {
+                30 = { add_trait = direwolf_savage }
+                30 = { add_trait = direwolf_protective }
+                25 = { add_trait = direwolf_docile }
+                15 = { add_trait = direwolf_skittish }
+            }
+        }
+    }
+
+    random_list = {
+        50 = { }
+        25 = {
+            trigger = {
+                OR = {
+                    $DAM$ = { has_trait = direwolf_massive }
+                    $SIRE$ = { has_trait = direwolf_massive }
+                }
+            }
+            add_trait = direwolf_massive
+        }
+        25 = {
+            trigger = {
+                OR = {
+                    $DAM$ = { has_trait = direwolf_runt }
+                    $SIRE$ = { has_trait = direwolf_runt }
+                }
+            }
+            add_trait = direwolf_runt
+        }
+        10 = { add_trait = direwolf_runt }
+        10 = { add_trait = direwolf_massive }
+    }
+}
+
+dw_direwolf_publish_pack_effect = {
+    every_courtier = {
+        limit = { has_trait = direwolf }
+        clear_variable_list = dw_packmates
+    }
+
+    every_courtier = {
+        limit = { has_trait = direwolf }
+        save_scope_as = dw_pack_self
+
+        root = {
+            every_courtier = {
+                limit = {
+                    has_trait = direwolf_alpha
+                    is_alive = yes
+                    NOT = { this = scope:dw_pack_self }
+                }
+                dw_direwolf_add_packmate_effect = yes
+            }
+            every_courtier = {
+                limit = {
+                    has_trait = direwolf_beta
+                    is_alive = yes
+                    NOT = { this = scope:dw_pack_self }
+                }
+                dw_direwolf_add_packmate_effect = yes
+            }
+            every_courtier = {
+                limit = {
+                    has_trait = direwolf_omega
+                    is_alive = yes
+                    NOT = { this = scope:dw_pack_self }
+                }
+                dw_direwolf_add_packmate_effect = yes
+            }
+            every_courtier = {
+                limit = {
+                    has_trait = direwolf_outcast
+                    is_alive = yes
+                    NOT = { this = scope:dw_pack_self }
+                }
+                dw_direwolf_add_packmate_effect = yes
+            }
+            every_courtier = {
+                limit = {
+                    has_trait = direwolf
+                    is_alive = yes
+                    NOT = { this = scope:dw_pack_self }
+                    NOR = {
+                        has_trait = direwolf_alpha
+                        has_trait = direwolf_beta
+                        has_trait = direwolf_omega
+                        has_trait = direwolf_outcast
+                    }
+                }
+                dw_direwolf_add_packmate_effect = yes
+            }
+        }
+    }
+}
+
+dw_direwolf_refresh_pack_full_effect = {
+    if = {
+        limit = { dw_has_direwolf_pack_trigger = yes }
+        dw_direwolf_assign_pack_ranks_effect = yes
+        dw_direwolf_refresh_pack_effect = yes
+        dw_direwolf_publish_pack_effect = yes
+    }
+    else = {
+        every_courtier = {
+            limit = { has_trait = direwolf }
+            remove_trait = direwolf_alpha
+            remove_trait = direwolf_beta
+            remove_trait = direwolf_omega
+            remove_trait = direwolf_outcast
+            remove_character_flag = dw_pack_rep
+            clear_variable_list = dw_packmates
+        }
+        dw_direwolf_refresh_pack_effect = yes
+    }
+}
+
+dw_direwolf_add_packmate_effect = {
+    save_scope_as = dw_pack_other
+    scope:dw_pack_self = {
+        add_to_variable_list = {
+            name = dw_packmates
+            target = scope:dw_pack_other
+        }
+    }
+}
+
+dw_direwolf_birth_pup_effect = {
+    hidden_effect = {
+        if = {
+            limit = {
+                $DAM$ = { has_trait = direwolf_albino }
+                $SIRE$ = { has_trait = direwolf_albino }
+            }
+            random_list = {
+                75 = { dw_direwolf_roll_albino_name_effect = { OWNER = root  TEMPLATE = dw_direwolf_litter_pup_template } }
+                25 = { dw_direwolf_roll_name_effect = { OWNER = root  TEMPLATE = dw_direwolf_litter_pup_template } }
+            }
+        }
+        else_if = {
+            limit = {
+                OR = {
+                    $DAM$ = { has_trait = direwolf_albino }
+                    $SIRE$ = { has_trait = direwolf_albino }
+                }
+            }
+            random_list = {
+                15 = { dw_direwolf_roll_albino_name_effect = { OWNER = root  TEMPLATE = dw_direwolf_litter_pup_template } }
+                85 = { dw_direwolf_roll_name_effect = { OWNER = root  TEMPLATE = dw_direwolf_litter_pup_template } }
+            }
+        }
+        else = {
+            random_list = {
+                2 = { dw_direwolf_roll_albino_name_effect = { OWNER = root  TEMPLATE = dw_direwolf_litter_pup_template } }
+                98 = { dw_direwolf_roll_name_effect = { OWNER = root  TEMPLATE = dw_direwolf_litter_pup_template } }
+            }
+        }
+        scope:new_direwolf = {
+            set_mother = $DAM$
+            set_father = $SIRE$
+            dw_direwolf_inherit_traits_effect = { SIRE = $SIRE$  DAM = $DAM$ }
+        }
+    }
+}
+
+dw_direwolf_gift_pup_effect = {
+    if = {
+        limit = { scope:dw_gift_target = { is_landed = yes } }
+        scope:dw_gift_target = { save_scope_as = dw_gift_host }
+    }
+    else_if = {
+        limit = { scope:dw_gift_target.liege ?= { is_landed = yes } }
+        scope:dw_gift_target.liege = { save_scope_as = dw_gift_host }
+    }
+
+    if = {
+        limit = { exists = scope:dw_gift_host }
+
+        scope:dw_gift_pup = {
+            remove_trait = direwolf_alpha
+            remove_trait = direwolf_beta
+            remove_trait = direwolf_omega
+            remove_trait = direwolf_outcast
+            remove_character_flag = dw_forced_outcast
+            remove_character_flag = dw_pack_rep
+        }
+
+        scope:dw_gift_host = { add_courtier = scope:dw_gift_pup }
+    }
+
+    scope:dw_gift_target = {
+        dw_bond_direwolf_effect = { WOLF = scope:dw_gift_pup }
+    }
+
+    dw_direwolf_refresh_pack_full_effect = yes
+    scope:dw_gift_host ?= { dw_direwolf_refresh_pack_full_effect = yes }
+
+    send_interface_toast = {
+        title = dw_direwolf_gift_pup_toast
+        left_icon = scope:dw_gift_pup
+        right_icon = scope:dw_gift_target
+    }
+}
+
+dw_direwolf_call_to_court_effect = {
+    var:bonded_direwolf ?= { save_scope_as = dw_called_wolf }
+
+    if = {
+        limit = { exists = scope:dw_called_wolf }
+
+        if = {
+            limit = { scope:dw_called_wolf = { dw_direwolf_is_feral_trigger = yes } }
+            scope:dw_called_wolf = { dw_direwolf_leave_feral_effect = yes }
+        }
+
+        if = {
+            limit = {
+                dw_pack_ranks_active_trigger = yes
+                any_courtier = {
+                    has_trait = direwolf
+                    dw_direwolf_is_grown_trigger = yes
+                    NOT = { this = scope:dw_called_wolf }
+                }
+            }
+            scope:dw_called_wolf = { add_character_flag = dw_forced_outcast }
+        }
+        else = {
+            scope:dw_called_wolf = { remove_character_flag = dw_forced_outcast }
+        }
+
+        add_courtier = scope:dw_called_wolf
+
+        scope:dw_called_wolf = {
+            remove_trait = direwolf_alpha
+            remove_trait = direwolf_beta
+            remove_trait = direwolf_omega
+            remove_trait = direwolf_outcast
+            remove_character_flag = dw_pack_rep
+        }
+
+        if = {
+            limit = { dw_has_direwolf_pack_trigger = yes }
+            dw_direwolf_refresh_pack_full_effect = yes
+        }
+        else = {
+            if = {
+                limit = { dw_pack_ranks_active_trigger = yes }
+                scope:dw_called_wolf = { add_trait = direwolf_alpha }
+            }
+            else = {
+                scope:dw_called_wolf = { add_character_flag = dw_pack_rep }
+            }
+            dw_direwolf_publish_pack_effect = yes
+        }
+    }
+}
+
+dw_direwolf_combat_maul_effect = {
+    if = {
+        limit = {
+            exists = var:bonded_direwolf
+            var:bonded_direwolf = { is_alive = yes }
+            scope:combat_side.enemy_side = {
+                any_side_knight = { is_alive = yes }
+            }
+        }
+        var:bonded_direwolf = { save_scope_as = dw_maul_wolf }
+
+        scope:combat_side.enemy_side = {
+            random_side_knight = {
+                limit = { is_alive = yes }
+                save_scope_as = dw_maul_knight
+            }
+        }
+
+        if = {
+            limit = {
+                exists = scope:dw_maul_knight
+                scope:dw_maul_knight = { is_alive = yes }
+            }
+            scope:dw_maul_wolf = {
+                save_scope_value_as = { name = dw_maul_chance  value = dw_direwolf_maul_win_chance_value }
+            }
+
+            random = {
+                chance = scope:dw_maul_chance
+                set_variable = dw_maul_wolf_won
+            }
+
+            if = {
+                limit = { has_variable = dw_maul_wolf_won }
+                random_list = {
+                    45 = {
+                        save_scope_value_as = { name = dw_maul_outcome  value = 1 }
+                        scope:dw_maul_knight = { add_trait = wounded_2 }
+                    }
+                    55 = {
+                        save_scope_value_as = { name = dw_maul_outcome  value = 2 }
+                        scope:dw_maul_knight = {
+                            death = {
+                                death_reason = death_direwolf_mauled
+                                killer = scope:dw_maul_wolf
+                            }
+                        }
+                    }
+                }
+                remove_variable = dw_maul_wolf_won
+            }
+            else = {
+                random_list = {
+                    55 = {
+                        save_scope_value_as = { name = dw_maul_outcome  value = 3 }
+                        scope:dw_maul_wolf = { add_trait = wounded_2 }
+                    }
+                    45 = {
+                        save_scope_value_as = { name = dw_maul_outcome  value = 4 }
+                        scope:dw_maul_wolf = {
+                            make_unprunable = yes
+                            death = {
+                                death_reason = death_battle
+                                killer = scope:dw_maul_knight
+                            }
+                        }
+                    }
+                }
+            }
+
+            add_character_flag = {
+                flag = dw_maul_cooldown
+                days = 5
+            }
+
+            trigger_event = dw_direwolf.1400
+        }
+    }
+}
+
+dw_direwolf_find_standoff_dragon_effect = {
+	random_relation = {
+		type = agot_dragon
+		limit = {
+			is_alive = yes
+			has_trait = dragon
+			has_trait = $DRAGON_TRAIT$
+			location ?= scope:the_wolf.location
+		}
+		save_scope_as = the_dragon
+	}
+
+	if = {
+		limit = { NOT = { exists = scope:the_dragon } }
+		random_relation = {
+			type = agot_dragon
+			limit = {
+				is_alive = yes
+				has_trait = dragon
+			}
+			save_scope_as = the_dragon
+		}
+	}
+}
+
+dw_direwolf_dragon_eats_wolf_effect = {
+	if = {
+		limit = {
+			exists = scope:the_wolf
+			exists = scope:the_dragon
+		}
+
+		create_character_memory = {
+			type = dw_lost_direwolf_memory
+			participants = { dw_wolf = scope:the_wolf }
+		}
+
+		scope:the_wolf = {
+			death = {
+				death_reason = death_dragon_ate
+				killer = scope:the_dragon
+			}
+		}
+	}
+}
+
+dw_direwolf_wolf_eats_dragon_effect = {
+	if = {
+		limit = {
+			exists = scope:the_wolf
+			exists = scope:the_dragon
+		}
+
+		scope:the_wolf = {
+			add_trait = dragonslayer
+            set_variable = {
+				name = slain_dragon
+				value = scope:the_dragon
+			}
+			random = {
+				chance = 50
+				add_trait = direwolf_scarred
+			}
+		}
+
+		scope:the_dragon = {
+			death = {
+				death_reason = death_direwolf_mauled
+				killer = scope:the_wolf
+			}
+		}
+	}
+}
+
+dw_direwolf_pick_mate_hunter_effect = {
+	save_scope_as = dw_mate_owner
+
+	ordered_courtier = {
+		limit = {
+			dw_direwolf_is_mate_hunter_trigger = yes
+			NOT = { this = scope:dw_mate_owner }
+		}
+		order_by = prowess
+		max = 1
+		save_scope_as = dw_mate_hunter
+	}
+}
+
+dw_direwolf_spawn_mate_effect = {
+	if = {
+		limit = { scope:dw_lonely_wolf = { is_female = yes } }
+		hidden_effect = {
+			random_list = {
+				5 = { dw_direwolf_roll_albino_name_effect = { OWNER = $OWNER$  TEMPLATE = dw_direwolf_adult_male_template } }
+				95 = { dw_direwolf_roll_name_effect = { OWNER = $OWNER$  TEMPLATE = dw_direwolf_adult_male_template } }
+			}
+		}
+	}
+	else = {
+		hidden_effect = {
+			random_list = {
+				5 = { dw_direwolf_roll_albino_name_effect = { OWNER = $OWNER$  TEMPLATE = dw_direwolf_adult_female_template } }
+				95 = { dw_direwolf_roll_name_effect = { OWNER = $OWNER$  TEMPLATE = dw_direwolf_adult_female_template } }
+			}
+		}
+	}
+
+	scope:new_direwolf = { save_scope_as = dw_new_mate }
+}
+
+dw_direwolf_mate_found_effect = {
+	if = {
+		limit = {
+			exists = scope:dw_lonely_wolf
+			exists = scope:dw_new_mate
+		}
+
+		scope:dw_new_mate = {
+			set_relation_direwolf_mate = {
+				reason = dw_direwolf_mate_reason
+				target = scope:dw_lonely_wolf
+			}
+		}
+
+		dw_direwolf_refresh_pack_full_effect = yes
+	}
+}
+
+dw_direwolf_mate_hunt_injury_effect = {
+	$HUNTER$ = {
+		random_list = {
+			55 = { add_trait = wounded_1 }
+			30 = { add_trait = wounded_2 }
+			10 = { add_trait = maimed }
+			5 = {
+				death = { death_reason = death_direwolf_mauled }
+			}
+		}
+	}
+}
+
+dw_direwolf_create_canon_mother_effect = {
+	if = {
+		limit = { NOT = { exists = scope:dw_canon_mother } }
+
+		create_character = {
+			location = $LOCATION$
+			template = dw_direwolf_canon_template
+			name = "Winter"
+			gender = female
+			age = dw_direwolf_canon_mother_age_value
+			random_traits = no
+			save_scope_as = dw_canon_mother
+		}
+
+		scope:dw_canon_mother = {
+			add_trait = direwolf_wild
+			add_trait = direwolf_massive
+			add_trait = direwolf_protective
+			dw_direwolf_set_growth_stage_effect = yes
+			make_unprunable = yes
+		}
+	}
+}
+
+dw_direwolf_kill_canon_mother_effect = {
+	if = {
+		limit = {
+			exists = scope:dw_canon_mother
+			scope:dw_canon_mother = { is_alive = yes }
+		}
+		scope:dw_canon_mother = {
+			death = { death_reason = death_direwolf_stag }
+		}
+	}
+}
+
+dw_direwolf_bond_canon_history_pup_effect = {
+	character:$ID$ ?= {
+		if = {
+			limit = {
+				is_alive = yes
+				NOT = { has_trait = direwolf_companion }
+				character:$WOLF$ ?= {
+					is_alive = yes
+					has_trait = direwolf
+					NOT = { has_trait = direwolf_bonded }
+				}
+				OR = {
+					is_landed = yes
+					liege ?= { is_landed = yes }
+				}
+			}
+
+			if = {
+				limit = { is_landed = yes }
+				save_scope_as = dw_canon_host
+			}
+			else = {
+				liege = { save_scope_as = dw_canon_host }
+			}
+
+			scope:dw_canon_host = {
+				add_courtier = character:$WOLF$
+			}
+
+			character:$WOLF$ = {
+				dw_direwolf_set_growth_stage_effect = yes
+				if = {
+					limit = {
+						NOT = { is_target_in_global_variable_list = { name = dw_all_wolves  target = this } }
+					}
+					add_to_global_variable_list = { name = dw_all_wolves  target = this }
+				}
+			}
+
+			dw_bond_direwolf_effect = { WOLF = character:$WOLF$ }
+
+			add_trait_xp = {
+				trait = direwolf_companion
+				track = direwolf_companion
+				value = dw_direwolf_canon_bond_xp_value
+			}
+
+			scope:dw_canon_host = {
+				dw_direwolf_refresh_pack_full_effect = yes
+			}
+		}
+	}
+}
+
+dw_direwolf_bond_canon_history_effect = {
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_6   WOLF = dw_direwolf_greywind }
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_7   WOLF = dw_direwolf_ghost }
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_8   WOLF = dw_direwolf_lady }
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_9   WOLF = dw_direwolf_nymeria }
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_10  WOLF = dw_direwolf_summer }
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_11  WOLF = dw_direwolf_shaggydog }
+}
+
+
+dw_direwolf_tree_descend_effect = {
+	every_in_list = {
+		variable = $FROM$
+		every_child = {
+			limit = { has_trait = direwolf }
+			save_temporary_scope_as = dw_tree_kid
+			root = {
+				add_to_variable_list = { name = $INTO$      target = scope:dw_tree_kid }
+				add_to_variable_list = { name = dw_tree_all  target = scope:dw_tree_kid }
+			}
+		}
+	}
+}
+
+dw_direwolf_tree_clear_effect = {
+	if = {
+		limit = { has_variable_list = dw_tree_all }
+		clear_variable_list = dw_tree_all
+	}
+	if = {
+		limit = { has_variable_list = dw_tree_gen_0 }
+		clear_variable_list = dw_tree_gen_0
+	}
+	if = {
+		limit = { has_variable_list = dw_tree_gen_1 }
+		clear_variable_list = dw_tree_gen_1
+	}
+	if = {
+		limit = { has_variable_list = dw_tree_gen_2 }
+		clear_variable_list = dw_tree_gen_2
+	}
+	if = {
+		limit = { has_variable_list = dw_tree_gen_3 }
+		clear_variable_list = dw_tree_gen_3
+	}
+	if = {
+		limit = { has_variable_list = dw_tree_gen_4 }
+		clear_variable_list = dw_tree_gen_4
+	}
+	if = {
+		limit = { has_variable = dw_tree_stump }
+		remove_variable = dw_tree_stump
+	}
+	if = {
+		limit = { has_variable = dw_tree_total }
+		remove_variable = dw_tree_total
+	}
+	if = {
+		limit = { has_variable = dw_tree_living }
+		remove_variable = dw_tree_living
+	}
+}

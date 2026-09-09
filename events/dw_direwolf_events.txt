@@ -1,0 +1,1914 @@
+﻿namespace = dw_direwolf
+
+dw_direwolf.0100 = {
+	type = character_event
+	title = dw_direwolf.0100.t
+	desc = dw_direwolf.0100.desc
+
+	theme = family
+
+	right_portrait = {
+		character = scope:child
+		animation = personality_honorable
+	}
+
+	widgets = {
+		widget = {
+			gui = "event_window_widget_name_child"
+			container = "dynamic_birth_name"
+			controller = name_character
+			setup_scope = { scope:child = { save_scope_as = name_character_target } }
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0100.a
+	}
+}
+
+dw_direwolf.0110 = {
+	type = character_event
+	title = dw_direwolf.0110.t
+	desc = dw_direwolf.0110.desc
+
+	theme = family
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+
+	immediate = {
+		dynasty ?= { dw_direwolf_mark_dynasty_wolf_blooded_effect = yes }
+	}
+
+	option = {
+		name = dw_direwolf.0110.a
+		dw_spawn_direwolf_pup_effect = { OWNER = root }
+		dw_bond_direwolf_effect = { WOLF = scope:new_direwolf }
+		dw_direwolf_offer_naming_effect = { WOLF = scope:new_direwolf }
+	}
+
+	option = {
+		name = dw_direwolf.0110.b
+		dw_spawn_direwolf_adult_effect = { OWNER = root }
+		dw_bond_direwolf_effect = { WOLF = scope:new_direwolf }
+		dw_direwolf_offer_naming_effect = { WOLF = scope:new_direwolf }
+	}
+}
+
+dw_direwolf.0120 = {
+	type = character_event
+	title = dw_direwolf.0120.t
+	desc = dw_direwolf.0120.desc
+
+	theme = family
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = scope:dw_gift_target
+		animation = personality_compassionate
+	}
+
+	widget = {
+		is_shown = { is_ai = no }
+		gui = "agot_character_selection_two_options"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		every_courtier = {
+			limit = { dw_direwolf_is_giftable_pup_trigger = yes }
+			add_to_list = dw_giftable_pups
+		}
+		ordered_in_list = {
+			list = dw_giftable_pups
+			order_by = age
+			max = list_size:dw_giftable_pups
+			root = {
+				add_to_variable_list = {
+					name = possible_characters
+					target = prev
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0120.a
+
+		if = {
+			limit = { exists = var:si_selected_character }
+			var:si_selected_character = { save_scope_as = dw_gift_pup }
+			dw_direwolf_gift_pup_effect = yes
+		}
+
+		if = {
+			limit = { has_variable = si_selected_character }
+			remove_variable = si_selected_character
+		}
+		if = {
+			limit = { has_variable_list = possible_characters }
+			clear_variable_list = possible_characters
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0120.b
+		if = {
+			limit = { has_variable = si_selected_character }
+			remove_variable = si_selected_character
+		}
+		if = {
+			limit = { has_variable_list = possible_characters }
+			clear_variable_list = possible_characters
+		}
+	}
+}
+
+dw_direwolf.0300 = {
+	type = character_event
+	title = dw_direwolf.0300.t
+	desc = dw_direwolf.0300.desc
+
+	theme = hunting
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	trigger = {
+		dw_is_wolf_blooded_trigger = yes
+		NOT = { has_trait = direwolf_companion }
+		is_landed = yes
+	}
+
+	immediate = {
+		dw_spawn_direwolf_pup_effect = { OWNER = root }
+		scope:new_direwolf = { save_scope_as = the_pup }
+	}
+
+	option = {
+		name = dw_direwolf.0300.a
+		dw_bond_direwolf_effect = { WOLF = scope:the_pup }
+		dw_direwolf_offer_naming_effect = { WOLF = scope:the_pup }
+		add_prestige = 50
+	}
+
+	option = {
+		name = dw_direwolf.0300.b
+		trigger = {
+			any_child = {
+				count >= 1
+				is_alive = yes
+				dw_is_wolf_blooded_trigger = yes
+			}
+		}
+		every_child = {
+			limit = {
+				is_alive = yes
+				NOT = { has_trait = direwolf_companion }
+				dw_is_wolf_blooded_trigger = yes
+			}
+			dw_spawn_direwolf_pup_effect = { OWNER = root }
+			dw_bond_direwolf_effect = { WOLF = scope:new_direwolf }
+		}
+		dw_bond_direwolf_effect = { WOLF = scope:the_pup }
+		dw_direwolf_offer_naming_effect = { WOLF = scope:the_pup }
+		add_prestige = 100
+	}
+
+	option = {
+		name = dw_direwolf.0300.c
+		scope:the_pup = { death = { death_reason = death_direwolf } }
+		stress_impact = {
+			base = minor_stress_gain
+			compassionate = medium_stress_gain
+		}
+	}
+}
+
+dw_direwolf.0301 = {
+	type = character_event
+	title = dw_direwolf.0301.t
+	desc = dw_direwolf.0301.desc
+
+	theme = hunting
+	override_background = { reference = ep2_hunt_snowy_forest }
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	right_portrait = {
+		character = scope:dw_wild_wolf
+		animation = direwolf_walk
+		camera = camera_direwolf
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_howl_single
+		random_in_global_list = {
+			variable = dw_feral_wolves
+			limit = { dw_direwolf_is_northern_feral_trigger = yes }
+			weight = {
+				base = 100
+				modifier = { factor = 0.15  has_character_flag = dw_feral_leader }
+			}
+			save_scope_as = dw_wild_wolf
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0301.a
+
+		if = {
+			limit = { exists = scope:dw_wild_wolf }
+			random = {
+				chance = dw_direwolf_bond_chance_value
+
+				scope:dw_wild_wolf = { dw_direwolf_leave_feral_effect = yes }
+				dw_bond_direwolf_effect = { WOLF = scope:dw_wild_wolf }
+				add_courtier = scope:dw_wild_wolf
+				dw_direwolf_offer_naming_effect = { WOLF = scope:dw_wild_wolf }
+				add_prestige = 200
+
+				random = { chance = 25  add_trait = wounded_1 }
+			}
+
+			if = {
+				limit = { NOT = { has_trait = direwolf_companion } }
+				add_stress = minor_stress_gain
+				random = { chance = 35  add_trait = wounded_1 }
+			}
+		}
+		else = {
+			add_stress = minor_stress_gain
+		}
+	}
+}
+
+dw_direwolf.0302 = {
+	type = character_event
+	title = dw_direwolf.0302.t
+	desc = dw_direwolf.0302.desc
+
+	theme = hunting
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	trigger = {
+		dw_is_wolf_blooded_trigger = yes
+		NOT = { has_trait = direwolf_companion }
+		NOT = { has_trait = direwolf }
+		is_landed = yes
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_howl_single
+		dw_spawn_direwolf_pup_effect = { OWNER = root }
+		scope:new_direwolf = { save_scope_as = the_stray }
+	}
+
+	option = {
+		name = dw_direwolf.0302.a
+		dw_bond_direwolf_effect = { WOLF = scope:the_stray }
+		dw_direwolf_offer_naming_effect = { WOLF = scope:the_stray }
+		add_prestige = 75
+	}
+
+	option = {
+		name = dw_direwolf.0302.b
+		scope:the_stray = { death = { death_reason = death_direwolf } }
+		add_piety = 50
+		stress_impact = {
+			base = minor_stress_gain
+			compassionate = medium_stress_gain
+		}
+	}
+}
+
+dw_direwolf.0500 = {
+	type = character_event
+	title = dw_direwolf.0500.t
+	desc = dw_direwolf.0500.desc
+
+	theme = hunting
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+
+	immediate = {
+		dw_direwolf_canon_litter_effect = yes
+	}
+
+	option = {
+		name = dw_direwolf.0500.a
+	}
+}
+
+dw_direwolf.0200 = {
+	type = character_event
+	title = dw_direwolf.0200.t
+	desc = dw_direwolf.0200.desc
+
+	theme = hunting
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = { character = root  animation = shock }
+	right_portrait = {
+		character = scope:the_wolf
+		animation = direwolf_walk
+		camera = camera_direwolf
+	}
+
+	trigger = { dw_has_grown_direwolf_trigger = yes }
+
+	immediate = {
+		var:bonded_direwolf ?= { save_scope_as = the_wolf }
+	}
+
+	option = {
+		name = dw_direwolf.0200.a
+		add_prestige = 150
+		add_trait_xp = { trait = direwolf_companion  track = direwolf_companion  value = 15 }
+		scope:the_wolf ?= { random = { chance = 40  add_trait = wounded_1 } }
+	}
+}
+
+dw_direwolf.0400 = {
+	type = character_event
+	title = dw_direwolf.0400.t
+	desc = dw_direwolf.0400.desc
+
+	theme = death
+	override_background = { reference = corridor_night }
+
+	left_portrait = { character = root  animation = shock }
+	right_portrait = {
+		character = scope:the_wolf
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_growl
+		var:bonded_direwolf ?= { save_scope_as = the_wolf }
+	}
+
+	option = {
+		name = dw_direwolf.0400.a
+
+		if = {
+			limit = { exists = scope:the_wolf }
+			create_character_memory = {
+				type = dw_direwolf_saved_me_memory
+				participants = { dw_wolf = scope:the_wolf }
+			}
+		}
+
+		random_list = {
+			50 = {
+				send_interface_toast = {
+					title = dw_direwolf.0400.t.unhurt
+					left_icon = root
+					right_icon = scope:the_wolf
+					add_prestige = 100
+				}
+			}
+			35 = {
+				send_interface_toast = {
+					title = dw_direwolf.0400.t.hurt
+					left_icon = scope:the_wolf
+					scope:the_wolf ?= { add_trait = wounded_2 }
+				}
+			}
+			15 = {
+				send_interface_toast = {
+					title = dw_direwolf.0400.t.killed
+					left_icon = scope:the_wolf
+					scope:the_wolf ?= {
+						death = { death_reason = death_direwolf }
+					}
+				}
+			}
+		}
+		add_dread = 10
+	}
+}
+
+dw_direwolf.0600 = {
+	type = character_event
+	title = dw_direwolf.0600.t
+	desc = dw_direwolf.0600.desc
+
+	theme = family
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+	right_portrait = {
+		character = scope:dw_dam
+		animation = direwolf_idle
+		camera = camera_direwolf
+	}
+
+	trigger = {
+		is_landed = yes
+		any_courtier = {
+			has_trait = direwolf
+			is_female = yes
+			is_alive = yes
+			any_relation = { type = direwolf_mate }
+		}
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				has_trait = direwolf
+				is_female = yes
+				is_alive = yes
+				any_relation = { type = direwolf_mate }
+			}
+			save_scope_as = dw_dam
+		}
+		if = {
+			limit = { exists = scope:dw_dam }
+			scope:dw_dam = {
+				remove_character_modifier = dw_denning_modifier
+				random_relation = {
+					type = direwolf_mate
+					save_scope_as = dw_sire
+				}
+			}
+
+			if = {
+				limit = { exists = scope:dw_sire }
+				hidden_effect = {
+					dw_direwolf_birth_pup_effect = { SIRE = scope:dw_sire  DAM = scope:dw_dam }
+					random = {
+						chance = 70
+						dw_direwolf_birth_pup_effect = { SIRE = scope:dw_sire  DAM = scope:dw_dam }
+					}
+					random = {
+						chance = 50
+						dw_direwolf_birth_pup_effect = { SIRE = scope:dw_sire  DAM = scope:dw_dam }
+					}
+					random = {
+						chance = 25
+						modifier = {
+							add = 25
+							scope:dw_dam = { has_trait = direwolf_massive }
+						}
+						dw_direwolf_birth_pup_effect = { SIRE = scope:dw_sire  DAM = scope:dw_dam }
+					}
+
+					dw_direwolf_refresh_pack_full_effect = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0600.a
+		add_prestige = 50
+	}
+
+	option = {
+		name = dw_direwolf.0600.b
+		trigger = {
+			any_child = {
+				count >= 1
+				is_alive = yes
+				dw_can_bond_with_direwolf_trigger = yes
+				NOT = { has_trait = direwolf_companion }
+			}
+			any_courtier = {
+				has_trait = direwolf_pup
+				is_alive = yes
+				NOT = { any_relation = { type = direwolf_companion } }
+			}
+		}
+		every_child = {
+			limit = {
+				is_alive = yes
+				dw_can_bond_with_direwolf_trigger = yes
+				NOT = { has_trait = direwolf_companion }
+			}
+			save_scope_as = dw_heir
+			root = {
+				random_courtier = {
+					limit = {
+						has_trait = direwolf_pup
+						is_alive = yes
+						NOT = { any_relation = { type = direwolf_companion } }
+					}
+					save_scope_as = dw_gift_pup
+				}
+			}
+			if = {
+				limit = { exists = scope:dw_gift_pup }
+				scope:dw_heir = {
+					dw_bond_direwolf_effect = { WOLF = scope:dw_gift_pup }
+				}
+			}
+		}
+		add_prestige = 100
+	}
+}
+
+dw_direwolf.0610 = {
+	type = character_event
+	title = dw_direwolf.0610.t
+	desc = dw_direwolf.0610.desc
+
+	theme = death
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = scope:dw_alpha
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+	right_portrait = {
+		character = scope:dw_challenger
+		animation = direwolf_walk
+		camera = camera_direwolf
+	}
+
+	trigger = {
+		dw_pack_ranks_active_trigger = yes
+		is_landed = yes
+		any_courtier = { has_trait = direwolf_alpha }
+		any_courtier = { has_trait = direwolf_beta }
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_growl
+		random_courtier = {
+			limit = { has_trait = direwolf_alpha }
+			save_scope_as = dw_alpha
+		}
+		ordered_courtier = {
+			limit = {
+				has_trait = direwolf_beta
+				dw_direwolf_is_grown_trigger = yes
+			}
+			order_by = dw_direwolf_dominance_value
+			max = 1
+			save_scope_as = dw_challenger
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0610.a
+
+		random_list = {
+			50 = {
+				modifier = {
+					factor = 2
+					scope:dw_alpha = { has_trait = direwolf_massive }
+				}
+				send_interface_toast = {
+					title = dw_direwolf.0610.t.held
+					left_icon = scope:dw_alpha
+					right_icon = scope:dw_challenger
+					scope:dw_challenger = { add_trait = direwolf_scarred }
+				}
+			}
+			35 = {
+				modifier = {
+					factor = 2
+					scope:dw_challenger = { has_trait = direwolf_savage }
+				}
+				send_interface_toast = {
+					title = dw_direwolf.0610.t.won
+					left_icon = scope:dw_challenger
+					right_icon = scope:dw_alpha
+					scope:dw_alpha = {
+						add_trait = direwolf_scarred
+						remove_trait = direwolf_alpha
+						add_trait = direwolf_omega
+					}
+					scope:dw_challenger = {
+						remove_trait = direwolf_beta
+						add_trait = direwolf_alpha
+					}
+				}
+			}
+			15 = {
+				send_interface_toast = {
+					title = dw_direwolf.0610.t.killed
+					left_icon = scope:dw_alpha
+					scope:dw_challenger = {
+						death = { death_reason = death_direwolf  killer = scope:dw_alpha }
+					}
+				}
+			}
+		}
+		add_dread = 5
+		dw_direwolf_refresh_pack_full_effect = yes
+	}
+
+	option = {
+		name = dw_direwolf.0610.b
+		trigger = { dw_has_grown_direwolf_trigger = yes }
+		random = { chance = 30  add_trait = wounded_1 }
+		stress_impact = { base = minor_stress_gain }
+	}
+}
+
+dw_direwolf.0620 = {
+	type = character_event
+	title = dw_direwolf.0620.t
+	desc = dw_direwolf.0620.desc
+
+	theme = death
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = root
+		animation = grief
+	}
+	right_portrait = {
+		character = scope:dw_howler
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+
+	trigger = {
+		is_landed = yes
+		any_courtier = { has_trait = direwolf }
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_howl_pack
+		random_courtier = {
+			limit = {
+				has_trait = direwolf
+				is_alive = yes
+			}
+			weight = {
+				base = 1
+				modifier = { add = 5  dw_direwolf_is_grown_trigger = yes }
+			}
+			save_scope_as = dw_howler
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0620.a
+		add_piety = 25
+		stress_impact = {
+			base = minor_stress_gain
+			cynical = medium_stress_gain
+		}
+	}
+}
+
+dw_direwolf.0630 = {
+	type = character_event
+	title = dw_direwolf.0630.t
+	desc = dw_direwolf.0630.desc
+
+	theme = hunting
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = scope:dw_mother
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+
+	trigger = {
+		is_landed = yes
+		any_courtier = { has_trait = direwolf_pup }
+		any_courtier = { has_character_modifier = dw_denning_modifier }
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = { has_character_modifier = dw_denning_modifier }
+			save_scope_as = dw_mother
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0630.a
+
+		random_list = {
+			60 = {
+				modifier = {
+					factor = 2
+					scope:dw_mother = { has_trait = direwolf_savage }
+				}
+				send_interface_toast = {
+					title = dw_direwolf.0630.t.drove_off
+					left_icon = scope:dw_mother
+					scope:dw_mother = { add_trait = direwolf_scarred }
+					add_prestige = 50
+				}
+			}
+			25 = {
+				send_interface_toast = {
+					title = dw_direwolf.0630.t.wounded
+					left_icon = scope:dw_mother
+					scope:dw_mother = { add_trait = wounded_2 }
+				}
+			}
+			15 = {
+				send_interface_toast = {
+					title = dw_direwolf.0630.t.pup_lost
+					left_icon = scope:dw_mother
+					random_courtier = {
+						limit = { has_trait = direwolf_pup }
+						death = { death_reason = death_direwolf }
+					}
+					stress_impact = { base = minor_stress_gain }
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0630.b
+		remove_short_term_gold = 25
+		random = { chance = 80  add_prestige = 25 }
+	}
+}
+
+dw_direwolf.0640 = {
+	type = character_event
+	title = dw_direwolf.0640.t
+	desc = dw_direwolf.0640.desc
+
+	theme = death
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = scope:dw_alpha
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+	right_portrait = {
+		character = scope:dw_guilty
+		animation = direwolf_idle
+		camera = camera_direwolf
+	}
+
+	trigger = {
+		dw_pack_ranks_active_trigger = yes
+		is_landed = yes
+		any_courtier = { has_character_flag = dw_secret_mate }
+		any_courtier = { has_trait = direwolf_alpha }
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_growl
+		random_courtier = {
+			limit = { has_trait = direwolf_alpha }
+			save_scope_as = dw_alpha
+		}
+		random_courtier = {
+			limit = { has_character_flag = dw_secret_mate }
+			save_scope_as = dw_guilty
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0640.a
+
+		random_list = {
+			55 = {
+				send_interface_toast = {
+					title = dw_direwolf.0640.t.beaten
+					left_icon = scope:dw_alpha
+					right_icon = scope:dw_guilty
+					scope:dw_guilty = {
+						add_trait = direwolf_scarred
+						remove_trait = direwolf_beta
+						add_trait = direwolf_omega
+					}
+				}
+			}
+			30 = {
+				send_interface_toast = {
+					title = dw_direwolf.0640.t.spared
+					left_icon = scope:dw_guilty
+					add_prestige = 25
+				}
+			}
+			15 = {
+				send_interface_toast = {
+					title = dw_direwolf.0640.t.killed
+					left_icon = scope:dw_alpha
+					scope:dw_guilty = {
+						death = { death_reason = death_direwolf  killer = scope:dw_alpha }
+					}
+				}
+			}
+		}
+
+		every_courtier = {
+			limit = { has_character_flag = dw_secret_mate }
+			remove_character_flag = dw_secret_mate
+		}
+		add_dread = 5
+		dw_direwolf_refresh_pack_full_effect = yes
+	}
+
+	option = {
+		name = dw_direwolf.0640.b
+		every_courtier = {
+			limit = { has_character_flag = dw_secret_mate }
+			remove_character_flag = dw_secret_mate
+		}
+		stress_impact = { base = minor_stress_loss }
+	}
+}
+
+dw_direwolf.0700 = {
+	type = character_event
+	title = dw_direwolf.0700.t
+	desc = dw_direwolf.0700.desc
+
+	theme = death
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_growl
+	}
+
+	option = {
+		name = dw_direwolf.0700.a
+
+		random_list = {
+			55 = {
+				modifier = {
+					factor = 2
+					OR = {
+						has_trait = brave
+						prowess >= 12
+					}
+				}
+				send_interface_toast = {
+					title = dw_direwolf.0700.t.driven_off
+					left_icon = root
+					add_prestige = 75
+				}
+			}
+			30 = {
+				send_interface_toast = {
+					title = dw_direwolf.0700.t.mauled
+					left_icon = root
+					add_trait = wounded_1
+					stress_impact = { base = minor_stress_gain }
+				}
+			}
+			15 = {
+				send_interface_toast = {
+					title = dw_direwolf.0700.t.taken
+					left_icon = root
+					stress_impact = {
+						base = medium_stress_gain
+						craven = major_stress_gain
+					}
+					add_dread = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0700.b
+		remove_short_term_gold = 15
+		stress_impact = { base = minor_stress_gain }
+	}
+}
+
+dw_direwolf.0800 = {
+	type = character_event
+	title = dw_direwolf.0800.t
+
+	desc = {
+		desc = dw_direwolf.0800.desc_intro
+		triggered_desc = {
+			trigger = { NOT = { exists = scope:dw_pack_pick } }
+			desc = dw_direwolf.0800.prompt
+		}
+		triggered_desc = {
+			trigger = { exists = scope:dw_pack_pick }
+			desc = dw_direwolf.0800.picked
+		}
+		triggered_desc = {
+			trigger = { scope:dw_pack_pick ?= { has_character_flag = dw_feral_leader } }
+			desc = dw_direwolf.0800.picked_wild
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:dw_pack_pick
+				scope:dw_pack_pick = {
+					NOT = { has_character_flag = dw_feral_leader }
+					exists = liege
+				}
+			}
+			desc = dw_direwolf.0800.picked_court
+		}
+	}
+
+	theme = hunting
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = {
+		character = scope:dw_pack_pick
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+
+	widget = {
+		is_shown = { is_ai = no }
+		gui = "agot_character_selection_two_options"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		if = {
+			limit = { NOT = { exists = scope:dw_pack_pick } }
+
+			every_in_global_list = {
+				variable = dw_all_wolves
+				limit = { dw_direwolf_is_pack_representative_trigger = yes }
+				add_to_list = dw_pack_reps
+			}
+
+			ordered_in_list = {
+				list = dw_pack_reps
+				order_by = dw_direwolf_ferocity_value
+				max = list_size:dw_pack_reps
+				root = {
+					add_to_variable_list = {
+						name = possible_characters
+						target = prev
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.0800.a
+		var:si_selected_character ?= { save_scope_as = dw_pack_pick }
+		trigger_event = dw_direwolf.0800
+	}
+
+	option = {
+		name = dw_direwolf.0800.b
+		if = {
+			limit = { has_variable = si_selected_character }
+			remove_variable = si_selected_character
+		}
+		if = {
+			limit = { has_variable_list = possible_characters }
+			clear_variable_list = possible_characters
+		}
+	}
+}
+
+dw_direwolf.1000 = {
+	type = character_event
+	title = dw_direwolf.1000.t
+	desc = dw_direwolf.1000.desc
+
+	theme = physical_health
+	left_portrait = root
+	right_portrait = {
+		character = scope:the_wolf
+		animation = direwolf_walk
+		camera = camera_direwolf
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_growl
+	}
+
+	option = {
+		name = dw_direwolf.1000.a
+		trigger = {
+			OR = {
+				has_trait = brave
+				has_trait = wrathful
+				has_trait = arrogant
+			}
+		}
+		trigger_event = { id = dw_direwolf.1001  days = { 1 3 } }
+		ai_chance = { base = 25 }
+	}
+
+	option = {
+		name = dw_direwolf.1000.b
+		if = {
+			limit = { gold >= 20 }
+			remove_short_term_gold = 20
+			set_variable = { name = dw_bond_fed  days = 6 }
+		}
+		trigger_event = { id = dw_direwolf.1002  days = { 2 4 } }
+		ai_chance = { base = 100 }
+	}
+
+	option = {
+		name = dw_direwolf.1000.c
+		trigger = {
+			has_trait = greensight
+		}
+		trigger_event = { id = dw_direwolf.1003 }
+		ai_chance = { base = 50 }
+	}
+}
+
+dw_direwolf.1001 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		random = {
+			chance = dw_direwolf_bond_dominance_value
+			set_variable = dw_bond_won
+			trigger_event = { id = dw_direwolf.1003 }
+		}
+		if = {
+			limit = { NOT = { has_variable = dw_bond_won } }
+			trigger_event = { id = dw_direwolf.1004 }
+		}
+		remove_variable = dw_bond_won
+	}
+}
+
+dw_direwolf.1002 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		random = {
+			chance = dw_direwolf_bond_patience_value
+			set_variable = dw_bond_won
+			trigger_event = { id = dw_direwolf.1003 }
+		}
+		if = {
+			limit = { NOT = { has_variable = dw_bond_won } }
+			trigger_event = { id = dw_direwolf.1004 }
+		}
+		remove_variable = dw_bond_won
+		remove_variable = dw_bond_fed
+	}
+}
+
+dw_direwolf.1003 = {
+	type = character_event
+	title = dw_direwolf.1003.t
+	desc = dw_direwolf.1003.desc
+
+	theme = family
+	left_portrait = root
+	right_portrait = {
+		character = scope:the_wolf
+		animation = direwolf_idle
+		camera = camera_direwolf
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_howl_single
+	}
+
+	option = {
+		name = dw_direwolf.1003.a
+		if = {
+			limit = { scope:the_wolf = { dw_direwolf_is_feral_trigger = yes } }
+			scope:the_wolf = { dw_direwolf_leave_feral_effect = yes }
+			if = {
+				limit = { is_landed = yes }
+				add_courtier = scope:the_wolf
+			}
+			else_if = {
+				limit = { exists = court_owner }
+				court_owner = { add_courtier = scope:the_wolf }
+			}
+		}
+		dw_bond_direwolf_effect = { WOLF = scope:the_wolf }
+		if = {
+			limit = { is_landed = yes }
+			dw_direwolf_refresh_pack_full_effect = yes
+		}
+		send_interface_toast = {
+			title = dw_direwolf_bond_success_toast
+			left_icon = root
+			right_icon = scope:the_wolf
+		}
+	}
+}
+
+dw_direwolf.1004 = {
+	type = character_event
+	title = dw_direwolf.1004.t
+	desc = dw_direwolf.1004.desc
+
+	theme = physical_health
+	left_portrait = root
+	right_portrait = {
+		character = scope:the_wolf
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_growl
+	}
+
+	option = {
+		name = dw_direwolf.1004.a
+		add_trait = wounded_1
+		stress_impact = {
+			base = minor_stress_gain
+			craven = medium_stress_gain
+		}
+		create_character_memory = {
+			type = dw_direwolf_bit_me_memory
+			participants = { dw_wolf = scope:the_wolf }
+		}
+		if = {
+			limit = { scope:the_wolf = { NOT = { has_trait = direwolf_savage } } }
+			scope:the_wolf = { add_trait = direwolf_savage }
+		}
+		send_interface_toast = {
+			title = dw_direwolf_bite_toast
+			left_icon = root
+			right_icon = scope:the_wolf
+		}
+	}
+}
+
+dw_direwolf.1100 = {
+	type = character_event
+	title = dw_direwolf.1100.t
+	desc = {
+		desc = dw_direwolf.1100.desc
+		triggered_desc = {
+			trigger = { scope:dw_hunt_pack_size <= 2 }
+			desc = dw_direwolf.1100.desc_small
+		}
+		triggered_desc = {
+			trigger = {
+				scope:dw_hunt_pack_size >= 3
+				scope:dw_hunt_pack_size <= 5
+			}
+			desc = dw_direwolf.1100.desc_pack
+		}
+		triggered_desc = {
+			trigger = { scope:dw_hunt_pack_size >= 6 }
+			desc = dw_direwolf.1100.desc_large
+		}
+	}
+
+	theme = hunting
+	left_portrait = root
+	right_portrait = {
+		character = scope:dw_hunt_pack_leader
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_howl_pack
+		ordered_knight = {
+			order_by = prowess
+			max = 1
+			save_scope_as = dw_knight_1
+		}
+		ordered_knight = {
+			order_by = prowess
+			max = 1
+			limit = { NOT = { this = scope:dw_knight_1 } }
+			save_scope_as = dw_knight_2
+		}
+		ordered_knight = {
+			order_by = prowess
+			max = 1
+			limit = {
+				NOT = { this = scope:dw_knight_1 }
+				NOT = { this = scope:dw_knight_2 }
+			}
+			save_scope_as = dw_knight_3
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1100.knight1
+		trigger = { exists = scope:dw_knight_1 }
+		scope:dw_knight_1 = { save_scope_as = dw_hunter }
+		trigger_event = { id = dw_direwolf.1101  days = { 1 3 } }
+	}
+	option = {
+		name = dw_direwolf.1100.knight2
+		trigger = { exists = scope:dw_knight_2 }
+		scope:dw_knight_2 = { save_scope_as = dw_hunter }
+		trigger_event = { id = dw_direwolf.1101  days = { 1 3 } }
+	}
+	option = {
+		name = dw_direwolf.1100.knight3
+		trigger = { exists = scope:dw_knight_3 }
+		scope:dw_knight_3 = { save_scope_as = dw_hunter }
+		trigger_event = { id = dw_direwolf.1101  days = { 1 3 } }
+	}
+	option = {
+		name = dw_direwolf.1100.self
+		save_scope_as = dw_hunter
+		trigger_event = { id = dw_direwolf.1101  days = { 1 3 } }
+	}
+	option = {
+		name = dw_direwolf.1100.copout
+		add_prestige = -25
+	}
+}
+
+dw_direwolf.1101 = {
+	type = character_event
+	title = dw_direwolf.1101.t
+	desc = dw_direwolf.1101.desc
+
+	theme = hunting
+	left_portrait = scope:dw_hunter
+	right_portrait = {
+		character = scope:dw_hunt_pack_leader
+		animation = direwolf_walk
+		camera = camera_direwolf
+	}
+
+	option = {
+		name = dw_direwolf.1101.martial
+		scope:dw_hunter = {
+			save_scope_value_as = { name = dw_hunt_chance  value = dw_direwolf_hunt_martial_value }
+		}
+		trigger_event = { id = dw_direwolf.1102  days = { 3 6 } }
+	}
+	option = {
+		name = dw_direwolf.1101.intrigue
+		scope:dw_hunter = {
+			save_scope_value_as = { name = dw_hunt_chance  value = dw_direwolf_hunt_intrigue_value }
+		}
+		trigger_event = { id = dw_direwolf.1102  days = { 3 6 } }
+	}
+	option = {
+		name = dw_direwolf.1101.learning
+		scope:dw_hunter = {
+			save_scope_value_as = { name = dw_hunt_chance  value = dw_direwolf_hunt_learning_value }
+		}
+		trigger_event = { id = dw_direwolf.1102  days = { 3 6 } }
+	}
+}
+
+dw_direwolf.1102 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		scope:dw_hunter = {
+			random = {
+				chance = scope:dw_hunt_chance
+				set_variable = dw_hunt_won
+			}
+		}
+		if = {
+			limit = { scope:dw_hunter = { has_variable = dw_hunt_won } }
+			trigger_event = { id = dw_direwolf.1103 }
+		}
+		else = {
+			trigger_event = { id = dw_direwolf.1104 }
+		}
+		scope:dw_hunter = { remove_variable = dw_hunt_won }
+	}
+}
+
+dw_direwolf.1103 = {
+	type = character_event
+	title = dw_direwolf.1103.t
+	desc = dw_direwolf.1103.desc
+
+	theme = hunting
+	left_portrait = scope:dw_hunter
+	right_portrait = scope:dw_hunt_pack_leader
+
+	option = {
+		name = dw_direwolf.1103.a
+		scope:dw_hunter = {
+			give_nickname = nick_wolf_slayer
+			add_prestige = dw_direwolf_hunt_reward_value
+			random_list = {
+				40 = {
+					modifier = { factor = 0.5  scope:dw_hunt_pack_size >= 4 }
+					modifier = { factor = 0.4  scope:dw_hunt_pack_size >= 6 }
+				}
+				40 = { add_trait = wounded_1 }
+				20 = {
+					modifier = { factor = 1.5  scope:dw_hunt_pack_size >= 4 }
+					modifier = { factor = 1.5  scope:dw_hunt_pack_size >= 6 }
+					add_trait = wounded_2
+				}
+			}
+		}
+		dw_direwolf_slay_feral_pack_effect = yes
+	}
+}
+
+dw_direwolf.1104 = {
+	type = character_event
+	title = dw_direwolf.1104.t
+	desc = dw_direwolf.1104.desc
+
+	theme = physical_health
+	left_portrait = scope:dw_hunter
+	right_portrait = scope:dw_hunt_pack_leader
+
+	immediate = {
+		play_music_cue = dw_wolf_growl
+	}
+
+	option = {
+		name = dw_direwolf.1104.a
+		scope:dw_hunter = {
+			random_list = {
+				50 = {
+					modifier = { factor = 0.7  scope:dw_hunt_pack_size >= 4 }
+					modifier = { factor = 0.6  scope:dw_hunt_pack_size >= 6 }
+					add_trait = wounded_2
+				}
+				30 = { add_trait = wounded_3 }
+				20 = {
+					modifier = { factor = 0.4  prowess >= 10 }
+					modifier = { factor = 2.0  prowess <= 4 }
+					modifier = { factor = 1.6  scope:dw_hunt_pack_size >= 4 }
+					modifier = { factor = 1.8  scope:dw_hunt_pack_size >= 6 }
+					death = { death_reason = death_direwolf }
+				}
+			}
+		}
+	}
+}
+
+dw_direwolf.0900 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_alive = yes
+		has_character_flag = dw_feral_leader
+	}
+
+	immediate = {
+		every_in_global_list = {
+			variable = dw_feral_wolves
+			limit = {
+				is_alive = yes
+				NOT = { this = root }
+				var:dw_feral_leader = root
+			}
+			set_location = root.location
+		}
+		trigger_event = { id = dw_direwolf.0900  months = 3 }
+	}
+}
+
+dw_direwolf.9000 = {
+	type = character_event
+	title = dw_direwolf.9000.t
+
+	desc = {
+		desc = dw_direwolf.9000.desc
+		triggered_desc = {
+			trigger = { exists = scope:dw_blood_pick }
+			desc = dw_direwolf.9000.picked
+		}
+		triggered_desc = {
+			trigger = { NOT = { exists = scope:dw_blood_pick } }
+			desc = dw_direwolf.9000.prompt
+		}
+	}
+
+	theme = hunting
+	override_background = { reference = study }
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	right_portrait = {
+		character = scope:dw_blood_pick
+		animation = personality_honorable
+	}
+
+	widget = {
+		is_shown = { is_ai = no }
+		gui = "agot_character_selection_two_options"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		if = {
+			limit = { NOT = { exists = scope:dw_blood_pick } }
+
+			every_living_character = {
+				limit = {
+					is_human = yes
+					dw_has_wolf_blood_trigger = yes
+				}
+				add_to_list = dw_blooded
+				debug_log = dw_direwolf_debug_blood_line
+			}
+
+			ordered_in_list = {
+				list = dw_blooded
+				order_by = dw_direwolf_wolf_blood_value
+				max = list_size:dw_blooded
+				root = {
+					add_to_variable_list = {
+						name = possible_characters
+						target = prev
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.9000.a
+		var:si_selected_character ?= { save_scope_as = dw_blood_pick }
+		trigger_event = dw_direwolf.9000
+	}
+
+	option = {
+		name = dw_direwolf.9000.b
+		if = {
+			limit = { has_variable = si_selected_character }
+			remove_variable = si_selected_character
+		}
+		if = {
+			limit = { has_variable_list = possible_characters }
+			clear_variable_list = possible_characters
+		}
+	}
+}
+
+dw_direwolf.1200 = {
+	type = character_event
+	title = dw_direwolf.1200.t
+	desc = dw_direwolf.1200.desc
+
+	theme = dragon
+
+	left_portrait = { character = root  animation = shock }
+	lower_center_portrait = {
+		character = scope:the_wolf
+		animation = direwolf_idle
+		camera = camera_direwolf
+	}
+	right_portrait = {
+		character = scope:the_dragon
+		animation = dragon_main
+		camera = camera_dragon_event_standing
+		outfit_tags = { linear_camera_zoom }
+	}
+
+	trigger = {
+		dw_dragon_devours_wolf_possible_trigger = yes
+	}
+
+	immediate = {
+		var:bonded_direwolf ?= { save_scope_as = the_wolf }
+		dw_direwolf_find_standoff_dragon_effect = { DRAGON_TRAIT = dragon_bloodthirsty }
+	}
+
+	option = {
+		name = dw_direwolf.1200.a
+
+		trigger = {
+			is_adult = yes
+			is_incapable = no
+		}
+
+		random_list = {
+			0 = {
+				modifier = { add = dw_direwolf_dragon_rescue_chance_value }
+
+				send_interface_toast = {
+					title = dw_direwolf.1200.t.saved
+					left_icon = root
+					right_icon = scope:the_wolf
+
+					add_prestige = 200
+					add_dread = 15
+					dw_direwolf_deepen_bond_effect = yes
+				}
+			}
+			0 = {
+				modifier = { add = dw_direwolf_dragon_rescue_fail_value }
+
+				send_interface_toast = {
+					title = dw_direwolf.1200.t.failed
+					left_icon = scope:the_dragon
+					right_icon = scope:the_wolf
+
+					add_trait = wounded_2
+					add_stress = 40
+					dw_direwolf_dragon_eats_wolf_effect = yes
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 40
+			ai_value_modifier = {
+				ai_boldness = 0.5
+				ai_compassion = 0.3
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1200.b
+
+		trigger = {
+			has_trait = dragonrider
+		}
+
+		random_list = {
+			0 = {
+				modifier = { add = dw_direwolf_dragon_recall_chance_value }
+
+				send_interface_toast = {
+					title = dw_direwolf.1200.t.recalled
+					left_icon = root
+					right_icon = scope:the_dragon
+
+					add_prestige = 100
+				}
+			}
+			0 = {
+				modifier = { add = dw_direwolf_dragon_recall_fail_value }
+
+				send_interface_toast = {
+					title = dw_direwolf.1200.t.ignored
+					left_icon = scope:the_dragon
+					right_icon = scope:the_wolf
+
+					add_stress = 30
+					dw_direwolf_dragon_eats_wolf_effect = yes
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 60
+			ai_value_modifier = {
+				ai_rationality = 0.5
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1200.c
+
+		add_dread = 20
+		add_stress = 15
+		dw_direwolf_dragon_eats_wolf_effect = yes
+
+		ai_chance = {
+			base = 20
+			ai_value_modifier = {
+				ai_compassion = -0.5
+				ai_boldness = -0.3
+			}
+		}
+	}
+}
+
+dw_direwolf.1210 = {
+	type = character_event
+	title = dw_direwolf.1210.t
+	desc = dw_direwolf.1210.desc
+
+	theme = dragon
+
+	left_portrait = { character = root  animation = shock }
+	lower_center_portrait = {
+		character = scope:the_dragon
+		animation = dragon_main
+		camera = camera_dragon_event_standing
+		outfit_tags = { linear_camera_zoom }
+	}
+	right_portrait = {
+		character = scope:the_wolf
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+
+	trigger = {
+		dw_wolf_devours_dragon_possible_trigger = yes
+	}
+
+	immediate = {
+		var:bonded_direwolf ?= { save_scope_as = the_wolf }
+		dw_direwolf_find_standoff_dragon_effect = { DRAGON_TRAIT = dragon_skittish }
+	}
+
+	option = {
+		name = dw_direwolf.1210.a
+
+		dw_direwolf_wolf_eats_dragon_effect = yes
+		add_prestige = 300
+		add_dread = 25
+
+		ai_chance = {
+			base = 70
+			ai_value_modifier = {
+				ai_boldness = 0.5
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1210.b
+
+		dw_direwolf_wolf_eats_dragon_effect = yes
+		add_stress = 25
+		add_prestige = 100
+
+		ai_chance = {
+			base = 30
+			ai_value_modifier = {
+				ai_compassion = 0.5
+			}
+		}
+	}
+}
+
+dw_direwolf.1300 = {
+	type = character_event
+	title = dw_direwolf.1300.t
+	desc = dw_direwolf.1300.desc
+
+	theme = hunting
+	override_background = { reference = ep2_hunt_snowy_forest }
+
+	left_portrait = { character = root  animation = personality_bold }
+	right_portrait = {
+		character = scope:dw_lonely_wolf
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+
+	trigger = {
+		dw_direwolf_needs_a_mate_trigger = yes
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_howl_single
+		var:bonded_direwolf ?= { save_scope_as = dw_lonely_wolf }
+		dw_direwolf_pick_mate_hunter_effect = yes
+	}
+
+	option = {
+		name = dw_direwolf.1300.a
+
+		trigger = {
+			is_available_adult = yes
+			is_imprisoned = no
+		}
+
+		save_scope_as = dw_mate_hunter
+
+		random_list = {
+			0 = {
+				modifier = { add = dw_direwolf_mate_hunt_chance_value }
+				trigger_event = dw_direwolf.1301
+			}
+			0 = {
+				modifier = { add = dw_direwolf_mate_hunt_fail_value }
+				trigger_event = dw_direwolf.1302
+			}
+		}
+
+		ai_chance = {
+			base = 40
+			ai_value_modifier = {
+				ai_boldness = 0.5
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1300.b
+
+		trigger = {
+			exists = scope:dw_mate_hunter
+		}
+
+		scope:dw_mate_hunter = {
+			random_list = {
+				0 = {
+					modifier = { add = dw_direwolf_mate_hunt_chance_value }
+					scope:dw_mate_owner = { trigger_event = dw_direwolf.1301 }
+				}
+				0 = {
+					modifier = { add = dw_direwolf_mate_hunt_fail_value }
+					scope:dw_mate_owner = { trigger_event = dw_direwolf.1302 }
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 60
+			ai_value_modifier = {
+				ai_boldness = -0.3
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1300.c
+
+		ai_chance = {
+			base = 10
+		}
+	}
+}
+
+dw_direwolf.1301 = {
+	type = character_event
+	title = dw_direwolf.1301.t
+	desc = dw_direwolf.1301.desc
+
+	theme = hunting
+	override_background = { reference = ep2_hunt_snowy_forest }
+
+	left_portrait = { character = scope:dw_mate_hunter  animation = admiration }
+	lower_center_portrait = {
+		character = scope:dw_lonely_wolf
+		animation = direwolf_idle
+		camera = camera_direwolf
+	}
+	right_portrait = {
+		character = scope:dw_new_mate
+		animation = direwolf_walk
+		camera = camera_direwolf
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_howl_pack
+		dw_direwolf_spawn_mate_effect = { OWNER = root }
+		dw_direwolf_mate_found_effect = yes
+	}
+
+	option = {
+		name = dw_direwolf.1301.a
+
+		add_prestige = 150
+
+		if = {
+			limit = { exists = scope:dw_new_mate }
+			dw_direwolf_offer_naming_effect = { WOLF = scope:dw_new_mate }
+		}
+	}
+}
+
+dw_direwolf.1302 = {
+	type = character_event
+	title = dw_direwolf.1302.t
+	desc = dw_direwolf.1302.desc
+
+	theme = hunting
+	override_background = { reference = ep2_hunt_snowy_forest }
+
+	left_portrait = { character = scope:dw_mate_hunter  animation = pain }
+	right_portrait = {
+		character = scope:dw_lonely_wolf
+		animation = direwolf_idle
+		camera = camera_direwolf
+	}
+
+	immediate = {
+		if = {
+			limit = { exists = scope:dw_mate_hunter }
+			dw_direwolf_mate_hunt_injury_effect = { HUNTER = scope:dw_mate_hunter }
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1302.a
+
+		add_stress = minor_stress_gain
+	}
+}
+
+dw_direwolf.1400 = {
+	type = character_event
+	title = dw_direwolf.1400.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:dw_maul_outcome = 1 }
+				desc = dw_direwolf.1400.desc.enemy_wounded
+			}
+			triggered_desc = {
+				trigger = { scope:dw_maul_outcome = 2 }
+				desc = dw_direwolf.1400.desc.enemy_killed
+			}
+			triggered_desc = {
+				trigger = { scope:dw_maul_outcome = 3 }
+				desc = dw_direwolf.1400.desc.wolf_wounded
+			}
+			desc = dw_direwolf.1400.desc.wolf_killed
+		}
+	}
+
+	theme = battle
+
+	left_portrait = {
+		character = scope:dw_maul_wolf
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+	right_portrait = {
+		character = scope:dw_maul_knight
+		animation = pain
+	}
+
+	trigger = {
+		exists = scope:dw_maul_wolf
+		exists = scope:dw_maul_knight
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_growl
+	}
+
+	option = {
+		name = dw_direwolf.1400.a
+		trigger = { scope:dw_maul_outcome <= 2 }
+		add_prestige = 50
+	}
+
+	option = {
+		name = dw_direwolf.1400.b
+		trigger = { scope:dw_maul_outcome = 3 }
+	}
+
+	option = {
+		name = dw_direwolf.1400.c
+		trigger = { scope:dw_maul_outcome = 4 }
+	}
+}
+
+dw_direwolf.1500 = {
+	type = character_event
+	title = dw_direwolf.1500.t
+	desc = dw_direwolf.1500.desc
+
+	theme = death
+	override_background = { reference = wilderness_forest }
+
+	left_portrait = { character = root  animation = grief }
+	right_portrait = {
+		character = scope:dw_dead_wolf
+		animation = direwolf_idle
+		camera = camera_direwolf
+	}
+
+	trigger = {
+		exists = scope:dw_dead_wolf
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_howl_single
+	}
+
+	option = {
+		name = dw_direwolf.1500.a
+	}
+}

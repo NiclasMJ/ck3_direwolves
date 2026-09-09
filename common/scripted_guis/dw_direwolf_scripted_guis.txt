@@ -1,0 +1,7 @@
+﻿dw_pack_rank_system_enabled_gui = {
+	scope = character
+
+	is_shown = {
+		dw_pack_ranks_active_trigger = yes
+	}
+}

@@ -1,0 +1,138 @@
+﻿camera_direwolf_pup = {
+	camera = {
+		position = cylindrical{ 480 39 -25 }
+		position_node = {
+			default = dragon_origin
+		}
+
+		look_at = { 0 33 -6 }
+		look_at_node = {
+			default = dragon_origin
+		}
+
+		fov = 30
+		camera_near_far = { 10 2000 }
+	}
+
+	unknown = "gfx/portraits/unknown_portraits/unknown_unclickable_small.dds"
+}
+
+camera_direwolf_young = {
+	camera = {
+		position = cylindrical{ 480 68 -25 }
+		position_node = {
+			default = dragon_origin
+		}
+
+		look_at = { 0 58 -10 }
+		look_at_node = {
+			default = dragon_origin
+		}
+
+		fov = 30
+		camera_near_far = { 10 2000 }
+	}
+
+	unknown = "gfx/portraits/unknown_portraits/unknown_unclickable_small.dds"
+}
+
+camera_direwolf_view = {
+	camera = {
+		position = cylindrical{ 480 97 -25 }
+		position_node = {
+			default = dragon_origin
+		}
+
+		look_at = { 0 82 -14 }
+		look_at_node = {
+			default = dragon_origin
+		}
+
+		fov = 30
+		camera_near_far = { 10 2000 }
+	}
+
+	unknown = "gfx/portraits/unknown_portraits/unknown_unclickable_small.dds"
+}
+
+# The head cameras orbit dragon_origin, which sits between the wolf's FEET at
+# z = 0 - the face is another ~94 units forward (-Z) of it, measured. So the
+# radius is NOT the distance to the face: a radius that equals the face offset
+# drops the camera right on top of the muzzle, side-on. Each radius/height below
+# is derived from "150 units in front of the face, 14 deg off its axis, 8 deg
+# above it", converted to cylindrical about the origin, then scaled per stage.
+camera_direwolf_head_pup = {
+	camera = {
+		position = cylindrical{ 145 65 -9 }
+		position_node = {
+			default = dragon_origin
+		}
+
+		look_at = { 0 53 -57 }
+		look_at_node = {
+			default = dragon_origin
+		}
+
+		fov = 30
+		camera_near_far = { 10 2000 }
+	}
+
+	unknown = "gfx/portraits/unknown_portraits/unknown_head.dds"
+}
+
+camera_direwolf_head_young = {
+	camera = {
+		position = cylindrical{ 273 113 -9 }
+		position_node = {
+			default = dragon_origin
+		}
+
+		look_at = { 0 92 -99 }
+		look_at_node = {
+			default = dragon_origin
+		}
+
+		fov = 30
+		camera_near_far = { 10 2000 }
+	}
+
+	unknown = "gfx/portraits/unknown_portraits/unknown_head.dds"
+}
+
+camera_direwolf_head = {
+    camera = {
+        position = cylindrical{ 270 131 -9 }
+        position_node = {
+            default = dragon_origin
+        }
+
+        look_at = { 0 121 -131 }
+        look_at_node = {
+            default = dragon_origin
+        }
+
+        fov = 30
+        camera_near_far = { 10 2000 }
+    }
+
+    unknown = "gfx/portraits/unknown_portraits/unknown_head.dds"
+}
+
+camera_direwolf = {
+	camera = {
+		position = cylindrical{ 600 97 35 }
+		position_node = {
+			default = dragon_origin
+		}
+
+		look_at = { 0 82 -14 }
+		look_at_node = {
+			default = dragon_origin
+		}
+
+		fov = 30
+		camera_near_far = { 10 2000 }
+	}
+
+	unknown = "gfx/portraits/unknown_portraits/unknown_unclickable_small.dds"
+}

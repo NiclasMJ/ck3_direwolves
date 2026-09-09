@@ -1,0 +1,292 @@
+﻿dw_pack_ranks_active_trigger = {
+	has_game_rule = dw_pack_rank_system_active
+}
+
+dw_is_wolf_blooded_trigger = {
+	OR = {
+		house ?= {
+			has_house_modifier = has_direwolf_companion
+		}
+		dynasty ?= {
+			has_variable = dw_wolf_blooded
+		}
+	}
+}
+
+dw_has_wolf_blood_trigger = {
+	OR = {
+		dw_is_wolf_blooded_trigger = yes
+
+		real_father ?= { dw_is_wolf_blooded_trigger = yes }
+		real_mother ?= { dw_is_wolf_blooded_trigger = yes }
+
+		real_father.real_father ?= { dw_is_wolf_blooded_trigger = yes }
+		real_father.real_mother ?= { dw_is_wolf_blooded_trigger = yes }
+		real_mother.real_father ?= { dw_is_wolf_blooded_trigger = yes }
+		real_mother.real_mother ?= { dw_is_wolf_blooded_trigger = yes }
+	}
+}
+
+dw_direwolf_is_northman_trigger = {
+	culture ?= {
+		has_cultural_pillar = heritage_first_man
+	}
+}
+
+dw_can_bond_with_direwolf_trigger = {
+	is_human = yes
+
+	trigger_if = {
+		limit = { has_game_rule = dw_taming_everyone }
+		always = yes
+	}
+	trigger_else_if = {
+		limit = { has_game_rule = dw_taming_northmen }
+		OR = {
+			dw_has_wolf_blood_trigger = yes
+			dw_direwolf_is_northman_trigger = yes
+		}
+	}
+	trigger_else = {
+		dw_has_wolf_blood_trigger = yes
+	}
+}
+
+dw_direwolf_can_go_beyond_wall_trigger = {
+	trigger_if = {
+		limit = { has_game_rule = dw_btw_never }
+		always = no
+	}
+	trigger_else_if = {
+		limit = { has_game_rule = dw_btw_full_access }
+		always = yes
+	}
+	trigger_else = {
+		OR = {
+			has_trait = lunatic
+			has_trait = brave
+		}
+	}
+}
+
+dw_direwolf_dynasty_earns_blood_trigger = {
+	exists = dynasty
+	dynasty ?= {
+		any_dynasty_member = {
+			count >= 4
+			is_alive = yes
+			has_trait = direwolf_companion
+		}
+	}
+}
+
+dw_direwolf_is_unbonded_trigger = {
+	$WOLF$ = {
+		has_trait = direwolf
+		is_alive = yes
+		NOT = {
+			any_relation = {
+				type = direwolf_companion
+			}
+		}
+	}
+}
+
+dw_direwolf_is_at_my_location_trigger = {
+	save_temporary_scope_as = dw_loc_seeker
+	exists = $WOLF$
+	exists = location
+	$WOLF$ = {
+		exists = location
+		location = scope:dw_loc_seeker.location
+	}
+}
+
+dw_allow_naming_of_direwolf_trigger = {
+	save_temporary_scope_as = dw_namer
+	exists = $WOLF$
+	is_human = yes
+	is_ai = no
+	$WOLF$ = { has_trait = direwolf }
+
+	custom_tooltip = {
+		text = dw_rename_direwolf_must_own_tt
+		OR = {
+			$WOLF$.liege ?= scope:dw_namer
+			has_relation_direwolf_companion = $WOLF$
+		}
+	}
+}
+
+dw_has_battle_ready_direwolf_trigger = {
+	has_trait = direwolf_companion
+	exists = var:bonded_direwolf
+	var:bonded_direwolf = {
+		is_alive = yes
+		has_trait = direwolf
+		NOT = { has_trait = direwolf_pup }
+		NOT = { has_trait = direwolf_runt }
+		NOT = { has_trait = wounded_1 }
+		NOT = { has_trait = wounded_2 }
+		NOT = { has_trait = wounded_3 }
+		NOT = { has_trait = maimed }
+		NOT = { has_trait = ill }
+		NOT = { has_trait = pneumonic }
+		NOT = { has_character_modifier = dw_denning_modifier }
+	}
+}
+
+dw_has_grown_direwolf_trigger = {
+	has_trait = direwolf_companion
+	exists = var:bonded_direwolf
+	var:bonded_direwolf = {
+		is_alive = yes
+		has_trait = direwolf
+		NOT = { has_trait = direwolf_pup }
+	}
+}
+
+dw_has_ferocious_direwolf_trigger = {
+	dw_has_grown_direwolf_trigger = yes
+	var:bonded_direwolf = {
+		OR = {
+			has_trait = direwolf_savage
+			has_trait = direwolf_massive
+			has_trait = direwolf_scarred
+		}
+		NOR = {
+			has_trait = direwolf_docile
+			has_trait = direwolf_skittish
+		}
+	}
+}
+
+dw_direwolf_is_grown_trigger = {
+	has_trait = direwolf
+	is_alive = yes
+	NOT = { has_trait = direwolf_pup }
+}
+
+dw_direwolf_is_giftable_pup_trigger = {
+	has_trait = direwolf
+	is_alive = yes
+	age < 2
+	NOT = { has_trait = direwolf_bonded }
+	NOT = { any_relation = { type = direwolf_companion } }
+	NOT = { has_character_flag = dw_feral }
+}
+
+dw_direwolf_is_surplus_trigger = {
+	has_trait = direwolf
+	is_alive = yes
+	dw_direwolf_is_grown_trigger = yes
+	NOT = { has_trait = direwolf_alpha }
+	NOT = { has_character_flag = dw_pack_rep }
+	NOT = { has_trait = direwolf_bonded }
+	NOT = { any_relation = { type = direwolf_companion } }
+	NOT = { any_relation = { type = direwolf_mate } }
+	NOT = { has_character_modifier = dw_denning_modifier }
+}
+
+dw_direwolf_is_pack_representative_trigger = {
+	is_alive = yes
+	OR = {
+		AND = {
+			has_trait = direwolf_alpha
+			is_male = yes
+		}
+		has_character_flag = dw_pack_rep
+		has_character_flag = dw_feral_leader
+	}
+}
+
+dw_direwolf_can_mate_trigger = {
+	dw_direwolf_is_grown_trigger = yes
+	NOT = { any_relation = { type = direwolf_mate } }
+	NOT = { has_character_modifier = dw_denning_modifier }
+	NOT = { has_trait = direwolf_outcast }
+}
+
+dw_has_direwolf_pack_trigger = {
+	is_landed = yes
+	any_courtier = {
+		count >= 2
+		dw_direwolf_is_grown_trigger = yes
+	}
+}
+
+dw_direwolf_pack_under_cap_trigger = {
+	NOT = {
+		any_courtier = {
+			count >= 12
+			has_trait = direwolf
+		}
+	}
+}
+
+dw_direwolf_dragon_standoff_trigger = {
+	has_trait = direwolf_companion
+	exists = var:bonded_direwolf
+	var:bonded_direwolf = {
+		is_alive = yes
+		has_trait = direwolf
+		has_trait = $WOLF_TRAIT$
+		save_temporary_scope_as = dw_standoff_wolf
+	}
+	any_relation = {
+		type = agot_dragon
+		is_alive = yes
+		has_trait = dragon
+		has_trait = $DRAGON_TRAIT$
+		location ?= scope:dw_standoff_wolf.location
+	}
+}
+
+dw_dragon_devours_wolf_possible_trigger = {
+	dw_direwolf_dragon_standoff_trigger = {
+		WOLF_TRAIT = direwolf_skittish
+		DRAGON_TRAIT = dragon_bloodthirsty
+	}
+}
+
+dw_wolf_devours_dragon_possible_trigger = {
+	has_game_rule = agot_silly_mode
+	dw_direwolf_dragon_standoff_trigger = {
+		WOLF_TRAIT = direwolf_savage
+		DRAGON_TRAIT = dragon_skittish
+	}
+}
+
+dw_direwolf_is_in_the_north_trigger = {
+	exists = location
+	location = {
+		OR = {
+			geographical_region = world_westeros_the_north
+			geographical_region = world_westeros_beyond_the_wall
+		}
+	}
+}
+
+dw_direwolf_is_mate_hunter_trigger = {
+	is_human = yes
+	is_alive = yes
+	is_adult = yes
+	is_imprisoned = no
+	is_incapable = no
+}
+
+dw_direwolf_needs_a_mate_trigger = {
+	has_trait = direwolf_companion
+	exists = var:bonded_direwolf
+	var:bonded_direwolf = {
+		is_alive = yes
+		has_trait = direwolf
+		dw_direwolf_is_grown_trigger = yes
+		NOT = { has_character_flag = dw_feral }
+		NOT = { any_relation = { type = direwolf_mate } }
+	}
+}
+
+dw_direwolf_canon_history_exists_trigger = {
+	character:dw_direwolf_greywind ?= { always = yes }
+}

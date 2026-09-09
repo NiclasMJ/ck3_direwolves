@@ -1,0 +1,565 @@
+﻿types CharacterWindow
+{
+	type dw_direwolf_relationship_row = vbox_character_row_relationship_item
+	{
+		name = "direwolf_companion"
+		visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'direwolf_companion' ) ) ), '(int32)1' )]"
+		layoutpolicy_vertical = expanding
+
+		blockoverride "minimum_width" {}
+
+		blockoverride "portrait_datamodel" {
+			datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'direwolf_companion' ) )]"
+		}
+
+		blockoverride "header_text"
+		{
+			text = "DW_DIREWOLF_COMPANION_ROW_LABEL"
+			max_width = 75
+		}
+	}
+
+	type dw_direwolf_mate_row = vbox_character_row_relationship_item
+	{
+		name = "direwolf_mate"
+		visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'direwolf_mate' ) ) ), '(int32)1' )]"
+		layoutpolicy_vertical = expanding
+
+		blockoverride "minimum_width" {}
+
+		blockoverride "portrait_datamodel" {
+			datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'direwolf_mate' ) )]"
+		}
+
+		blockoverride "header_text"
+		{
+			text = "DW_DIREWOLF_MATE_ROW_LABEL"
+			max_width = 75
+		}
+		
+	}
+	
+
+	type dw_direwolf_pack_row = vbox_character_row_item
+	{
+		name = "direwolf_pack"
+		layoutpolicy_vertical = expanding
+
+		blockoverride "minimum_width" {}
+
+		blockoverride "gridbox"
+		{
+			fixedgridbox = {
+				visible = "[Not( CharacterWindow.IsRelationExpanded( 'dw_pack' ) )]"
+				flipdirection = yes
+				addcolumn = 85
+				addrow = 90
+				datamodel_wrap = 6
+				maxverticalslots = 2
+				datamodel = "[CharacterWindow.GetCharacter.MakeScope.GetList('dw_packmates')]"
+
+				item = {
+					portrait_head_small = {
+						datacontext = "[Scope.GetCharacter]"
+					}
+				}
+			}
+
+			fixedgridbox = {
+				visible = "[CharacterWindow.IsRelationExpanded( 'dw_pack' )]"
+				flipdirection = yes
+				addcolumn = 85
+				addrow = 90
+				datamodel_wrap = 6
+				maxverticalslots = 5
+				datamodel = "[CharacterWindow.GetCharacter.MakeScope.GetList('dw_packmates')]"
+
+				item = {
+					portrait_head_small = {
+						datacontext = "[Scope.GetCharacter]"
+					}
+				}
+			}
+		}
+
+		blockoverride "header_text"
+		{
+			text = "DW_DIREWOLF_PACK_ROW_LABEL"
+			max_width = 75
+		}
+
+		blockoverride "remaining_items"
+		{
+			visible = "[And( Not( CharacterWindow.IsRelationExpanded( 'dw_pack' ) ), GreaterThan_int32( GetDataModelSize(Character.MakeScope.GetList('dw_packmates')), '(int32)12' ) )]"
+			text = "[GetNumberAbove_int32( GetDataModelSize(Character.MakeScope.GetList('dw_packmates')), '(int32)12' )|=]"
+		}
+
+		blockoverride "expand_button_inside"
+		{
+			visible = "[GreaterThan_int32( GetDataModelSize(Character.MakeScope.GetList('dw_packmates')), '(int32)12' )]"
+			onclick = "[CharacterWindow.ToggleExpandedRelation( 'dw_pack' )]"
+			down = "[CharacterWindow.IsRelationExpanded( 'dw_pack' )]"
+		}
+	}
+
+	type dw_direwolf_children_row = vbox_character_row_item
+	{
+		name = "direwolf_children"
+		layoutpolicy_vertical = expanding
+
+		blockoverride "minimum_width" {}
+
+		blockoverride "gridbox"
+		{
+			fixedgridbox = {
+				visible = "[Not( CharacterWindow.IsRelationExpanded( 'dw_children' ) )]"
+				flipdirection = yes
+				addcolumn = 85
+				addrow = 90
+				datamodel_wrap = 6
+				maxverticalslots = 1
+				datamodel = "[CharacterWindow.GetChildren]"
+
+				item = {
+					portrait_head_small = {}
+				}
+			}
+
+			fixedgridbox = {
+				visible = "[CharacterWindow.IsRelationExpanded( 'dw_children' )]"
+				flipdirection = yes
+				addcolumn = 85
+				addrow = 90
+				datamodel_wrap = 6
+				maxverticalslots = 5
+				datamodel = "[CharacterWindow.GetChildren]"
+
+				item = {
+					portrait_head_small = {}
+				}
+			}
+		}
+
+		blockoverride "header_text"
+		{
+			text = "DW_DIREWOLF_CHILDREN_ROW_LABEL"
+			max_width = 75
+		}
+
+		blockoverride "remaining_items"
+		{
+			visible = "[And( Not( CharacterWindow.IsRelationExpanded( 'dw_children' ) ), GreaterThan_int32( GetDataModelSize(CharacterWindow.GetChildren), '(int32)6' ) )]"
+			text = "[GetNumberAbove_int32( GetDataModelSize(CharacterWindow.GetChildren), '(int32)6' )|=]"
+		}
+
+		blockoverride "expand_button_inside"
+		{
+			visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetChildren), '(int32)6' )]"
+			onclick = "[CharacterWindow.ToggleExpandedRelation( 'dw_children' )]"
+			down = "[CharacterWindow.IsRelationExpanded( 'dw_children' )]"
+		}
+	}
+
+	type dw_direwolf_portrait = margin_widget {
+		size = { 480 500 }
+		margin = { 0 0 }
+
+		widget = {
+			size = { 100% 100% }
+			using = Portrait_Background_Glows
+		}
+
+		blockoverride "glow_local_player" {}
+		blockoverride "glow_selected" {}
+		blockoverride "grayscale" {}
+
+		portrait_button = {
+			size = { 100% 100% }
+			parentanchor = center
+			using = portrait_base
+
+			block "portrait_cam" {
+				portrait_texture = "[Character.GetAnimatedPortrait('environment_dragon_outside_sun', 'camera_direwolf_view', 'direwolf_idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+			}
+
+			mask = "gfx/portraits/portrait_mask_character_view.dds"
+			effectname = "NoHighlight"
+
+			block "portrait_button" {}
+		}
+	}
+
+	type dw_direwolf_stat = vbox {
+		margin_right = 14
+		margin_left = 14
+		margin_top = 3
+		margin_bottom = 3
+		spacing = -2
+
+		block "stat_tooltip" {}
+
+		text_single = {
+			name = "dw_stat_label"
+			default_format = "#low"
+			align = nobaseline
+			block "stat_label" {}
+		}
+		text_single = {
+			name = "dw_stat_value"
+			default_format = "#high"
+			fontsize = 20
+			align = nobaseline
+			block "stat_value" {}
+		}
+	}
+
+	type dw_direwolf_character_view = vbox {
+		name = "main_content_direwolf"
+		using = Window_Margins_Sidebar
+		visible = "[IsCharacterDirewolf]"
+
+		widget = {
+			name = "main_characters_direwolf"
+			layoutpolicy_horizontal = expanding
+			size = { 0 520 }
+
+			background = {
+				name = "direwolf_background"
+				texture = "gfx/interface/illustrations/event_scenes/bp1_plains.dds"
+				fittype = centercrop
+
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_rough_edges_down_right.dds"
+					spriteType = Corneredtiled
+					spriteborder = { 20 20 }
+					blend_mode = alphamultiply
+					texture_density = 2
+				}
+			}
+
+			background = {
+				using = Background_Area
+				alpha = 0.25
+			}
+
+			buttons_window_control = {
+				parentanchor = top|right
+
+				blockoverride "button_close"
+				{
+					onclick = "[CharacterWindow.Close]"
+				}
+
+				blockoverride "button_back"
+				{
+					visible = "[HasViewHistory]"
+					onclick = "[OpenFromViewHistory]"
+					tooltip = "[GetViewHistoryTooltip]"
+				}
+			}
+
+			dw_direwolf_portrait = {
+				name = "direwolf_portrait_pup"
+				parentanchor = hcenter|vcenter
+				position = { 0 0 }
+				visible = "[Character.HasTrait( GetTrait( 'direwolf_pup' ) )]"
+
+				blockoverride "portrait_cam"
+				{
+					portrait_texture = "[Character.GetAnimatedPortrait('environment_dragon_outside_sun', 'camera_direwolf_pup', 'direwolf_idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+				}
+
+				using = Animation_Character_Window_Refresh_Short
+			}
+
+			dw_direwolf_portrait = {
+				name = "direwolf_portrait_young"
+				parentanchor = hcenter|vcenter
+				position = { 0 0 }
+				visible = "[Character.HasTrait( GetTrait( 'direwolf_young_wolf' ) )]"
+
+				blockoverride "portrait_cam"
+				{
+					portrait_texture = "[Character.GetAnimatedPortrait('environment_dragon_outside_sun', 'camera_direwolf_young', 'direwolf_idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+				}
+
+				using = Animation_Character_Window_Refresh_Short
+			}
+
+			dw_direwolf_portrait = {
+				name = "direwolf_portrait_adult"
+				parentanchor = hcenter|vcenter
+				position = { 0 0 }
+				visible = "[Not( Or( Character.HasTrait( GetTrait( 'direwolf_pup' ) ), Character.HasTrait( GetTrait( 'direwolf_young_wolf' ) ) ) )]"
+
+				using = Animation_Character_Window_Refresh_Short
+			}
+
+			flowcontainer = {
+				name = "direwolf_buttons"
+				parentanchor = bottom|left
+				position = { 5 -15 }
+				spacing = 5
+				ignoreinvisible = yes
+				direction = vertical
+
+				button_normal = {
+					name = "open_barbershop"
+					visible = "[Character.CanCustomizePortrait]"
+
+					size = { 35 35 }
+					datacontext = "[CharacterWindow.AccessCharacter]"
+					tooltip = "CV_CUSTOMIZE_PORTRAIT"
+					using = tooltip_ne
+
+					icon_round_button_base = {}
+
+					button_barbershop = {
+						visible = "[Character.CanCustomizePortrait]"
+						onclick = "[Character.OnCustomizePortrait]"
+						onclick = "[CloseGameView( 'character_interaction_menu' )]"
+						size = { 25 25 }
+						parentanchor = center
+					}
+				}
+
+				button_normal = {
+					name = "open_kill_list"
+
+					size = { 35 35 }
+
+					datacontext = "[CharacterWindow.AccessCharacter]"
+					visible = "[Character.HasKillsKnownTo( GetPlayer )]"
+					tooltip = "OPEN_KILL_LIST_TOOLTIP"
+					using = tooltip_ne
+
+
+					icon_round_button_base = {}
+
+					button_kill_list = {
+						onclick = "[ToggleGameViewData( 'kill_list', Character.GetID  )]"
+						size = { 25 25 }
+						parentanchor = center
+
+						modify_texture = {
+							texture = "gfx/interface/icons/focuses/hud_icon_mask.dds"
+							blend_mode = alphamultiply
+						}
+					}
+				}
+				button_normal = {
+					name = "open_direwolf_tree"
+
+					size = { 35 35 }
+					datacontext = "[CharacterWindow.AccessCharacter]"
+					visible = "[GetScriptedGui( 'dw_direwolf_tree_check' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).End )]"
+					tooltip = "DW_DIREWOLF_TREE_TT"
+					using = tooltip_ne
+
+					icon_round_button_base = {}
+
+					button_dynasty_tree = {
+						onclick = "[GetScriptedGui('dw_open_direwolf_tree').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'opened_character', Character.MakeScope ).End )]"
+						onclick = "[GetVariableSystem.Set('dw_direwolf_tree_visible', 'true')]"
+						size = { 25 25 }
+						parentanchor = center
+					}
+				}
+
+				button_normal = {
+					name = "open_memories"
+
+					size = { 35 35 }
+					datacontext = "[CharacterWindow.AccessCharacter]"
+					tooltip = "OPEN_MEMORIES_TOOLTIP"
+					using = tooltip_ne
+
+					icon_round_button_base = {}
+
+					button_memories = {
+						onclick = "[ToggleGameViewData( 'memories', Character.GetID  )]"
+						size = { 25 25 }
+						parentanchor = center
+					}
+				}
+			}
+		}
+
+			vbox = {
+				name = "character_info"
+				layoutpolicy_horizontal = expanding
+				margin_top = 6
+				spacing = 6
+
+				vbox = {
+					name = "name_and_header"
+					layoutpolicy_horizontal = expanding
+					spacing = 4
+					background = { using = Background_Area }
+					hbox = {
+						name = "name_and_stats"
+						layoutpolicy_horizontal = expanding
+						margin = { 8 5 }
+						text_single = {
+							name = "character_name"
+							raw_text = "[Character.GetFirstNameNicknamedNoTooltip|V]"
+							margin_left = 2
+							max_width = 200
+							fontsize = 22
+							fontsize_min = 14
+							align = nobaseline
+							default_format = "#high"
+							tooltip = "[Character.GetFirstNameNicknamedNoTooltip|V]"
+						}
+						hbox = {
+							margin_left = 6
+							spacing = -3
+							icon = {
+								visible = "[Not(Character.IsDeadAndValid)]"
+								size = { 23 23 }
+								framesize = { 60 60 }
+								frame = "[Character.GetHealthIconFrame]"
+								texture = "gfx/interface/icons/character_status/icon_health.dds"
+								tooltip = "[Character.GetHealthInfo]"
+							}
+							icon = {
+								visible = "[Character.IsDeadAndValid]"
+								size = { 23 23 }
+								texture = "gfx/interface/icons/character_status/icon_dead.dds"
+								tooltip = "CHARACTER_DEAD_TOOLTIP"
+							}
+						}
+						expand = {}
+						dw_direwolf_stat = {
+							blockoverride "stat_tooltip" { tooltip = "DW_DIREWOLF_TEMPERAMENT_TOOLTIP" }
+							blockoverride "stat_label"   { text = "DW_DIREWOLF_TEMPERAMENT_LABEL" }
+							blockoverride "stat_value"   { text = "[Localize( DirewolfTemperamentLabel )]" }
+						}
+						divider_light = { layoutpolicy_vertical = expanding }
+						dw_direwolf_stat = {
+							blockoverride "stat_tooltip" { tooltip = "DW_DIREWOLF_FEROCITY_TOOLTIP" }
+							blockoverride "stat_label"   { text = "DW_DIREWOLF_FEROCITY_LABEL" }
+							blockoverride "stat_value"   { text = "[Character.GetProwess|0]" }
+						}
+						divider_light = { layoutpolicy_vertical = expanding }
+						dw_direwolf_stat = {
+							blockoverride "stat_tooltip" { tooltip = "DW_DIREWOLF_STAGE_TOOLTIP" }
+							blockoverride "stat_label"   { text = "DW_DIREWOLF_STAGE_LABEL" }
+							blockoverride "stat_value"   { text = "[Character.GetAge]" }
+						}
+						divider_light = {
+							layoutpolicy_vertical = expanding
+							visible = "[GetScriptedGui( 'dw_pack_rank_system_enabled_gui' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						}
+						dw_direwolf_stat = {
+							visible = "[GetScriptedGui( 'dw_pack_rank_system_enabled_gui' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							blockoverride "stat_tooltip" { tooltip = "DW_DIREWOLF_RANK_TOOLTIP" }
+							blockoverride "stat_label"   { text = "DW_DIREWOLF_RANK_LABEL" }
+							blockoverride "stat_value"   { text = "[Localize( DirewolfRankLabel )]" }
+						}
+					}
+					divider_light = { layoutpolicy_horizontal = expanding }
+					hbox = {
+						name = "direwolf_traits"
+						layoutpolicy_horizontal = expanding
+						margin = { 8 4 }
+						fixedgridbox = {
+							datamodel = "[Character.GetTraitsForCharacter]"
+							flipdirection = yes
+							addcolumn = 58
+							addrow = 58
+							maxhorizontalslots = 7
+							item = {
+								icon_trait = {
+									visible = "[Trait.IsValid]"
+									blockoverride "icon_size" { size = { 54 54 } }
+									blockoverride "tooltip_placement" { using = tooltip_se }
+								}
+							}
+						}
+						expand = {}
+					}
+				}
+
+				hbox = {
+					name = "direwolf_family"
+					layoutpolicy_horizontal = expanding
+					margin = { 8 6 }
+					spacing = 10
+					background = { using = Background_Area }
+					vbox = {
+						name = "fam_bonded"
+						spacing = 2
+						visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'direwolf_companion' ) ) ), '(int32)1' )]"
+						text_single = {
+							align = hcenter
+							default_format = "#low"
+							text = "DW_DIREWOLF_BONDED_WARG_LABEL"
+						}
+						overlappingitembox = {
+							size = { 170 90 }
+							datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'direwolf_companion' ) )]"
+							item = {
+								portrait_head_small = {}
+							}
+						}
+					}
+					vbox = {
+						name = "fam_parents"
+						visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( CharacterWindow.GetParents ), '(int32)1' )]"
+						spacing = 2
+						text_single = {
+							align = hcenter
+							default_format = "#low"
+							text = "PARENTS"
+						}
+						overlappingitembox = {
+							size = { 170 90 }
+							datamodel = "[CharacterWindow.GetParents]"
+							item = {
+								portrait_head_small = {}
+							}
+						}
+					}
+					vbox = {
+						name = "fam_mate"
+						spacing = 2
+						visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'direwolf_mate' ) ) ), '(int32)1' )]"
+						text_single = {
+							align = hcenter
+							default_format = "#low"
+							text = "DW_DIREWOLF_MATE_ROW_LABEL"
+						}
+						overlappingitembox = {
+							size = { 170 90 }
+							datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'direwolf_mate' ) )]"
+							item = {
+								portrait_head_small = {}
+							}
+						}
+					}
+					expand = {}
+				}
+
+				hbox = {
+					name = "direwolf_children_row"
+					layoutpolicy_horizontal = expanding
+					visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( CharacterWindow.GetChildren ), '(int32)1' )]"
+					background = { using = Background_Area }
+					dw_direwolf_children_row = {}
+					expand = {}
+				}
+
+				hbox = {
+					name = "direwolf_pack_row"
+					layoutpolicy_horizontal = expanding
+					visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( CharacterWindow.GetCharacter.MakeScope.GetList('dw_packmates') ), '(int32)1' )]"
+					background = { using = Background_Area }
+					dw_direwolf_pack_row = {}
+					expand = {}
+				}
+			}
+
+		expand = {}
+	}
+}

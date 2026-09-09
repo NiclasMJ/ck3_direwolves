@@ -1,0 +1,14 @@
+﻿the_pack = {
+	music = "file:/music/dw_soundtrack/the_pack.mp3"
+	group = group_agot
+
+	name = "the_pack"
+
+	is_valid = {
+		OR = {
+			has_trait = direwolf_companion
+			dw_is_wolf_blooded_trigger = yes
+			dw_direwolf_is_in_the_north_trigger = yes
+		}
+	}
+}

@@ -1,0 +1,83 @@
+﻿dw_bonded_direwolf_memory = {
+	categories = { positive friendship }
+	icon = "friend.dds"
+
+	description = {
+		random_valid = { desc = dw_bonded_direwolf_memory_desc }
+	}
+	second_perspective_description = {
+		random_valid = { desc = dw_bonded_direwolf_memory_desc_second_perspective }
+	}
+	third_perspective_description = {
+		random_valid = { desc = dw_bonded_direwolf_memory_desc_third_perspective }
+	}
+
+	participants = { dw_wolf }
+
+	duration = {
+		years = memory_default_duration
+	}
+}
+
+dw_lost_direwolf_memory = {
+	categories = { negative death }
+	icon = "death_negative.dds"
+
+	description = {
+		random_valid = { desc = dw_lost_direwolf_memory_desc }
+	}
+	second_perspective_description = {
+		random_valid = { desc = dw_lost_direwolf_memory_desc_second_perspective }
+	}
+	third_perspective_description = {
+		random_valid = { desc = dw_lost_direwolf_memory_desc_third_perspective }
+	}
+
+	participants = { dw_wolf }
+
+	duration = {
+		years = memory_default_duration
+	}
+}
+
+dw_direwolf_saved_me_memory = {
+	categories = { positive martial }
+	icon = "martial.dds"
+
+	description = {
+		random_valid = { desc = dw_direwolf_saved_me_memory_desc }
+	}
+	second_perspective_description = {
+		random_valid = { desc = dw_direwolf_saved_me_memory_desc_second_perspective }
+	}
+	third_perspective_description = {
+		random_valid = { desc = dw_direwolf_saved_me_memory_desc_third_perspective }
+	}
+
+	participants = { dw_wolf }
+
+	duration = {
+		years = memory_default_duration
+	}
+}
+
+dw_direwolf_bit_me_memory = {
+	categories = { negative health injured }
+	icon = "death_negative.dds"
+
+	description = {
+		random_valid = { desc = dw_direwolf_bit_me_memory_desc }
+	}
+	second_perspective_description = {
+		random_valid = { desc = dw_direwolf_bit_me_memory_desc_second_perspective }
+	}
+	third_perspective_description = {
+		random_valid = { desc = dw_direwolf_bit_me_memory_desc_third_perspective }
+	}
+
+	participants = { dw_wolf }
+
+	duration = {
+		years = memory_default_duration
+	}
+}

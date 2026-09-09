@@ -1,0 +1,72 @@
+﻿direwolf_pup_albino = {
+	entity = { node = "dragon_origin"  entity = "direwolf_pup_albino_entity" }
+}
+direwolf_pup_black = {
+	entity = { node = "dragon_origin"  entity = "direwolf_pup_black_entity" }
+}
+direwolf_pup_dark_grey = {
+	entity = { node = "dragon_origin"  entity = "direwolf_pup_dark_grey_entity" }
+}
+direwolf_pup_grey = {
+	entity = { node = "dragon_origin"  entity = "direwolf_pup_grey_entity" }
+}
+direwolf_pup_natural = {
+	entity = { node = "dragon_origin"  entity = "direwolf_pup_natural_entity" }
+}
+direwolf_pup_red = {
+	entity = { node = "dragon_origin"  entity = "direwolf_pup_red_entity" }
+}
+direwolf_juvenile_albino = {
+	entity = { node = "dragon_origin"  entity = "direwolf_juvenile_albino_entity" }
+}
+direwolf_juvenile_black = {
+	entity = { node = "dragon_origin"  entity = "direwolf_juvenile_black_entity" }
+}
+direwolf_juvenile_dark_grey = {
+	entity = { node = "dragon_origin"  entity = "direwolf_juvenile_dark_grey_entity" }
+}
+direwolf_juvenile_grey = {
+	entity = { node = "dragon_origin"  entity = "direwolf_juvenile_grey_entity" }
+}
+direwolf_juvenile_natural = {
+	entity = { node = "dragon_origin"  entity = "direwolf_juvenile_natural_entity" }
+}
+direwolf_juvenile_red = {
+	entity = { node = "dragon_origin"  entity = "direwolf_juvenile_red_entity" }
+}
+direwolf_subadult_albino = {
+	entity = { node = "dragon_origin"  entity = "direwolf_subadult_albino_entity" }
+}
+direwolf_subadult_black = {
+	entity = { node = "dragon_origin"  entity = "direwolf_subadult_black_entity" }
+}
+direwolf_subadult_dark_grey = {
+	entity = { node = "dragon_origin"  entity = "direwolf_subadult_dark_grey_entity" }
+}
+direwolf_subadult_grey = {
+	entity = { node = "dragon_origin"  entity = "direwolf_subadult_grey_entity" }
+}
+direwolf_subadult_natural = {
+	entity = { node = "dragon_origin"  entity = "direwolf_subadult_natural_entity" }
+}
+direwolf_subadult_red = {
+	entity = { node = "dragon_origin"  entity = "direwolf_subadult_red_entity" }
+}
+direwolf_adult_albino = {
+	entity = { node = "dragon_origin"  entity = "direwolf_adult_albino_entity" }
+}
+direwolf_adult_black = {
+	entity = { node = "dragon_origin"  entity = "direwolf_adult_black_entity" }
+}
+direwolf_adult_dark_grey = {
+	entity = { node = "dragon_origin"  entity = "direwolf_adult_dark_grey_entity" }
+}
+direwolf_adult_grey = {
+	entity = { node = "dragon_origin"  entity = "direwolf_adult_grey_entity" }
+}
+direwolf_adult_natural = {
+	entity = { node = "dragon_origin"  entity = "direwolf_adult_natural_entity" }
+}
+direwolf_adult_red = {
+	entity = { node = "dragon_origin"  entity = "direwolf_adult_red_entity" }
+}

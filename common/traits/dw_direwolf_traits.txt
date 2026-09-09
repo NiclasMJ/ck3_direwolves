@@ -1,0 +1,415 @@
+﻿direwolf = {
+	name = trait_direwolf
+	desc = trait_direwolf_desc
+
+	category = health
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	fertility = 0.0
+	can_have_children = no
+	flag = can_not_marry
+	inheritance_blocker = all
+	claim_inheritance_blocker = all
+
+	disables_combat_leadership = yes
+	attraction_opinion = -50
+
+	life_expectancy = -30
+}
+
+direwolf_companion = {
+	name = trait_direwolf_companion
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = this
+					exists = var:bonded_direwolf
+					var:bonded_direwolf ?= { is_alive = yes }
+				}
+				desc = trait_direwolf_companion_desc_bonded
+			}
+			desc = trait_direwolf_companion_desc
+		}
+	}
+
+	icon = "direwolf_bonded.dds"
+
+	category = fame
+
+	potential = { NOT = { has_trait = direwolf } }
+
+	shown_in_ruler_designer = yes
+	ruler_designer_cost = 100
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	track = {
+		20 = {
+			prowess = 1
+			dread_baseline_add = 3
+		}
+		50 = {
+			prowess = 2
+			dread_baseline_add = 6
+			monthly_prestige = 0.5
+			vassal_opinion = 5
+		}
+		90 = {
+			prowess = 4
+			dread_baseline_add = 12
+			monthly_prestige = 1.0
+			vassal_opinion = 10
+			monthly_prestige_gain_mult = 0.15
+		}
+	}
+}
+
+direwolf_wild = {
+	name = trait_direwolf_wild
+	desc = trait_direwolf_wild_desc
+	icon = "direwolf_wild.dds"
+
+	category = health
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	dread_baseline_add = 5
+	ai_boldness = 15
+}
+
+direwolf_bonded = {
+	name = trait_direwolf_bonded
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = this
+					exists = var:bonded_warg
+					var:bonded_warg ?= { is_alive = yes }
+				}
+				desc = trait_direwolf_bonded_desc_named
+			}
+			desc = trait_direwolf_bonded_desc
+		}
+	}
+
+	icon = "direwolf_bonded.dds"
+
+	category = health
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	health = 1
+	ai_boldness = -10
+}
+
+direwolf_pup = {
+	name = trait_direwolf_pup
+	desc = trait_direwolf_pup_desc
+
+	category = health
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	health = -1
+	prowess = -4
+	monthly_prestige = 0
+}
+
+direwolf_young_wolf = {
+	name = trait_direwolf_young_wolf
+	desc = trait_direwolf_young_wolf_desc
+
+	category = health
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	health = 0
+	prowess = 2
+}
+
+direwolf_adult = {
+	name = trait_direwolf_adult
+	desc = trait_direwolf_adult_desc
+
+	category = health
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	health = 1
+	prowess = 8
+	dread_baseline_add = 10
+}
+
+direwolf_alpha = {
+	name = trait_direwolf_alpha
+	desc = trait_direwolf_alpha_desc
+	icon = "direwolf_alpha.dds"
+
+	category = fame
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	prowess = 3
+	dread_baseline_add = 8
+	monthly_prestige = 0.25
+	ai_boldness = 20
+}
+
+direwolf_beta = {
+	name = trait_direwolf_beta
+	desc = trait_direwolf_beta_desc
+	icon = "direwolf_beta.dds"
+
+	category = fame
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	prowess = 1
+	dread_baseline_add = 3
+	ai_boldness = 10
+}
+
+direwolf_omega = {
+	name = trait_direwolf_omega
+	desc = trait_direwolf_omega_desc
+	icon = "direwolf_omega.dds"
+
+	category = fame
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	prowess = -2
+	ai_boldness = -20
+	ai_compassion = 20
+}
+
+direwolf_outcast = {
+	name = trait_direwolf_outcast
+	desc = trait_direwolf_outcast_desc
+	icon = "direwolf_outcast.dds"
+
+	category = fame
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	prowess = 2
+	dread_baseline_add = 5
+	ai_boldness = 15
+	ai_sociability = -40
+}
+
+direwolf_savage = {
+	name = trait_direwolf_savage
+	desc = trait_direwolf_savage_desc
+
+	category = personality
+
+	icon = "dragon_bloodthirsty.dds"
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	prowess = 4
+	dread_baseline_add = 15
+	monthly_dynasty_prestige = 0
+	ai_vengefulness = 40
+	ai_boldness = 30
+	ai_compassion = -30
+}
+
+direwolf_protective = {
+	name = trait_direwolf_protective
+	desc = trait_direwolf_protective_desc
+	
+	icon = "dragon_restrained.dds"
+
+	category = personality
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	prowess = 2
+	ai_boldness = 20
+	ai_compassion = 20
+	ai_vengefulness = 10
+}
+
+direwolf_docile = {
+	name = trait_direwolf_docile
+	desc = trait_direwolf_docile_desc
+
+	category = personality
+
+	icon = "dragon_friendly.dds"
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	prowess = -1
+	ai_compassion = 40
+	ai_boldness = -20
+	ai_vengefulness = -30
+}
+
+direwolf_skittish = {
+	name = trait_direwolf_skittish
+	desc = trait_direwolf_skittish_desc
+
+	category = personality
+
+	icon = "dragon_skittish.dds"
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	prowess = -2
+	ai_boldness = -40
+	ai_rationality = -20
+}
+
+direwolf_runt = {
+	name = trait_direwolf_runt
+	desc = trait_direwolf_runt_desc
+
+	category = health
+	physical = yes
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	health = -1
+	prowess = -3
+}
+
+direwolf_massive = {
+	name = trait_direwolf_massive
+	desc = trait_direwolf_massive_desc
+
+	category = health
+	physical = yes
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	health = 1
+	prowess = 5
+	dread_baseline_add = 10
+}
+
+direwolf_albino = {
+	name = trait_direwolf_albino
+	desc = trait_direwolf_albino_desc
+
+	category = health
+	physical = yes
+
+	icon = "albino.dds"
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	dread_baseline_add = 5
+}
+
+direwolf_scarred = {
+	name = trait_direwolf_scarred
+	desc = trait_direwolf_scarred_desc
+
+	category = health
+	physical = yes
+
+	icon = "scarred.dds"
+
+	potential = { has_trait = direwolf }
+
+	shown_in_ruler_designer = no
+	random_creation = 0.0
+	random_creation_weight = 0
+	birth = 0
+
+	health = -1
+	prowess = 3
+	dread_baseline_add = 10
+}

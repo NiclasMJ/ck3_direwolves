@@ -1,0 +1,10 @@
+﻿
+#### Mood tracks of the base game.
+
+category = {
+	id = "dw_soundtracks"
+	name = "dw_soundtrack_list"
+	tracks = {
+		"the_pack"
+	}
+}

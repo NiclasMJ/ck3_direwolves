@@ -1,0 +1,27 @@
+﻿pattern_textures = {
+	name = "direwolf_flat"
+	colormask  = "gfx/portraits/accessory_variations/textures/direwolf_flat_colormask.dds"
+	normal     = "gfx/portraits/accessory_variations/textures/direwolf_flat_normal.dds"
+	properties = "gfx/portraits/accessory_variations/textures/direwolf_flat_properties.dds"
+}
+
+pattern_layout = {
+	name = "direwolf_flat_layout"
+	scale = 1.0
+	rotation = 0.0
+	offset = { x = 0 y = 0 }
+}
+
+variation = {
+	name = "direwolf_basic"
+
+	pattern = {
+		weight = 1
+		r = { textures = "direwolf_flat" layout = "direwolf_flat_layout" }
+		g = { textures = "direwolf_flat" layout = "direwolf_flat_layout" }
+		b = { textures = "direwolf_flat" layout = "direwolf_flat_layout" }
+		a = { textures = "direwolf_flat" layout = "direwolf_flat_layout" }
+	}
+
+	color_palette = { weight = 1  texture = "gfx/portraits/accessory_variations/textures/color_palette_direwolf_01.dds" }
+}

@@ -1,0 +1,277 @@
+﻿dw_bond_with_direwolf_interaction = {
+	icon = icon_scheme_friendly
+	desc = dw_bond_with_direwolf_interaction_desc
+
+	category = interaction_category_friendly
+	interface_priority = 900
+	ignores_pending_interaction_block = yes
+	auto_accept = yes
+	use_diplomatic_range = no
+
+	cooldown_against_recipient = { years = 5 }
+
+	is_shown = {
+		scope:actor = {
+			is_human = yes
+			NOT = { has_trait = direwolf_companion }
+			dw_can_bond_with_direwolf_trigger = yes
+		}
+		scope:recipient = {
+			has_trait = direwolf
+		}
+		scope:actor = {
+			dw_direwolf_is_unbonded_trigger = { WOLF = scope:recipient }
+			dw_direwolf_is_at_my_location_trigger = { WOLF = scope:recipient }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_imprisoned = no
+			is_alive = yes
+			custom_tooltip = {
+				text = dw_bond_with_direwolf_same_location_tt
+				dw_direwolf_is_at_my_location_trigger = { WOLF = scope:recipient }
+			}
+		}
+		scope:recipient = {
+			is_alive = yes
+		}
+	}
+
+	on_accept = {
+		scope:recipient = { save_scope_as = the_wolf }
+		scope:actor = { trigger_event = { id = dw_direwolf.1000 } }
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+dw_gift_direwolf_pup_interaction = {
+	icon = icon_scheme_friendly
+	desc = dw_gift_direwolf_pup_interaction_desc
+
+	category = interaction_category_friendly
+	interface_priority = 890
+	ignores_pending_interaction_block = yes
+	auto_accept = yes
+
+	cooldown_against_recipient = { years = 2 }
+
+	is_shown = {
+		scope:actor = {
+			is_human = yes
+			any_courtier = { dw_direwolf_is_giftable_pup_trigger = yes }
+		}
+		scope:recipient = {
+			NOT = { has_trait = direwolf_companion }
+			dw_can_bond_with_direwolf_trigger = yes
+		}
+		NOT = { scope:actor = scope:recipient }
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_imprisoned = no
+			is_alive = yes
+		}
+		scope:recipient = {
+			is_alive = yes
+		}
+	}
+
+	on_accept = {
+		scope:recipient = { save_scope_as = dw_gift_target }
+		scope:actor = { trigger_event = dw_direwolf.0120 }
+	}
+
+	ai_will_do = { base = 0 }
+}
+
+dw_rename_direwolf_interaction = {
+	icon = icon_scheme_friendly
+	desc = dw_rename_direwolf_interaction_desc
+
+	category = interaction_category_friendly
+	interface_priority = 100
+	ignores_pending_interaction_block = yes
+	auto_accept = yes
+
+	is_shown = {
+		scope:actor = {
+			is_human = yes
+			is_ai = no
+		}
+		scope:recipient = {
+			has_trait = direwolf
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			dw_allow_naming_of_direwolf_trigger = { WOLF = scope:recipient }
+		}
+	}
+
+	on_accept = {
+		scope:actor = {
+			scope:recipient = { save_scope_as = child }
+			trigger_event = dw_direwolf.0100
+		}
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+dw_execute_by_direwolf_interaction = {
+	icon = icon_dead
+	category = interaction_category_prison
+
+	desc = dw_execute_by_direwolf_interaction_desc
+
+	interface_priority = 80
+	ignores_pending_interaction_block = yes
+	auto_accept = yes
+
+	is_shown = {
+		scope:actor = {
+			is_human = yes
+			has_trait = direwolf_companion
+		}
+		scope:recipient = {
+			is_human = yes
+			is_imprisoned_by = scope:actor
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_imprisoned = no
+			custom_tooltip = {
+				text = dw_direwolf_must_be_ferocious_tt
+				dw_has_ferocious_direwolf_trigger = yes
+			}
+		}
+		scope:recipient = {
+			is_alive = yes
+		}
+	}
+
+	on_accept = {
+		scope:actor = {
+			save_scope_as = executioner
+			var:bonded_direwolf ?= { save_scope_as = the_wolf }
+
+			add_dread = 25
+
+			if = {
+				limit = { has_trait = compassionate }
+				add_stress = major_stress_gain
+			}
+			else = {
+				stress_impact = {
+					base = medium_stress_loss
+					sadistic = major_stress_loss
+				}
+			}
+
+			add_trait_xp = { trait = direwolf_companion  track = direwolf_companion  value = 5 }
+		}
+
+		scope:recipient = {
+			if = {
+				limit = { exists = scope:the_wolf }
+				death = {
+					death_reason = death_direwolf
+					killer = scope:the_wolf
+				}
+			}
+			else = {
+				death = {
+					death_reason = death_direwolf
+					killer = scope:executioner
+				}
+			}
+		}
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+dw_debug_spawn_feral_pack_interaction = {
+	icon = icon_dead
+	category = interaction_category_agot_debug
+
+	desc = dw_debug_spawn_feral_pack_interaction_desc
+
+	interface_priority = 1
+	ignores_pending_interaction_block = yes
+	auto_accept = yes
+
+	is_shown = {
+		debug_only = yes
+		scope:actor = { is_ai = no }
+		scope:recipient = { exists = location }
+	}
+
+	on_accept = {
+		scope:recipient = { dw_direwolf_debug_spawn_feral_pack_effect = yes }
+	}
+
+	ai_will_do = { base = 0 }
+}
+
+dw_debug_show_wolf_blood_interaction = {
+	icon = icon_intrigue
+	category = interaction_category_agot_debug
+
+	desc = dw_debug_show_wolf_blood_interaction_desc
+
+	interface_priority = 1
+	ignores_pending_interaction_block = yes
+	auto_accept = yes
+	use_diplomatic_range = no
+
+	is_shown = {
+		debug_only = yes
+		scope:actor = { is_ai = no }
+	}
+
+	on_accept = {
+		scope:recipient = {
+			custom_tooltip = dw_debug_wolf_blood_value_tt
+		}
+	}
+
+	ai_will_do = { base = 0 }
+}
+
+dw_debug_show_all_wolf_blooded_interaction = {
+	icon = icon_intrigue
+	category = interaction_category_agot_debug
+
+	desc = dw_debug_show_all_wolf_blooded_interaction_desc
+
+	interface_priority = 1
+	ignores_pending_interaction_block = yes
+	auto_accept = yes
+	use_diplomatic_range = no
+
+	is_shown = {
+		debug_only = yes
+		scope:actor = { is_ai = no }
+		scope:actor = scope:recipient
+	}
+
+	on_accept = {
+		scope:actor = { trigger_event = dw_direwolf.9000 }
+	}
+
+	ai_will_do = { base = 0 }
+}

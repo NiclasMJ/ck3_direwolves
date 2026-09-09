@@ -1,0 +1,151 @@
+﻿dw_direwolf_mother = {
+	name = "Winter"
+	female = yes
+
+	religion = old_gods_wnw
+	culture = wolf_culture
+
+	trait = direwolf
+	trait = direwolf_massive
+	trait = direwolf_protective
+
+	disallow_random_traits = yes
+
+	8291.1.1 = {
+		birth = yes
+		make_unprunable = yes
+	}
+	8296.1.1 = {
+		death = { death_reason = death_direwolf_stag }
+	}
+}
+
+dw_direwolf_greywind = {
+	name = "Greywind"
+
+	mother = dw_direwolf_mother
+
+	religion = old_gods_wnw
+	culture = wolf_culture
+
+	trait = direwolf
+	trait = direwolf_savage
+	trait = direwolf_massive
+
+	disallow_random_traits = yes
+
+	8296.1.1 = {
+		birth = yes
+		make_unprunable = yes
+	}
+}
+
+dw_direwolf_ghost = {
+	name = "Ghost"
+
+	mother = dw_direwolf_mother
+
+	religion = old_gods_wnw
+	culture = wolf_culture
+
+	trait = direwolf
+	trait = direwolf_protective
+	trait = direwolf_runt
+	trait = direwolf_albino
+
+	disallow_random_traits = yes
+
+	8296.1.1 = {
+		birth = yes
+		make_unprunable = yes
+	}
+}
+
+dw_direwolf_lady = {
+	name = "Lady"
+	female = yes
+
+	mother = dw_direwolf_mother
+
+	religion = old_gods_wnw
+	culture = wolf_culture
+
+	trait = direwolf
+	trait = direwolf_docile
+
+	disallow_random_traits = yes
+
+	8296.1.1 = {
+		birth = yes
+		make_unprunable = yes
+	}
+	8298.6.6 = {
+		death = { death_reason = death_execution }
+		killer = Stark_3
+	}
+}
+
+dw_direwolf_nymeria = {
+	name = "Nymeria"
+	female = yes
+
+	mother = dw_direwolf_mother
+
+	religion = old_gods_wnw
+	culture = wolf_culture
+
+	trait = direwolf
+	trait = direwolf_savage
+	trait = direwolf_massive
+
+	disallow_random_traits = yes
+
+	8296.1.1 = {
+		birth = yes
+		make_unprunable = yes
+	}
+	8298.5.1 = {
+		# set location riverlands TO BE ADDED
+	}
+	8299.1.1 = {
+		add_trait = direwolf_adult
+	}
+}
+
+dw_direwolf_summer = {
+	name = "Summer"
+
+	mother = dw_direwolf_mother
+
+	religion = old_gods_wnw
+	culture = wolf_culture
+
+	trait = direwolf
+	trait = direwolf_protective
+
+	disallow_random_traits = yes
+
+	8296.1.1 = {
+		birth = yes
+		make_unprunable = yes
+	}
+}
+
+dw_direwolf_shaggydog = {
+	name = "Shaggydog"
+
+	mother = dw_direwolf_mother
+
+	religion = old_gods_wnw
+	culture = wolf_culture
+
+	trait = direwolf
+	trait = direwolf_savage
+
+	disallow_random_traits = yes
+
+	8296.1.1 = {
+		birth = yes
+		make_unprunable = yes
+	}
+}

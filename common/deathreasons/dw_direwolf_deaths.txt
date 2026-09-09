@@ -1,0 +1,12 @@
+﻿death_direwolf = {
+	icon = "death_murder.dds"
+}
+
+death_direwolf_mauled = {
+	icon = "death_murder.dds"
+}
+
+death_direwolf_stag = {
+	public_knowledge = yes
+	icon = "death_murder.dds"
+}

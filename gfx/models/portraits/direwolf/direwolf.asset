@@ -1,0 +1,682 @@
+﻿skeletal_animation_set = {
+	name = "direwolf_animations"
+	reference_skeleton = "direwolf_mesh_adult_natural"
+
+	animation = { id = "direwolf_idle"		type = "direwolf_idle.anim" }
+	animation = { id = "direwolf_howl"		type = "direwolf_howl.anim" }
+	animation = { id = "direwolf_walk"		type = "direwolf_walk.anim" }
+}
+
+pdxmesh = {
+	name = "direwolf_mesh_pup_albino"
+	file = "direwolf.mesh"
+	scale = 0.60
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_albino_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_pup_black"
+	file = "direwolf.mesh"
+	scale = 0.60
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_black_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_pup_dark_grey"
+	file = "direwolf.mesh"
+	scale = 0.60
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_dark_grey_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_pup_grey"
+	file = "direwolf.mesh"
+	scale = 0.60
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_grey_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_pup_natural"
+	file = "direwolf.mesh"
+	scale = 0.60
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_natural_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_pup_red"
+	file = "direwolf.mesh"
+	scale = 0.60
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_red_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_juvenile_albino"
+	file = "direwolf.mesh"
+	scale = 0.90
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_albino_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_juvenile_black"
+	file = "direwolf.mesh"
+	scale = 0.90
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_black_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_juvenile_dark_grey"
+	file = "direwolf.mesh"
+	scale = 0.90
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_dark_grey_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_juvenile_grey"
+	file = "direwolf.mesh"
+	scale = 0.90
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_grey_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_juvenile_natural"
+	file = "direwolf.mesh"
+	scale = 0.90
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_natural_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_juvenile_red"
+	file = "direwolf.mesh"
+	scale = 0.90
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_red_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_subadult_albino"
+	file = "direwolf.mesh"
+	scale = 1.20
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_albino_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_subadult_black"
+	file = "direwolf.mesh"
+	scale = 1.20
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_black_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_subadult_dark_grey"
+	file = "direwolf.mesh"
+	scale = 1.20
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_dark_grey_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_subadult_grey"
+	file = "direwolf.mesh"
+	scale = 1.20
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_grey_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_subadult_natural"
+	file = "direwolf.mesh"
+	scale = 1.20
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_natural_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_subadult_red"
+	file = "direwolf.mesh"
+	scale = 1.20
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_red_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_adult_albino"
+	file = "direwolf.mesh"
+	scale = 1.35
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_albino_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_adult_black"
+	file = "direwolf.mesh"
+	scale = 1.35
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_black_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_adult_dark_grey"
+	file = "direwolf.mesh"
+	scale = 1.35
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_dark_grey_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_adult_grey"
+	file = "direwolf.mesh"
+	scale = 1.35
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_grey_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_adult_natural"
+	file = "direwolf.mesh"
+	scale = 1.35
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_natural_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+pdxmesh = {
+	name = "direwolf_mesh_adult_red"
+	file = "direwolf.mesh"
+	scale = 1.35
+
+	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+
+	meshsettings = {
+		name = "direwolf_body"
+		index = 0
+		texture_diffuse = "direwolf_body_red_diffuse.dds"
+		texture_normal = "direwolf_body_normal.dds"
+		texture_specular = "direwolf_body_properties.dds"
+		shader = "portrait_attachment"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+
+entity = {
+	name = "direwolf_pup_albino_entity"
+	pdxmesh = "direwolf_mesh_pup_albino"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.6 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.2 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.2 }
+}
+entity = {
+	name = "direwolf_pup_black_entity"
+	pdxmesh = "direwolf_mesh_pup_black"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.6 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.2 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.2 }
+}
+entity = {
+	name = "direwolf_pup_dark_grey_entity"
+	pdxmesh = "direwolf_mesh_pup_dark_grey"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.6 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.2 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.2 }
+}
+entity = {
+	name = "direwolf_pup_grey_entity"
+	pdxmesh = "direwolf_mesh_pup_grey"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.6 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.2 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.2 }
+}
+entity = {
+	name = "direwolf_pup_natural_entity"
+	pdxmesh = "direwolf_mesh_pup_natural"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.6 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.2 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.2 }
+}
+entity = {
+	name = "direwolf_pup_red_entity"
+	pdxmesh = "direwolf_mesh_pup_red"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.6 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.2 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.2 }
+}
+entity = {
+	name = "direwolf_juvenile_albino_entity"
+	pdxmesh = "direwolf_mesh_juvenile_albino"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.55 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.1 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.1 }
+}
+entity = {
+	name = "direwolf_juvenile_black_entity"
+	pdxmesh = "direwolf_mesh_juvenile_black"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.55 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.1 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.1 }
+}
+entity = {
+	name = "direwolf_juvenile_dark_grey_entity"
+	pdxmesh = "direwolf_mesh_juvenile_dark_grey"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.55 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.1 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.1 }
+}
+entity = {
+	name = "direwolf_juvenile_grey_entity"
+	pdxmesh = "direwolf_mesh_juvenile_grey"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.55 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.1 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.1 }
+}
+entity = {
+	name = "direwolf_juvenile_natural_entity"
+	pdxmesh = "direwolf_mesh_juvenile_natural"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.55 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.1 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.1 }
+}
+entity = {
+	name = "direwolf_juvenile_red_entity"
+	pdxmesh = "direwolf_mesh_juvenile_red"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.55 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.1 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.1 }
+}
+entity = {
+	name = "direwolf_subadult_albino_entity"
+	pdxmesh = "direwolf_mesh_subadult_albino"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.5 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}
+entity = {
+	name = "direwolf_subadult_black_entity"
+	pdxmesh = "direwolf_mesh_subadult_black"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.5 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}
+entity = {
+	name = "direwolf_subadult_dark_grey_entity"
+	pdxmesh = "direwolf_mesh_subadult_dark_grey"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.5 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}
+entity = {
+	name = "direwolf_subadult_grey_entity"
+	pdxmesh = "direwolf_mesh_subadult_grey"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.5 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}
+entity = {
+	name = "direwolf_subadult_natural_entity"
+	pdxmesh = "direwolf_mesh_subadult_natural"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.5 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}
+entity = {
+	name = "direwolf_subadult_red_entity"
+	pdxmesh = "direwolf_mesh_subadult_red"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.5 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}
+entity = {
+	name = "direwolf_adult_albino_entity"
+	pdxmesh = "direwolf_mesh_adult_albino"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.45 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}
+entity = {
+	name = "direwolf_adult_black_entity"
+	pdxmesh = "direwolf_mesh_adult_black"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.45 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}
+entity = {
+	name = "direwolf_adult_dark_grey_entity"
+	pdxmesh = "direwolf_mesh_adult_dark_grey"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.45 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}
+entity = {
+	name = "direwolf_adult_grey_entity"
+	pdxmesh = "direwolf_mesh_adult_grey"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.45 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}
+entity = {
+	name = "direwolf_adult_natural_entity"
+	pdxmesh = "direwolf_mesh_adult_natural"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.45 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}
+entity = {
+	name = "direwolf_adult_red_entity"
+	pdxmesh = "direwolf_mesh_adult_red"
+
+	get_state_from_parent = yes
+	default_state = "direwolf_idle"
+
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	looping = yes	animation_speed = 0.45 }
+	state = { name = "direwolf_howl"	animation = "direwolf_howl"	looping = yes	animation_speed = 1.0 }
+	state = { name = "direwolf_walk"	animation = "direwolf_walk"	looping = yes	animation_speed = 1.0 }
+}

@@ -1,0 +1,84 @@
+﻿dw_direwolf_pup_template = {
+	age = 0
+	gender_female_chance = 50
+	dynasty = none
+
+	trait = direwolf
+	trait = direwolf_pup
+
+	culture = culture:wolf_culture
+	faith = faith:old_gods_wnw
+
+	after_creation = {
+		dw_direwolf_roll_personality_effect = yes
+	}
+}
+
+dw_direwolf_adult_template = {
+	age = 4
+	gender_female_chance = 50
+	dynasty = none
+
+	trait = direwolf
+	trait = direwolf_adult
+
+	culture = culture:wolf_culture
+	faith = faith:old_gods_wnw
+
+	after_creation = {
+		dw_direwolf_roll_personality_effect = yes
+	}
+}
+
+dw_direwolf_canon_template = {
+	dynasty = none
+
+	trait = direwolf
+
+	culture = culture:wolf_culture
+	faith = faith:old_gods_wnw
+}
+
+dw_direwolf_litter_pup_template = {
+	age = 0
+	gender_female_chance = 50
+	dynasty = none
+
+	culture = culture:wolf_culture
+	faith = faith:old_gods_wnw
+
+	trait = direwolf
+	trait = direwolf_pup
+}
+
+dw_direwolf_adult_male_template = {
+	age = 4
+	gender_female_chance = 0
+	dynasty = none
+
+	trait = direwolf
+	trait = direwolf_adult
+
+	culture = culture:wolf_culture
+	faith = faith:old_gods_wnw
+
+	after_creation = {
+		dw_direwolf_roll_personality_effect = yes
+	}
+}
+
+dw_direwolf_adult_female_template = {
+	age = 4
+	gender_female_chance = 100
+	dynasty = none
+
+	trait = direwolf
+	trait = direwolf_adult
+
+	culture = culture:wolf_culture
+	faith = faith:old_gods_wnw
+
+	after_creation = {
+		dw_direwolf_roll_personality_effect = yes
+	}
+}

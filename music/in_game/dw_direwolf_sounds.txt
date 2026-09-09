@@ -1,0 +1,17 @@
+﻿dw_wolf_howl_single = {
+	music = "file:/music/dw_soundbites/single_wolf_howling.mp3"
+	pause_factor = 3
+	can_be_interrupted = no
+}
+
+dw_wolf_howl_pack = {
+	music = "file:/music/dw_soundbites/pack_howling.mp3"
+	pause_factor = 5
+	can_be_interrupted = no
+}
+
+dw_wolf_growl = {
+	music = "file:/music/dw_soundbites/wolf_growling.mp3"
+	pause_factor = 2
+	can_be_interrupted = no
+}

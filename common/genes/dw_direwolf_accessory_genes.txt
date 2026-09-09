@@ -1,0 +1,112 @@
+﻿# A wolf stores ONE value for gene_direwolf and keeps it for life; the growth
+# portrait modifier only swaps which TEMPLATE that value is read against. The
+# engine maps the value onto a template's list by cumulative weight in
+# declaration order, so the four non-albino stage lists must carry the SAME
+# coats in the SAME order with the SAME weights - otherwise one value lands on
+# different coats at different ages and a wolf changes colour as it grows.
+# (It used to: pup was 1/1/5/6/3, juvenile and subadult 1/1/1/1/1, adult
+# 1/1/5/2/5, so e.g. 0.30 read grey -> dark grey -> dark grey -> grey.)
+# Weights are the pup list, which is the documented intent: grey and natural
+# favoured, black rare. validate.py asserts the four lists stay in lockstep.
+accessory_genes = {
+
+	gene_direwolf = {
+
+		human_body = {
+			index = 0
+			male = { 1 = empty }
+			female = male
+			boy = male
+			girl = female
+		}
+
+		direwolf_pup = {
+			index = 1
+			male = {
+				1 = direwolf_pup_black
+				1 = direwolf_pup_dark_grey
+				5 = direwolf_pup_grey
+				6 = direwolf_pup_natural
+				3 = direwolf_pup_red
+			}
+			female = male
+			boy = male
+			girl = female
+		}
+		direwolf_pup_albino = {
+			index = 2
+			male = {
+				1 = direwolf_pup_albino
+			}
+			female = male
+			boy = male
+			girl = female
+		}
+		direwolf_juvenile = {
+			index = 3
+			male = {
+				1 = direwolf_juvenile_black
+				1 = direwolf_juvenile_dark_grey
+				5 = direwolf_juvenile_grey
+				6 = direwolf_juvenile_natural
+				3 = direwolf_juvenile_red
+			}
+			female = male
+			boy = male
+			girl = female
+		}
+		direwolf_juvenile_albino = {
+			index = 4
+			male = {
+				1 = direwolf_juvenile_albino
+			}
+			female = male
+			boy = male
+			girl = female
+		}
+		direwolf_subadult = {
+			index = 5
+			male = {
+				1 = direwolf_subadult_black
+				1 = direwolf_subadult_dark_grey
+				5 = direwolf_subadult_grey
+				6 = direwolf_subadult_natural
+				3 = direwolf_subadult_red
+			}
+			female = male
+			boy = male
+			girl = female
+		}
+		direwolf_subadult_albino = {
+			index = 6
+			male = {
+				1 = direwolf_subadult_albino
+			}
+			female = male
+			boy = male
+			girl = female
+		}
+		direwolf_adult = {
+			index = 7
+			male = {
+				1 = direwolf_adult_black
+				1 = direwolf_adult_dark_grey
+				5 = direwolf_adult_grey
+				6 = direwolf_adult_natural
+				3 = direwolf_adult_red
+			}
+			female = male
+			boy = male
+			girl = female
+		}
+		direwolf_adult_albino = {
+			index = 8
+			male = {
+				1 = direwolf_adult_albino
+			}
+			female = male
+			boy = male
+			girl = female
+		}
+	}
+}

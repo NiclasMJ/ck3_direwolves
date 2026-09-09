@@ -1,0 +1,59 @@
+﻿direwolf_idle = {
+    male = {
+        default = { head = "idle"  torso = "idle" }
+
+        wolf = {
+            animation = { head = "idle"  torso = "direwolf_idle" }
+            weight = {
+                base = 0
+                modifier = {
+                    add = 100
+                    portrait_has_trait_trigger = { TRAIT = direwolf }
+                }
+            }
+        }
+    }
+    boy = male
+    female = male
+    girl = boy
+}
+
+direwolf_howl = {
+    male = {
+        default = { head = "idle"  torso = "idle" }
+
+        wolf = {
+            animation = { head = "idle"  torso = "direwolf_howl" }
+            weight = {
+                base = 0
+                modifier = {
+                    add = 100
+                    portrait_has_trait_trigger = { TRAIT = direwolf }
+                }
+            }
+        }
+    }
+    boy = male
+    female = male
+    girl = boy
+}
+
+direwolf_walk = {
+    male = {
+        default = { head = "idle"  torso = "idle" }
+
+        wolf = {
+            animation = { head = "idle"  torso = "direwolf_walk" }
+            weight = {
+                base = 0
+                modifier = {
+                    add = 100
+                    portrait_has_trait_trigger = { TRAIT = direwolf }
+                }
+            }
+        }
+    }
+    boy = male
+    female = male
+    girl = boy
+}

@@ -1,0 +1,63 @@
+﻿dw_direwolf_world_count = {
+	default = dw_wolves_36
+
+	categories = {
+		dw
+	}
+
+	dw_wolves_24 = {}
+	dw_wolves_36 = {}
+	dw_wolves_48 = {}
+	dw_wolves_60 = {}
+	dw_wolves_endless = {}
+}
+
+dw_pack_rank_system = {
+	default = dw_pack_rank_system_active
+
+	categories = {
+		dw
+	}
+
+	dw_pack_rank_system_active = {}
+	dw_pack_rank_system_inactive = {}
+
+}
+
+dw_direwolf_taming_access = {
+	default = dw_taming_stark_only
+
+	categories = {
+		dw
+	}
+
+	dw_taming_stark_only = {}
+	dw_taming_northmen = {}
+	dw_taming_everyone = {}
+}
+dw_direwolf_beyond_the_wall_access = {
+	default = dw_btw_limited
+
+	categories = {
+		dw
+	}
+
+	dw_btw_limited = {}
+	dw_btw_full_access = {}
+	dw_btw_never = {}
+}
+
+
+dw_direwolf_starting_packs = {
+	default = dw_starting_packs_3
+
+	categories = {
+		dw
+	}
+
+	dw_starting_packs_1 = {}
+	dw_starting_packs_2 = {}
+	dw_starting_packs_3 = {}
+	dw_starting_packs_4 = {}
+	dw_starting_packs_5 = {}
+}

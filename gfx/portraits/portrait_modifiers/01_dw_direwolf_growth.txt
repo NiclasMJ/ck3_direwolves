@@ -1,0 +1,142 @@
+﻿direwolf_growth = {
+	usage = game
+	selection_behavior = max
+	priority = 11
+
+	direwolf_stage_pup = {
+		dna_modifiers = {
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_pup  range = { 0 1 } }
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				exists = root
+				portrait_has_trait_trigger = { TRAIT = direwolf }
+				age < 1
+				NOT = { portrait_has_trait_trigger = { TRAIT = direwolf_albino } }
+			}
+		}
+	}
+	direwolf_stage_pup_albino = {
+		dna_modifiers = {
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_pup_albino  value = 0.5 }
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				exists = root
+				portrait_has_trait_trigger = { TRAIT = direwolf }
+				age < 1
+				portrait_has_trait_trigger = { TRAIT = direwolf_albino }
+			}
+		}
+	}
+	direwolf_stage_juvenile = {
+		dna_modifiers = {
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_juvenile  range = { 0 1 } }
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				exists = root
+				portrait_has_trait_trigger = { TRAIT = direwolf }
+				age >= 1
+				age < 2
+				NOT = { portrait_has_trait_trigger = { TRAIT = direwolf_albino } }
+			}
+		}
+	}
+	direwolf_stage_juvenile_albino = {
+		dna_modifiers = {
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_juvenile_albino  value = 0.5 }
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				exists = root
+				portrait_has_trait_trigger = { TRAIT = direwolf }
+				age >= 1
+				age < 2
+				portrait_has_trait_trigger = { TRAIT = direwolf_albino }
+			}
+		}
+	}
+	direwolf_stage_subadult = {
+		dna_modifiers = {
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_subadult  range = { 0 1 } }
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				exists = root
+				portrait_has_trait_trigger = { TRAIT = direwolf }
+				age >= 2
+				age < 3
+				NOT = { portrait_has_trait_trigger = { TRAIT = direwolf_albino } }
+			}
+		}
+	}
+	direwolf_stage_subadult_albino = {
+		dna_modifiers = {
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_subadult_albino  value = 0.5 }
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				exists = root
+				portrait_has_trait_trigger = { TRAIT = direwolf }
+				age >= 2
+				age < 3
+				portrait_has_trait_trigger = { TRAIT = direwolf_albino }
+			}
+		}
+	}
+	direwolf_stage_adult = {
+		dna_modifiers = {
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_adult  range = { 0 1 } }
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				exists = root
+				portrait_has_trait_trigger = { TRAIT = direwolf }
+				age >= 3
+				NOT = { portrait_has_trait_trigger = { TRAIT = direwolf_albino } }
+			}
+		}
+	}
+	direwolf_stage_adult_albino = {
+		dna_modifiers = {
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_adult_albino  value = 0.5 }
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				exists = root
+				portrait_has_trait_trigger = { TRAIT = direwolf }
+				age >= 3
+				portrait_has_trait_trigger = { TRAIT = direwolf_albino }
+			}
+		}
+	}
+
+	not_a_direwolf = {
+		dna_modifiers = {}
+		weight = {
+			base = 1
+			modifier = {
+				factor = 0
+				exists = root
+				portrait_has_trait_trigger = { TRAIT = direwolf }
+			}
+		}
+	}
+}

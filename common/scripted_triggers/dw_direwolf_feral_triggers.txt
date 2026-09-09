@@ -1,0 +1,60 @@
+﻿dw_direwolf_is_feral_trigger = {
+	has_character_flag = dw_feral
+}
+
+dw_direwolf_can_go_feral_trigger = {
+	has_trait = direwolf
+	is_alive = yes
+	dw_direwolf_is_grown_trigger = yes
+
+	trigger_if = {
+		limit = { dw_pack_ranks_active_trigger = yes }
+		has_trait = direwolf_outcast
+	}
+	trigger_else = {
+		dw_direwolf_is_surplus_trigger = yes
+	}
+
+	NOT = { has_trait = direwolf_bonded }
+	NOT = { any_relation = { type = direwolf_companion } }
+	NOT = { has_character_flag = dw_feral }
+	exists = liege
+}
+
+dw_direwolf_county_has_feral_pack_trigger = {
+	has_county_modifier = dw_feral_pack_modifier
+}
+
+dw_direwolf_world_under_cap_trigger = {
+	trigger_if = {
+		limit = { has_game_rule = dw_wolves_endless }
+		always = yes
+	}
+	trigger_else_if = {
+		limit = { has_game_rule = dw_wolves_24 }
+		NOT = { any_in_global_list = { variable = dw_all_wolves  count >= 24 } }
+	}
+	trigger_else_if = {
+		limit = { has_game_rule = dw_wolves_36 }
+		NOT = { any_in_global_list = { variable = dw_all_wolves  count >= 36 } }
+	}
+	trigger_else_if = {
+		limit = { has_game_rule = dw_wolves_48 }
+		NOT = { any_in_global_list = { variable = dw_all_wolves  count >= 48 } }
+	}
+	trigger_else = {
+		NOT = { any_in_global_list = { variable = dw_all_wolves  count >= 60 } }
+	}
+}
+
+dw_direwolf_is_northern_feral_trigger = {
+	has_character_flag = dw_feral
+	is_alive = yes
+	exists = location
+	location = {
+		OR = {
+			geographical_region = world_westeros_beyond_the_wall
+			geographical_region = world_westeros_the_north
+		}
+	}
+}

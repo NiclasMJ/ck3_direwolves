@@ -1,0 +1,18 @@
+﻿direwolf = {
+	direwolf = {
+		traits = { direwolf }
+
+		dna_modifiers = {
+			human = {
+
+				accessory = { mode = modify  gene = eye_accessory        template = no_eyes       value = 0.5 }
+				accessory = { mode = modify  gene = eyelashes_accessory  template = no_eyelashes  value = 0.5 }
+				accessory = { mode = modify  gene = teeth_accessory      template = no_teeth      value = 0.5 }
+
+				morph = { mode = replace  gene = gene_no_portrait  value = 1.0  template = no_portrait }
+
+				morph = { mode = replace  gene = gene_age  value = 1.0  template = disabled_aging }
+			}
+		}
+	}
+}

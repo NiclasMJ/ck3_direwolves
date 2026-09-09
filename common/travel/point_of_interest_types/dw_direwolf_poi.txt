@@ -1,0 +1,13 @@
+﻿dw_poi_feral_pack = {
+	build_province_list = {
+		every_in_global_list = {
+			variable = dw_feral_wolves
+			limit = {
+				is_alive = yes
+				has_character_flag = dw_feral_leader
+			}
+			location = { add_to_list = provinces }
+		}
+	}
+	on_visit = {}
+}

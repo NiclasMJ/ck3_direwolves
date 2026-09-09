@@ -1,0 +1,41 @@
+﻿macro = {
+	description = "Requires a direwolf character"
+	definition = "IsCharacterDirewolf"
+	replace_with = "Character.HasTrait(GetTrait('direwolf').Self)"
+}
+
+macro = {
+	description = "Requires a living direwolf character"
+	definition = "IsCharacterDirewolfAlive"
+	replace_with = "And(IsCharacterDirewolf, Not(Character.IsDeadAndValid))"
+}
+
+macro = {
+	description = "Requires a direwolf pup"
+	definition = "IsCharacterDirewolfPup"
+	replace_with = "Character.HasTrait(GetTrait('direwolf_pup').Self)"
+}
+
+macro = {
+	description = "Requires a half-grown direwolf"
+	definition = "IsCharacterDirewolfYoung"
+	replace_with = "Character.HasTrait(GetTrait('direwolf_young_wolf').Self)"
+}
+
+macro = {
+	description = "camera_head, or a direwolf face camera for the wolf's growth stage"
+	definition = "DirewolfHeadCamera"
+	replace_with = "Select_CString(IsCharacterDirewolf, Select_CString(IsCharacterDirewolfPup, 'camera_direwolf_head_pup', Select_CString(IsCharacterDirewolfYoung, 'camera_direwolf_head_young', 'camera_direwolf_head')), 'camera_head')"
+}
+
+macro = {
+	description = "Loc key for a direwolf's temperament"
+	definition = "DirewolfTemperamentLabel"
+	replace_with = "Select_CString(Character.HasTrait(GetTrait('direwolf_savage').Self), 'DW_DIREWOLF_TEMPERAMENT_SAVAGE', Select_CString(Character.HasTrait(GetTrait('direwolf_protective').Self), 'DW_DIREWOLF_TEMPERAMENT_PROTECTIVE', Select_CString(Character.HasTrait(GetTrait('direwolf_docile').Self), 'DW_DIREWOLF_TEMPERAMENT_DOCILE', Select_CString(Character.HasTrait(GetTrait('direwolf_skittish').Self), 'DW_DIREWOLF_TEMPERAMENT_SKITTISH', 'DW_DIREWOLF_TEMPERAMENT_NONE'))))"
+}
+
+macro = {
+	description = "Loc key for a direwolf's pack rank"
+	definition = "DirewolfRankLabel"
+	replace_with = "Select_CString(Character.HasTrait(GetTrait('direwolf_alpha').Self), 'DW_DIREWOLF_RANK_ALPHA', Select_CString(Character.HasTrait(GetTrait('direwolf_beta').Self), 'DW_DIREWOLF_RANK_BETA', Select_CString(Character.HasTrait(GetTrait('direwolf_omega').Self), 'DW_DIREWOLF_RANK_OMEGA', Select_CString(Character.HasTrait(GetTrait('direwolf_outcast').Self), 'DW_DIREWOLF_RANK_OUTCAST', 'DW_DIREWOLF_RANK_NONE'))))"
+}

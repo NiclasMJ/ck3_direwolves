@@ -1,0 +1,11 @@
+﻿direwolf_companion = {
+	title_grant_target = no
+	corresponding = direwolf_companion
+	opinion = 60
+}
+
+direwolf_mate = {
+	title_grant_target = no
+	corresponding = direwolf_mate
+	opinion = 80
+}

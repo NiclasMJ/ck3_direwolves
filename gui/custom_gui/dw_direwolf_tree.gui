@@ -1,0 +1,287 @@
+types DirewolfTreeView
+{
+	type dw_direwolf_tree_node = container {
+		size = { 150 190 }
+		ignoreinvisible = yes
+
+		flowcontainer = {
+			direction = vertical
+			parentanchor = hcenter
+			ignoreinvisible = yes
+			margin = { 8 0 }
+
+			button = {
+				size = { 100 120 }
+				parentanchor = hcenter
+				#DIREWOLVES FIXED: Character.OpenCharacterWindow / Character.GetTooltip are not
+				# real data functions. Vanilla clickable-portrait idiom is DefaultOnCharacterClick
+				# plus a container_character_tooltip tooltipwidget.
+				onclick = "[DefaultOnCharacterClick( Character.GetID )]"
+				using = tooltip_ne
+
+				tooltipwidget = {
+					container_character_tooltip = {}
+				}
+
+				portrait_head_small = {
+					datacontext = "[Character]"
+					parentanchor = hcenter
+				}
+			}
+
+			text_single = {
+				parentanchor = hcenter
+				autoresize = no
+				size = { 150 24 }
+				elide = right
+				align = center
+				max_width = 150
+				raw_text = "[Character.GetFirstNameNicknamedNoTooltip|V]"
+				default_format = "#credits_subheader"
+				tooltip = "[Character.GetFirstNameNicknamedNoTooltip|V]"
+			}
+
+			text_single = {
+				parentanchor = hcenter
+				autoresize = yes
+				default_format = "#weak"
+				visible = "[Character.IsDeadAndValid]"
+				text = "DW_DIREWOLF_TREE_DEAD"
+			}
+
+			text_single = {
+				parentanchor = hcenter
+				autoresize = yes
+				default_format = "#low"
+				visible = "[Character.GetMother.IsValid]"
+				text = "DW_DIREWOLF_TREE_OUT_OF"
+			}
+		}
+	}
+
+	type dw_direwolf_tree_row = flowcontainer {
+		direction = vertical
+		ignoreinvisible = yes
+		parentanchor = hcenter
+		margin = { 0 12 }
+
+		text_single = {
+			parentanchor = hcenter
+			autoresize = yes
+			default_format = "#credits_header"
+			block "row_label" {}
+		}
+
+		widget = {
+			parentanchor = hcenter
+			size = { 100% 4 }
+
+			background = {
+				texture = "gfx/lines/line_diffuse_07.dds"
+				color = { 0.86 0.87 0.87 1 }
+			}
+		}
+
+		container = {
+			parentanchor = hcenter
+
+			dynamicgridbox = {
+				flipdirection = yes
+				block "row_model" {}
+
+				item = {
+					dw_direwolf_tree_node = {
+						datacontext = "[Scope.GetCharacter]"
+					}
+				}
+			}
+		}
+	}
+}
+
+window = {
+	name = "dw_direwolf_tree"
+	parentanchor = center
+	spriteType = Corneredtiled
+	size = { 102% 102% }
+	movable = no
+	layer = middle
+	using = Window_Background_Dragon_Tree
+	datacontext = "[GetPlayer]"
+	datacontext = "[GetVariableSystem]"
+	visible = "[And(And(GetVariableSystem.Exists('dw_direwolf_tree_visible'), IsInGame), GetPlayer.MakeScope.Var('dw_tree_stump').IsSet)]"
+
+	state = {
+		name = _show
+		alpha = 1
+	}
+
+	state = {
+		name = _hide
+		on_start = "[GetVariableSystem.Clear('dw_direwolf_tree_visible')]"
+	}
+
+	state = {
+		name = dismiss
+		next = _hide
+		trigger_when = "[Not(GetVariableSystem.Exists('dw_direwolf_tree_visible'))]"
+		on_finish = "[GetScriptedGui('dw_close_direwolf_tree').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End)]"
+	}
+
+	widget = {
+		size = { 100% 100% }
+
+		vbox = {
+			margin = { 10 10 }
+
+			zoomarea = {
+				name = "dw_direwolf_tree_zoom_area"
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				scissor = yes
+				zoom = 0.8
+				zoom_step = 0.2
+				zoom_min = 0.2
+				zoom_max = 1.0
+				pan_position = { 0 0 }
+				draggable_by = left|middle
+
+				state = {
+					name = "_zoom_changed"
+					duration = 0.1
+				}
+
+				zoomwidget = {
+					widget = {
+						flowcontainer = {
+							alwaystransparent = no
+							direction = vertical
+							resizeparent = yes
+							ignoreinvisible = yes
+
+							dw_direwolf_tree_row = {
+								blockoverride "row_label" { text = "DW_DIREWOLF_TREE_GEN_0" }
+								blockoverride "row_model" {
+									datamodel = "[GetPlayer.MakeScope.GetList('dw_tree_gen_0')]"
+								}
+							}
+
+							dw_direwolf_tree_row = {
+								visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( GetPlayer.MakeScope.GetList('dw_tree_gen_1') ), '(int32)1' )]"
+								blockoverride "row_label" { text = "DW_DIREWOLF_TREE_GEN_1" }
+								blockoverride "row_model" {
+									datamodel = "[GetPlayer.MakeScope.GetList('dw_tree_gen_1')]"
+								}
+							}
+
+							dw_direwolf_tree_row = {
+								visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( GetPlayer.MakeScope.GetList('dw_tree_gen_2') ), '(int32)1' )]"
+								blockoverride "row_label" { text = "DW_DIREWOLF_TREE_GEN_2" }
+								blockoverride "row_model" {
+									datamodel = "[GetPlayer.MakeScope.GetList('dw_tree_gen_2')]"
+								}
+							}
+
+							dw_direwolf_tree_row = {
+								visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( GetPlayer.MakeScope.GetList('dw_tree_gen_3') ), '(int32)1' )]"
+								blockoverride "row_label" { text = "DW_DIREWOLF_TREE_GEN_3" }
+								blockoverride "row_model" {
+									datamodel = "[GetPlayer.MakeScope.GetList('dw_tree_gen_3')]"
+								}
+							}
+
+							dw_direwolf_tree_row = {
+								visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( GetPlayer.MakeScope.GetList('dw_tree_gen_4') ), '(int32)1' )]"
+								blockoverride "row_label" { text = "DW_DIREWOLF_TREE_GEN_4" }
+								blockoverride "row_model" {
+									datamodel = "[GetPlayer.MakeScope.GetList('dw_tree_gen_4')]"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	widget = {
+		size = { 385 130 }
+		parentanchor = top|right
+		widgetanchor = top|right
+		position = { -33 20 }
+
+		vbox = {
+			margin = { 10 5 }
+			margin_left = 20
+			margin_bottom = 15
+
+			background = {
+				using = Background_Area_Dark
+			}
+
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				spacing = 2
+
+				vbox = {
+					layoutpolicy_vertical = expanding
+					margin_top = 7
+
+					expand = {}
+					text_multi = {
+						autoresize = yes
+						text = "DW_DIREWOLF_TREE_TITLE"
+						default_format = "#credits_header"
+					}
+					expand = {}
+				}
+
+				expand = {}
+
+				vbox = {
+					layoutpolicy_vertical = expanding
+					margin_top = 7
+
+					text_single = {
+						name = "dw_tree_total_members"
+						text = "DW_DIREWOLF_TREE_MEMBERS"
+						align = nobaseline
+					}
+					text_single = {
+						name = "dw_tree_total_living"
+						text = "DW_DIREWOLF_TREE_LIVING"
+						align = nobaseline
+					}
+					expand = {}
+				}
+
+				vbox = {
+					layoutpolicy_vertical = expanding
+
+					button_close = {
+						parentanchor = top|right
+						tooltip = "CLOSE_TOOLTIP"
+						onclick = "[GetVariableSystem.Clear('dw_direwolf_tree_visible')]"
+						clicksound = "event:/SFX/UI/Generic/sfx_ui_generic_close"
+						using = Animation_ShowHide_Standard
+					}
+					expand = {}
+				}
+			}
+
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin_top = 5
+				spacing = 5
+
+				text_single = {
+					text = "DYNASTY_VIEW_CLICK_TO_PAN"
+					autoresize = yes
+					max_width = 470
+					fontsize_min = 13
+				}
+				expand = {}
+			}
+		}
+	}
+}

@@ -1,0 +1,41 @@
+﻿name_list_wolf = {
+
+	dynasty_names = {
+		" "
+		" "
+	}
+
+	male_names = {
+        Greywind Shaggydog Storm Sleet Blizzard Hail Gale Boreas Shiver Glaze Tundra Avalanche Shadow Dusk Smoke Ember 
+        Gloom Midnight Ash Coal Obsidian Umbra Eclipse Shade Fang Talon Scar Grip Maw Tracker Rend Hunter Savage Grim Rogue Bramble Thistle 
+        Briar Flint Gyr Weir Dandelion Ironwood Rowan Bracken Timber Bark Lichen Rune Sentinel Cairn Crag Bastion Gyrfalcon
+        Fenrir Skoll Hati Garm Warg Ghost Frost Rime Drift Hoar Glacier Tempest Zephyr Squall Vortex Thunder Torrent
+        Murk Pitch Void Cinder Soot Slag Basalt Slate Granite Quartz Ridge Cliff Bluff Gorge Ravine Chasm Claw
+        Slash Gash Rip Tear Snarl Growl Howl Prowler Stalker Strider Ranger Warden Sentinel Ironjaw Dread Frostbite
+		Kizan Baki Fid Dovah Raklo Aster Grunt Palazard Owen Josh Nicken Tsar Roach Kraven
+		Pale Blanch Wraith Phantom Specter Snowpaw Whitefang Hoarfrost Chalk Bone Icefang
+		Vargr Gmork Maugrim Greyjaw Ironclaw Nighteyes Blackpaw Direfang Winterjaw Bloodmoon Palefang Ashclaw
+    }
+	female_names = {
+        Lady Nymeria Summer Eclipse Moon Crone Aurora Artemis Vixen She-Wolf Silver Frostine Freya Skadi Lupa Lyra
+        Nova Celeste Winter Mist Dawn Twilight Velvet Sable Hazel Willow Aspen Fern Ivy Heather Yarrow Sage Clover
+        Laurel Blossom Flora Vesper Solstice Shadow Echo Whisper Rime Crystal Jewel Ruby Amber Opal Garnet Pearl
+        Jade Onyx Raven Falcon Kestrel Osprey Wren Lark Robin Piper Star Astra Stella Nebula Comet Zenith Horizon
+        Ember Cinder Flame Spark Hearth Vale Glen Meadow Brook River Cascade Siren Huntress Valkyrie Freydis Sigrid
+        Astrid Ingrid Hervor Gunnhild Brunhild Skuld Urdr Verdandi Morrigan Branwen Rhiannon Maeve Danu Macha Scathach Isolde
+		Skillty Kaybe Flumph Elfin Eerie Padu Tac Seal Estina Rani
+		Snow Ivory Spirit Cloud Dove Milk Snowstorm Ghostwind
+    }
+	dynasty_of_location_prefix = "dynnp_of"
+
+	pat_grf_name_chance = 15
+	mat_grf_name_chance = 5
+	father_name_chance = 5
+
+	pat_grm_name_chance = 10
+	mat_grm_name_chance = 15
+	mother_name_chance = 5
+
+	mercenary_names = {
+	}
+}

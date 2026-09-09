@@ -1,0 +1,509 @@
+﻿dw_find_direwolf_pup_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 100
+
+	desc = dw_find_direwolf_pup_decision_desc
+	selection_tooltip = dw_find_direwolf_pup_decision_tooltip
+	confirm_text = dw_find_direwolf_pup_decision_confirm
+
+	is_shown = {
+		debug_only = yes
+		NOT = { has_trait = direwolf }
+	}
+
+	is_valid = {
+		is_available = yes
+	}
+
+	cost = {
+	# 	prestige = 50
+	}
+
+	effect = {
+		dw_spawn_direwolf_pup_effect = { OWNER = root }
+		dw_direwolf_offer_naming_effect = { WOLF = scope:new_direwolf }
+
+		show_as_tooltip = {
+			custom_tooltip = dw_find_direwolf_pup_decision_effect_tt
+		}
+	}
+}
+
+dw_find_direwolf_adult_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 99
+
+	desc = dw_find_direwolf_adult_decision_desc
+	selection_tooltip = dw_find_direwolf_adult_decision_tooltip
+	confirm_text = dw_find_direwolf_adult_decision_confirm
+
+	is_shown = {
+		debug_only = yes
+		NOT = { has_trait = direwolf }
+	}
+
+	is_valid = {
+		is_available = yes
+	}
+
+	cost = {
+		# prestige = 150
+	}
+
+	effect = {
+		dw_spawn_direwolf_adult_effect = { OWNER = root }
+		dw_direwolf_offer_naming_effect = { WOLF = scope:new_direwolf }
+
+		show_as_tooltip = {
+			custom_tooltip = dw_find_direwolf_adult_decision_effect_tt
+		}
+	}
+}
+
+dw_play_with_direwolf_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 90
+
+	desc = dw_play_with_direwolf_decision_desc
+	selection_tooltip = dw_play_with_direwolf_decision_tooltip
+	confirm_text = dw_play_with_direwolf_decision_confirm
+
+	cooldown = { years = 3 }
+
+	is_shown = {
+		has_trait = direwolf_companion
+		exists = var:bonded_direwolf
+	}
+
+	is_valid = {
+		is_available = yes
+		var:bonded_direwolf ?= { is_alive = yes }
+	}
+
+	effect = {
+		stress_impact = {
+			base = medium_stress_loss
+		}
+		add_trait_xp = { trait = direwolf_companion  track = direwolf_companion  value = 5 }
+
+		if = {
+			limit = {
+				var:bonded_direwolf ?= {
+					OR = {
+						has_trait = direwolf_savage
+						has_trait = direwolf_massive
+					}
+				}
+			}
+			random = {
+				chance = 15
+				add_trait = wounded_1
+			}
+		}
+
+		show_as_tooltip = {
+			custom_tooltip = dw_play_with_direwolf_decision_effect_tt
+		}
+	}
+}
+
+dw_hunt_with_direwolf_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 89
+
+	desc = dw_hunt_with_direwolf_decision_desc
+	selection_tooltip = dw_hunt_with_direwolf_decision_tooltip
+	confirm_text = dw_hunt_with_direwolf_decision_confirm
+
+	cooldown = { years = 2 }
+
+	is_shown = {
+		has_trait = direwolf_companion
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+		custom_tooltip = {
+			text = dw_direwolf_must_be_grown_tt
+			dw_has_grown_direwolf_trigger = yes
+		}
+	}
+
+	effect = {
+		add_martial_lifestyle_xp = 150
+
+		add_prestige = 100
+		add_character_modifier = {
+			modifier = dw_direwolf_hunt_modifier
+			years = 2
+		}
+
+		if = {
+			limit = { NOT = { has_trait = lifestyle_hunter } }
+			random = {
+				chance = 20
+				add_trait = lifestyle_hunter
+			}
+		}
+
+		random = {
+			chance = 25
+			trigger_event = dw_direwolf.0200
+		}
+
+		show_as_tooltip = {
+			custom_tooltip = dw_hunt_with_direwolf_decision_effect_tt
+		}
+	}
+}
+
+dw_beyond_the_wall_expedition_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 95
+
+	desc = dw_beyond_the_wall_expedition_decision_desc
+	selection_tooltip = dw_beyond_the_wall_expedition_decision_tooltip
+	confirm_text = dw_beyond_the_wall_expedition_decision_confirm
+
+	cooldown = { years = 10 }
+
+	is_shown = {
+		NOT = { has_trait = direwolf }
+		NOT = { has_trait = direwolf_companion }
+		dw_can_bond_with_direwolf_trigger = yes
+
+		any_in_global_list = {
+			variable = dw_feral_wolves
+			dw_direwolf_is_northern_feral_trigger = yes
+		}
+
+		dw_direwolf_can_go_beyond_wall_trigger = yes
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		is_imprisoned = no
+	}
+
+	cost = {
+		prestige = 1000
+		gold = 250
+		piety = 500
+	}
+
+	effect = {
+		trigger_event = dw_direwolf.0301
+		show_as_tooltip = {
+			custom_tooltip = dw_beyond_the_wall_expedition_decision_effect_tt
+		}
+	}
+}
+
+dw_call_direwolf_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 98
+
+	desc = dw_call_direwolf_decision_desc
+	selection_tooltip = dw_call_direwolf_decision_tooltip
+	confirm_text = dw_call_direwolf_decision_confirm
+
+	is_shown = {
+		has_trait = direwolf_companion
+		exists = var:bonded_direwolf
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+		var:bonded_direwolf ?= { is_alive = yes }
+		custom_tooltip = {
+			text = dw_call_direwolf_not_here_tt
+			NOT = { var:bonded_direwolf.liege ?= root }
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	effect = {
+		dw_direwolf_call_to_court_effect = yes
+		show_as_tooltip = {
+			if = {
+				limit = { dw_pack_ranks_active_trigger = yes }
+				custom_tooltip = dw_call_direwolf_decision_effect_tt
+			}
+			else = {
+				custom_tooltip = dw_call_direwolf_decision_effect_norank_tt
+			}
+		}
+	}
+}
+
+dw_survey_wolfpacks_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 97
+
+	desc = dw_survey_wolfpacks_decision_desc
+	selection_tooltip = dw_survey_wolfpacks_decision_tooltip
+	confirm_text = dw_survey_wolfpacks_decision_confirm
+
+	is_shown = {
+		any_in_global_list = {
+			variable = dw_all_wolves
+			dw_direwolf_is_pack_representative_trigger = yes
+		}
+	}
+
+	is_valid = {
+		is_available = yes
+	}
+
+	effect = {
+		trigger_event = dw_direwolf.0800
+	}
+}
+
+dw_ignore_feral_moves_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 96
+
+	desc = dw_ignore_feral_moves_decision_desc
+	selection_tooltip = dw_ignore_feral_moves_decision_tooltip
+	confirm_text = dw_ignore_feral_moves_decision_confirm
+
+	is_shown = {
+		has_character_flag = dw_watch_feral_moves
+	}
+
+	is_valid = {
+		is_available = yes
+	}
+
+	effect = {
+		remove_character_flag = dw_watch_feral_moves
+		show_as_tooltip = {
+			custom_tooltip = dw_ignore_feral_moves_decision_effect_tt
+		}
+	}
+}
+dw_watch_feral_moves_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 96
+
+	desc = dw_watch_feral_moves_decision_desc
+	selection_tooltip = dw_watch_feral_moves_decision_tooltip
+	confirm_text = dw_watch_feral_moves_decision_confirm
+
+	is_shown = {
+		NOT = { has_character_flag = dw_watch_feral_moves }
+		any_in_global_list = {
+			variable = dw_feral_wolves
+			is_alive = yes
+			has_character_flag = dw_feral_leader
+		}
+	}
+
+	is_valid = {
+		is_available = yes
+	}
+
+	effect = {
+		add_character_flag = dw_watch_feral_moves
+		show_as_tooltip = {
+			custom_tooltip = dw_watch_feral_moves_decision_effect_tt
+		}
+	}
+}
+
+dw_hunt_feral_pack_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 6
+	sort_order = 94
+
+	desc = dw_hunt_feral_pack_decision_desc
+	selection_tooltip = dw_hunt_feral_pack_decision_tooltip
+	confirm_text = dw_hunt_feral_pack_decision_confirm
+
+	cooldown = { years = 2 }
+
+	is_shown = {
+		any_in_global_list = {
+			variable = dw_feral_wolves
+			is_alive = yes
+			has_character_flag = dw_feral_leader
+		}
+		any_realm_county = { has_county_modifier = dw_feral_pack_modifier }
+	}
+
+	is_valid = {
+		is_available_adult = yes
+		is_imprisoned = no
+	}
+
+	effect = {
+		random_realm_county = {
+			limit = { has_county_modifier = dw_feral_pack_modifier }
+			save_scope_as = dw_hunt_county
+		}
+		random_in_global_list = {
+			variable = dw_feral_wolves
+			limit = {
+				is_alive = yes
+				has_character_flag = dw_feral_leader
+				location.county ?= scope:dw_hunt_county
+			}
+			save_scope_as = dw_hunt_pack_leader
+		}
+		scope:dw_hunt_pack_leader ?= {
+			save_scope_value_as = { name = dw_hunt_pack_ferocity  value = dw_direwolf_ferocity_value }
+		}
+		save_scope_value_as = { name = dw_hunt_pack_size  value = dw_direwolf_feral_pack_size_value }
+		if = {
+			limit = { exists = scope:dw_hunt_pack_leader }
+			trigger_event = dw_direwolf.1100
+		}
+	}
+}
+
+dw_take_wolf_to_war_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 93
+
+	desc = dw_take_wolf_to_war_decision_desc
+	selection_tooltip = dw_take_wolf_to_war_decision_tooltip
+	confirm_text = dw_take_wolf_to_war_decision_confirm
+
+	is_shown = {
+		has_trait = direwolf_companion
+		NOT = { has_character_flag = dw_wolf_in_combat }
+	}
+
+	is_valid = {
+		is_available = yes
+	}
+
+	effect = {
+		add_character_flag = dw_wolf_in_combat
+		dw_direwolf_refresh_combat_modifier_effect = yes
+		show_as_tooltip = {
+			custom_tooltip = dw_take_wolf_to_war_decision_effect_tt
+		}
+	}
+}
+
+dw_keep_wolf_from_war_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 93
+
+	desc = dw_keep_wolf_from_war_decision_desc
+	selection_tooltip = dw_keep_wolf_from_war_decision_tooltip
+	confirm_text = dw_keep_wolf_from_war_decision_confirm
+
+	is_shown = {
+		has_trait = direwolf_companion
+		has_character_flag = dw_wolf_in_combat
+	}
+
+	is_valid = {
+		is_available = yes
+	}
+
+	effect = {
+		remove_character_flag = dw_wolf_in_combat
+		dw_direwolf_refresh_combat_modifier_effect = yes
+		show_as_tooltip = {
+			custom_tooltip = dw_keep_wolf_from_war_decision_effect_tt
+		}
+	}
+}
+
+dw_find_direwolf_mate_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
+	}
+
+	ai_check_interval = 0
+	sort_order = 94
+
+	desc = dw_find_direwolf_mate_decision_desc
+	selection_tooltip = dw_find_direwolf_mate_decision_tooltip
+	confirm_text = dw_find_direwolf_mate_decision_confirm
+
+	cooldown = { years = 1 }
+
+	is_shown = {
+		dw_direwolf_needs_a_mate_trigger = yes
+		dw_direwolf_is_in_the_north_trigger = yes
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		is_imprisoned = no
+
+		custom_tooltip = {
+			text = dw_direwolf_mate_world_cap_tt
+			dw_direwolf_world_under_cap_trigger = yes
+		}
+		custom_tooltip = {
+			text = dw_direwolf_mate_pack_cap_tt
+			dw_direwolf_pack_under_cap_trigger = yes
+		}
+	}
+
+	cost = {
+		prestige = 150
+		gold = 75
+	}
+
+	effect = {
+		trigger_event = dw_direwolf.1300
+		show_as_tooltip = {
+			custom_tooltip = dw_find_direwolf_mate_decision_effect_tt
+		}
+	}
+}
