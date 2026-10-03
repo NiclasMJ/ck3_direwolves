@@ -4,7 +4,7 @@ tags={
 	"Character Interactions"
 	"Graphics"
 }
-name="DireWolves"
+name="AGOT: DireWolves"
 dependencies={
 	"A Game of Thrones"
 }
