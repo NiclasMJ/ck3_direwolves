@@ -1,4 +1,53 @@
-﻿dw_direwolf_set_growth_stage_effect = {
+﻿# Rolls the wolf's coat once and keeps it for life (see dw_direwolf_coat_svalue).
+# var:dw_coat is a position on the coat lists of gene_direwolf (all four stages keep them in the same
+# order and weights). Character variables do not survive death, so the coat is ALSO recorded by
+# putting the wolf into one global list per coat; a dead wolf's portrait reads the list instead.
+# Never remove wolves from these lists - the dead ones are exactly why they exist.
+# The weights below must match the coat weights in common/genes/dw_direwolf_accessory_genes.txt.
+dw_direwolf_ensure_coat_effect = {
+    if = {
+        limit = {
+            NOT = { is_target_in_global_variable_list = { name = dw_coat_black      target = this } }
+            NOT = { is_target_in_global_variable_list = { name = dw_coat_dark_grey  target = this } }
+            NOT = { is_target_in_global_variable_list = { name = dw_coat_grey       target = this } }
+            NOT = { is_target_in_global_variable_list = { name = dw_coat_natural    target = this } }
+            NOT = { is_target_in_global_variable_list = { name = dw_coat_red        target = this } }
+        }
+        if = {
+            limit = { NOT = { has_variable = dw_coat } }
+            random_list = {
+                1 = { set_variable = { name = dw_coat  value = 0.03125 } }
+                1 = { set_variable = { name = dw_coat  value = 0.09375 } }
+                5 = { set_variable = { name = dw_coat  value = 0.28125 } }
+                6 = { set_variable = { name = dw_coat  value = 0.625 } }
+                3 = { set_variable = { name = dw_coat  value = 0.90625 } }
+            }
+        }
+        # file the (new or older, free-valued) roll under its coat band
+        if = {
+            limit = { var:dw_coat < 0.0625 }
+            add_to_global_variable_list = { name = dw_coat_black  target = this }
+        }
+        else_if = {
+            limit = { var:dw_coat < 0.125 }
+            add_to_global_variable_list = { name = dw_coat_dark_grey  target = this }
+        }
+        else_if = {
+            limit = { var:dw_coat < 0.4375 }
+            add_to_global_variable_list = { name = dw_coat_grey  target = this }
+        }
+        else_if = {
+            limit = { var:dw_coat < 0.8125 }
+            add_to_global_variable_list = { name = dw_coat_natural  target = this }
+        }
+        else = {
+            add_to_global_variable_list = { name = dw_coat_red  target = this }
+        }
+    }
+}
+
+dw_direwolf_set_growth_stage_effect = {
+    dw_direwolf_ensure_coat_effect = yes
     remove_trait = direwolf_pup
     remove_trait = direwolf_young_wolf
     remove_trait = direwolf_adult
@@ -159,6 +208,7 @@ dw_create_direwolf_effect = {
     $OWNER$ = {
         add_courtier = scope:new_direwolf
     }
+    scope:new_direwolf = { dw_direwolf_ensure_coat_effect = yes }
 
     add_to_global_variable_list = { name = dw_all_wolves  target = scope:new_direwolf }
 }
@@ -316,6 +366,11 @@ dw_direwolf_refresh_combat_modifier_effect = {
         }
 
         if = {
+            limit = { dw_battle_stance_is_trigger = { STANCE = flanks } }
+            add_character_modifier = dw_direwolf_stance_flanks_modifier
+        }
+
+        if = {
             limit = { NOT = { has_character_modifier = dw_direwolf_guard_modifier } }
             add_character_modifier = dw_direwolf_guard_modifier
         }
@@ -330,6 +385,20 @@ dw_direwolf_clear_combat_tiers_effect = {
     remove_character_modifier = dw_bonded_direwolf_combat_modifier
     remove_character_modifier = dw_bonded_direwolf_combat_modifier_strong
     remove_character_modifier = dw_bonded_direwolf_combat_modifier_fearsome
+    remove_character_modifier = dw_direwolf_stance_flanks_modifier
+}
+
+# Root = the bonded character. STANCE is guard, hunt_knights, hunt_commander or flanks.
+dw_direwolf_set_battle_stance_effect = {
+    add_character_flag = dw_wolf_in_combat
+    set_variable = { name = dw_battle_stance  value = flag:$STANCE$ }
+    dw_direwolf_refresh_combat_modifier_effect = yes
+}
+
+dw_direwolf_kennel_effect = {
+    remove_character_flag = dw_wolf_in_combat
+    remove_variable = dw_battle_stance
+    dw_direwolf_refresh_combat_modifier_effect = yes
 }
 
 dw_direwolf_grieve_effect = {
@@ -972,6 +1041,38 @@ dw_direwolf_call_to_court_effect = {
     }
 }
 
+# ---------------------------------------------------------------------------
+# Combat phase actions. Root = the bonded character (knight or commander);
+# scope:combat_side is the side they fight on. Every action writes to the
+# battle summary and sends the player a toast; only the wolf's death opens a
+# full event (dw_direwolf.1400).
+# Battle-log loc keys need _friendly and _enemy variants; CHARACTER is the
+# left portrait (always the wolf), TARGET_CHARACTER the right.
+# ---------------------------------------------------------------------------
+
+dw_direwolf_battle_log_effect = {
+    scope:combat_side = {
+        battle_event = {
+            key = $KEY$
+            left_portrait = scope:dw_maul_wolf
+            right_portrait = $TARGET$
+            type = $TYPE$
+            target_right = $TARGET_RIGHT$
+        }
+    }
+}
+
+dw_direwolf_battle_log_solo_effect = {
+    scope:combat_side = {
+        battle_event = {
+            key = $KEY$
+            left_portrait = scope:dw_maul_wolf
+            type = $TYPE$
+        }
+    }
+}
+
+# Maul a random enemy knight.
 dw_direwolf_combat_maul_effect = {
     if = {
         limit = {
@@ -981,73 +1082,370 @@ dw_direwolf_combat_maul_effect = {
                 any_side_knight = { is_alive = yes }
             }
         }
-        var:bonded_direwolf = { save_scope_as = dw_maul_wolf }
-
         scope:combat_side.enemy_side = {
             random_side_knight = {
                 limit = { is_alive = yes }
                 save_scope_as = dw_maul_knight
             }
         }
+        dw_direwolf_combat_resolve_maul_effect = {
+            CHANCE_ADD = 0
+            WOUND_W = 45
+            KILL_W = 55
+            WOLF_WOUND_W = 55
+            WOLF_DIE_W = 45
+            WOUND_PRESTIGE = 50
+            KILL_PRESTIGE = 50
+            LOG = dw_bl_maul
+        }
+    }
+}
+
+# Go for the enemy commander. Harder to reach, worth far more.
+dw_direwolf_combat_hunt_commander_effect = {
+    if = {
+        limit = {
+            exists = var:bonded_direwolf
+            var:bonded_direwolf = { is_alive = yes }
+            scope:combat_side.enemy_side = {
+                exists = side_commander
+                side_commander = { is_alive = yes }
+            }
+        }
+        scope:combat_side.enemy_side.side_commander = { save_scope_as = dw_maul_knight }
+        dw_direwolf_combat_resolve_maul_effect = {
+            CHANCE_ADD = -15
+            WOUND_W = 70
+            KILL_W = 30
+            WOLF_WOUND_W = 50
+            WOLF_DIE_W = 50
+            WOUND_PRESTIGE = 100
+            KILL_PRESTIGE = 300
+            LOG = dw_bl_hunt_commander
+        }
+    }
+}
+
+# Wolf vs scope:dw_maul_knight. dw_direwolf_maul_win_chance_value reads
+# scope:dw_maul_knight, so every target is saved under that name.
+# dw_maul_outcome: 1 target wounded, 2 target killed, 3 wolf wounded, 4 wolf killed.
+dw_direwolf_combat_resolve_maul_effect = {
+    var:bonded_direwolf = { save_scope_as = dw_maul_wolf }
+
+    if = {
+        limit = {
+            exists = scope:dw_maul_knight
+            scope:dw_maul_knight = { is_alive = yes }
+        }
+        scope:dw_maul_wolf = {
+            save_scope_value_as = {
+                name = dw_maul_chance
+                value = {
+                    value = dw_direwolf_maul_win_chance_value
+                    add = $CHANCE_ADD$
+                    min = 5
+                    max = 95
+                }
+            }
+        }
+
+        random = {
+            chance = scope:dw_maul_chance
+            save_scope_value_as = { name = dw_maul_won  value = yes }
+        }
 
         if = {
-            limit = {
-                exists = scope:dw_maul_knight
-                scope:dw_maul_knight = { is_alive = yes }
-            }
-            scope:dw_maul_wolf = {
-                save_scope_value_as = { name = dw_maul_chance  value = dw_direwolf_maul_win_chance_value }
-            }
-
-            random = {
-                chance = scope:dw_maul_chance
-                set_variable = dw_maul_wolf_won
-            }
-
-            if = {
-                limit = { has_variable = dw_maul_wolf_won }
-                random_list = {
-                    45 = {
-                        save_scope_value_as = { name = dw_maul_outcome  value = 1 }
-                        scope:dw_maul_knight = { add_trait = wounded_2 }
+            limit = { exists = scope:dw_maul_won }
+            random_list = {
+                $WOUND_W$ = {
+                    save_scope_value_as = { name = dw_maul_outcome  value = 1 }
+                    scope:dw_maul_knight = { add_trait = wounded_2 }
+                    add_prestige = $WOUND_PRESTIGE$
+                    dw_direwolf_battle_log_effect = {
+                        KEY = $LOG$_wounded
+                        TARGET = scope:dw_maul_knight
+                        TYPE = wound
+                        TARGET_RIGHT = yes
                     }
-                    55 = {
-                        save_scope_value_as = { name = dw_maul_outcome  value = 2 }
-                        scope:dw_maul_knight = {
-                            death = {
-                                death_reason = death_direwolf_mauled
-                                killer = scope:dw_maul_wolf
-                            }
-                        }
+                    send_interface_toast = {
+                        type = event_toast_effect_good
+                        title = $LOG$_wounded_toast
+                        left_icon = scope:dw_maul_wolf
+                        right_icon = scope:dw_maul_knight
                     }
                 }
-                remove_variable = dw_maul_wolf_won
-            }
-            else = {
-                random_list = {
-                    55 = {
-                        save_scope_value_as = { name = dw_maul_outcome  value = 3 }
-                        scope:dw_maul_wolf = { add_trait = wounded_2 }
+                $KILL_W$ = {
+                    save_scope_value_as = { name = dw_maul_outcome  value = 2 }
+                    add_prestige = $KILL_PRESTIGE$
+                    dw_direwolf_battle_log_effect = {
+                        KEY = $LOG$_killed
+                        TARGET = scope:dw_maul_knight
+                        TYPE = death
+                        TARGET_RIGHT = yes
                     }
-                    45 = {
-                        save_scope_value_as = { name = dw_maul_outcome  value = 4 }
-                        scope:dw_maul_wolf = {
-                            make_unprunable = yes
-                            death = {
-                                death_reason = death_battle
-                                killer = scope:dw_maul_knight
-                            }
+                    send_interface_toast = {
+                        type = event_toast_effect_good
+                        title = $LOG$_killed_toast
+                        left_icon = scope:dw_maul_wolf
+                        right_icon = scope:dw_maul_knight
+                    }
+                    scope:dw_maul_knight = {
+                        death = {
+                            death_reason = death_direwolf_mauled
+                            killer = scope:dw_maul_wolf
                         }
                     }
                 }
             }
+        }
+        else = {
+            random_list = {
+                $WOLF_WOUND_W$ = {
+                    save_scope_value_as = { name = dw_maul_outcome  value = 3 }
+                    scope:dw_maul_wolf = { add_trait = wounded_2 }
+                    dw_direwolf_battle_log_effect = {
+                        KEY = $LOG$_wolf_wounded
+                        TARGET = scope:dw_maul_knight
+                        TYPE = wound
+                        TARGET_RIGHT = no
+                    }
+                    send_interface_toast = {
+                        type = event_toast_effect_bad
+                        title = $LOG$_wolf_wounded_toast
+                        left_icon = scope:dw_maul_wolf
+                        right_icon = scope:dw_maul_knight
+                    }
+                }
+                $WOLF_DIE_W$ = {
+                    save_scope_value_as = { name = dw_maul_outcome  value = 4 }
+                    dw_direwolf_battle_log_effect = {
+                        KEY = $LOG$_wolf_killed
+                        TARGET = scope:dw_maul_knight
+                        TYPE = death
+                        TARGET_RIGHT = no
+                    }
+                    scope:dw_maul_wolf = {
+                        make_unprunable = yes
+                        death = {
+                            death_reason = death_battle
+                            killer = scope:dw_maul_knight
+                        }
+                    }
+                    trigger_event = dw_direwolf.1400
+                }
+            }
+        }
 
+        add_character_flag = {
+            flag = dw_maul_cooldown
+            days = 5
+        }
+    }
+}
+
+# Guard stance: the wolf keeps the press off its master.
+dw_direwolf_combat_guard_effect = {
+    var:bonded_direwolf = { save_scope_as = dw_maul_wolf }
+    save_scope_as = dw_wolf_master
+
+    add_character_flag = {
+        flag = dw_maul_cooldown
+        days = 5
+    }
+    if = {
+        limit = { NOT = { has_character_modifier = dw_direwolf_guarded_modifier } }
+        add_character_modifier = {
+            modifier = dw_direwolf_guarded_modifier
+            days = 10
+        }
+    }
+
+    if = {
+        limit = {
+            scope:combat_side.enemy_side = {
+                any_side_knight = { is_alive = yes }
+            }
+        }
+        scope:combat_side.enemy_side = {
+            random_side_knight = {
+                limit = { is_alive = yes }
+                save_scope_as = dw_maul_knight
+            }
+        }
+        scope:dw_maul_knight = { increase_wounds_effect = { REASON = wild_animal } }
+        dw_direwolf_battle_log_effect = {
+            KEY = dw_bl_guard
+            TARGET = scope:dw_maul_knight
+            TYPE = wound
+            TARGET_RIGHT = yes
+        }
+    }
+    else = {
+        dw_direwolf_battle_log_solo_effect = {
+            KEY = dw_bl_guard_solo
+            TYPE = wound
+        }
+    }
+
+    send_interface_toast = {
+        type = event_toast_effect_good
+        title = dw_bl_guard_toast
+        left_icon = scope:dw_maul_wolf
+        right_icon = scope:dw_wolf_master
+    }
+
+    if = {
+        limit = { NOT = { has_character_flag = dw_guard_memory_cd } }
+        random = {
+            chance = 25
             add_character_flag = {
-                flag = dw_maul_cooldown
-                days = 5
+                flag = dw_guard_memory_cd
+                days = 30
             }
+            create_character_memory = {
+                type = dw_direwolf_saved_me_memory
+                participants = { dw_wolf = scope:dw_maul_wolf }
+            }
+        }
+    }
+}
 
-            trigger_event = dw_direwolf.1400
+# Any war stance, once per battle: every enemy knight loses nerve.
+dw_direwolf_combat_howl_effect = {
+    var:bonded_direwolf = { save_scope_as = dw_maul_wolf }
+
+    add_character_flag = {
+        flag = dw_maul_cooldown
+        days = 5
+    }
+    add_character_flag = {
+        flag = dw_wolf_howled
+        days = 30
+    }
+
+    scope:combat_side.enemy_side = {
+        every_side_knight = {
+            limit = {
+                is_alive = yes
+                NOT = { has_character_modifier = dw_direwolf_howl_dread_modifier }
+            }
+            add_character_modifier = {
+                modifier = dw_direwolf_howl_dread_modifier
+                days = 10
+            }
+        }
+        side_commander ?= {
+            if = {
+                limit = { NOT = { has_character_modifier = dw_direwolf_howl_dread_modifier } }
+                add_character_modifier = {
+                    modifier = dw_direwolf_howl_dread_modifier
+                    days = 10
+                }
+            }
+        }
+    }
+
+    dw_direwolf_battle_log_solo_effect = {
+        KEY = dw_bl_howl
+        TYPE = wound
+    }
+    send_interface_toast = {
+        type = event_toast_effect_good
+        title = dw_bl_howl_toast
+        left_icon = scope:dw_maul_wolf
+    }
+}
+
+# Skittish wolves can break and run. It is out of the fight for a while.
+dw_direwolf_combat_bolt_effect = {
+    var:bonded_direwolf = { save_scope_as = dw_maul_wolf }
+
+    add_character_flag = {
+        flag = dw_wolf_bolted
+        days = 20
+    }
+    if = {
+        limit = { NOT = { has_character_modifier = dw_direwolf_bolted_modifier } }
+        add_character_modifier = {
+            modifier = dw_direwolf_bolted_modifier
+            days = 20
+        }
+    }
+    add_prestige = -25
+
+    dw_direwolf_battle_log_solo_effect = {
+        KEY = dw_bl_bolt
+        TYPE = wound
+    }
+    send_interface_toast = {
+        type = event_toast_effect_bad
+        title = dw_bl_bolt_toast
+        left_icon = scope:dw_maul_wolf
+    }
+}
+
+# Savage wolves do not always tell friend from foe.
+dw_direwolf_combat_misbite_effect = {
+    var:bonded_direwolf = { save_scope_as = dw_maul_wolf }
+    save_scope_as = dw_wolf_master
+
+    add_character_flag = {
+        flag = dw_maul_cooldown
+        days = 5
+    }
+
+    scope:combat_side = {
+        random_side_knight = {
+            limit = {
+                is_alive = yes
+                NOT = { this = scope:dw_wolf_master }
+            }
+            save_scope_as = dw_maul_knight
+        }
+    }
+
+    if = {
+        limit = { exists = scope:dw_maul_knight }
+        dw_direwolf_battle_log_effect = {
+            KEY = dw_bl_misbite
+            TARGET = scope:dw_maul_knight
+            TYPE = wound
+            TARGET_RIGHT = yes
+        }
+        send_interface_toast = {
+            type = event_toast_effect_bad
+            title = dw_bl_misbite_toast
+            left_icon = scope:dw_maul_wolf
+            right_icon = scope:dw_maul_knight
+        }
+        scope:dw_maul_knight = {
+            create_character_memory = {
+                type = dw_direwolf_bit_me_memory
+                participants = { dw_wolf = scope:dw_maul_wolf }
+            }
+            add_opinion = {
+                target = scope:dw_wolf_master
+                modifier = angry_opinion
+                opinion = -15
+            }
+            increase_wounds_effect = { REASON = wild_animal }
+        }
+    }
+}
+
+# Root = a character who fought with their wolf. Rolls one post-battle event,
+# a day later so the winner's prisoner-taking has resolved first.
+dw_direwolf_post_battle_effect = {
+    add_character_flag = {
+        flag = dw_post_battle_cd
+        days = 60
+    }
+    var:bonded_direwolf = { save_scope_as = dw_battle_wolf }
+    random = {
+        chance = $CHANCE$
+        trigger_event = {
+            id = $EVENT$
+            days = 1
         }
     }
 }

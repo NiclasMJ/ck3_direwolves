@@ -447,3 +447,111 @@ dw_direwolf_tree_living_value = {
 		add = 1
 	}
 }
+
+# Combat phase event weights. Root = the bonded character. Vanilla knight
+# events sit around 30 against a 2000 "nothing happens" weight.
+
+dw_direwolf_maul_weight_value = {
+	value = 0
+	if = {
+		limit = { dw_battle_stance_is_hunt_knights_trigger = yes }
+		add = 25
+	}
+	else_if = {
+		limit = {
+			OR = {
+				dw_battle_stance_is_trigger = { STANCE = guard }
+				dw_battle_stance_is_trigger = { STANCE = hunt_commander }
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = { var:bonded_direwolf ?= { has_trait = direwolf_savage } }
+		add = 10
+	}
+	if = {
+		limit = { var:bonded_direwolf ?= { has_trait = direwolf_massive } }
+		add = 5
+	}
+	if = {
+		limit = { var:bonded_direwolf ?= { has_trait = direwolf_docile } }
+		multiply = 0.5
+	}
+	min = 1
+}
+
+dw_direwolf_hunt_commander_weight_value = {
+	value = 8
+	if = {
+		limit = { var:bonded_direwolf ?= { has_trait = direwolf_savage } }
+		add = 4
+	}
+	if = {
+		limit = { var:bonded_direwolf ?= { has_trait = direwolf_skittish } }
+		add = -6
+	}
+	min = 1
+}
+
+dw_direwolf_guard_weight_value = {
+	value = 20
+	if = {
+		limit = { var:bonded_direwolf ?= { has_trait = direwolf_protective } }
+		add = 15
+	}
+}
+
+dw_direwolf_howl_weight_value = {
+	value = 6
+	if = {
+		limit = { dw_battle_stance_is_trigger = { STANCE = flanks } }
+		add = 6
+	}
+	if = {
+		limit = { var:bonded_direwolf ?= { has_trait = direwolf_savage } }
+		add = 3
+	}
+	if = {
+		limit = { var:bonded_direwolf ?= { has_trait = direwolf_massive } }
+		add = 3
+	}
+	if = {
+		limit = { var:bonded_direwolf ?= { has_trait = direwolf_alpha } }
+		add = 3
+	}
+}
+
+# The wolf's coat roll, 0..1, read by gfx/portraits/portrait_modifiers/01_dw_direwolf_growth.txt.
+# Set once per wolf by dw_direwolf_ensure_coat_effect; every growth stage reads the SAME value, so a
+# wolf keeps its coat from pup to adult. (The stages used `range = { 0 1 }`, which re-rolls per stage.)
+# A living wolf has var:dw_coat. A dead wolf no longer has its variables, so its coat comes from the
+# global coat list it was filed in (the centre of that coat's band - same coat). 0.5 is only a
+# fallback for a wolf that was never rolled.
+dw_direwolf_coat_svalue = {
+	value = 0.5
+	if = {
+		limit = { has_variable = dw_coat }
+		value = var:dw_coat
+	}
+	else_if = {
+		limit = { is_target_in_global_variable_list = { name = dw_coat_black  target = this } }
+		value = 0.03125
+	}
+	else_if = {
+		limit = { is_target_in_global_variable_list = { name = dw_coat_dark_grey  target = this } }
+		value = 0.09375
+	}
+	else_if = {
+		limit = { is_target_in_global_variable_list = { name = dw_coat_grey  target = this } }
+		value = 0.28125
+	}
+	else_if = {
+		limit = { is_target_in_global_variable_list = { name = dw_coat_natural  target = this } }
+		value = 0.625
+	}
+	else_if = {
+		limit = { is_target_in_global_variable_list = { name = dw_coat_red  target = this } }
+		value = 0.90625
+	}
+}

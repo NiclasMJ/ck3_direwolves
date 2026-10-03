@@ -127,3 +127,43 @@ dw_temperament_skittish_modifier = {
 	prowess = -1
 	dread_baseline_add = -5
 }
+
+# Battle stances and actions
+
+dw_direwolf_stance_flanks_modifier = {
+	icon = beast_positive
+
+	enemy_hard_casualty_modifier = 0.10
+}
+
+dw_direwolf_guarded_modifier = {
+	icon = beast_positive
+
+	prowess = 4
+}
+
+dw_direwolf_howl_dread_modifier = {
+	icon = beast_negative
+
+	prowess = -3
+}
+
+dw_direwolf_bolted_modifier = {
+	icon = beast_negative
+
+	prowess = -2
+}
+
+dw_direwolf_searching_modifier = {
+	icon = beast_negative
+
+	martial = -2
+	stress_gain_mult = 0.1
+}
+
+dw_direwolf_covered_retreat_modifier = {
+	icon = beast_positive
+
+	monthly_prestige = 0.5
+	dread_baseline_add = 5
+}

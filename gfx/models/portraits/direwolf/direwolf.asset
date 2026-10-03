@@ -1,19 +1,13 @@
-﻿
-skeletal_animation_set = {
-	name = "direwolf_animations"
-	reference_skeleton = "direwolf_mesh_adult_natural"
-
-	animation = { id = "direwolf_idle"		type = "direwolf_adult_idle.anim" }
-	animation = { id = "direwolf_howl"		type = "direwolf_adult_howl.anim" }
-	animation = { id = "direwolf_walk"		type = "direwolf_adult_walk.anim" }
-	animation = { id = "direwolf_trot"		type = "direwolf_adult_trot.anim" }
-	animation = { id = "direwolf_sniff"		type = "direwolf_adult_sniff.anim" }
-	animation = { id = "direwolf_sit"		type = "direwolf_adult_sit.anim" }
-	animation = { id = "direwolf_idle_restless"		type = "direwolf_adult_idle_restless.anim" }
-	animation = { id = "direwolf_idle_territorial"		type = "direwolf_adult_idle_territorial.anim" }
-	animation = { id = "direwolf_idle_sniff"		type = "direwolf_adult_idle_sniff.anim" }
-	animation = { id = "direwolf_idle_sit"		type = "direwolf_adult_idle_sit.anim" }
-}
+﻿# Direwolf portrait models. Two meshes share one UV layout and one texture set:
+#   direwolf_pup.mesh   - pup model, used by the pup (0.60) and juvenile (0.90) stages
+#   direwolf_adult.mesh - adult model, used by the subadult (1.20) and adult (1.35) stages
+# Both are exported with the eyes 86.6 units up at scale 1.0 (the old model's eye height), so
+# the stage scales keep the old size progression. The skeletons differ (rest pose, and the
+# adult has *_end leaf bones), so each model has its own animation files; every growth stage gets
+# its own set (same ids, same files) whose reference_skeleton is that stage's own mesh: the engine
+# retargets a set onto each mesh relative to its reference INCLUDING pdxmesh scale, so a stage
+# importing another stage's set gets its bone offsets stretched/squashed by the scale ratio.
+# Submeshes of node direwolf_model: 0 head, 1 body, 2 fur cards, 3 mouth/teeth, 4 eye lenses.
 
 skeletal_animation_set = {
 	name = "direwolf_pup_animations"
@@ -27,8 +21,60 @@ skeletal_animation_set = {
 	animation = { id = "direwolf_sit"		type = "direwolf_pup_sit.anim" }
 	animation = { id = "direwolf_idle_restless"		type = "direwolf_pup_idle_restless.anim" }
 	animation = { id = "direwolf_idle_territorial"		type = "direwolf_pup_idle_territorial.anim" }
+	animation = { id = "direwolf_idle_shift"		type = "direwolf_pup_idle_shift.anim" }
 	animation = { id = "direwolf_idle_sniff"		type = "direwolf_pup_idle_sniff.anim" }
 	animation = { id = "direwolf_idle_sit"		type = "direwolf_pup_idle_sit.anim" }
+}
+
+skeletal_animation_set = {
+	name = "direwolf_juvenile_animations"
+	reference_skeleton = "direwolf_mesh_juvenile_natural"
+
+	animation = { id = "direwolf_idle"		type = "direwolf_pup_idle.anim" }
+	animation = { id = "direwolf_howl"		type = "direwolf_pup_howl.anim" }
+	animation = { id = "direwolf_walk"		type = "direwolf_pup_walk.anim" }
+	animation = { id = "direwolf_trot"		type = "direwolf_pup_trot.anim" }
+	animation = { id = "direwolf_sniff"		type = "direwolf_pup_sniff.anim" }
+	animation = { id = "direwolf_sit"		type = "direwolf_pup_sit.anim" }
+	animation = { id = "direwolf_idle_restless"		type = "direwolf_pup_idle_restless.anim" }
+	animation = { id = "direwolf_idle_territorial"		type = "direwolf_pup_idle_territorial.anim" }
+	animation = { id = "direwolf_idle_shift"		type = "direwolf_pup_idle_shift.anim" }
+	animation = { id = "direwolf_idle_sniff"		type = "direwolf_pup_idle_sniff.anim" }
+	animation = { id = "direwolf_idle_sit"		type = "direwolf_pup_idle_sit.anim" }
+}
+
+skeletal_animation_set = {
+	name = "direwolf_subadult_animations"
+	reference_skeleton = "direwolf_mesh_subadult_natural"
+
+	animation = { id = "direwolf_idle"		type = "direwolf_adult_idle.anim" }
+	animation = { id = "direwolf_howl"		type = "direwolf_adult_howl.anim" }
+	animation = { id = "direwolf_walk"		type = "direwolf_adult_walk.anim" }
+	animation = { id = "direwolf_trot"		type = "direwolf_adult_trot.anim" }
+	animation = { id = "direwolf_sniff"		type = "direwolf_adult_sniff.anim" }
+	animation = { id = "direwolf_sit"		type = "direwolf_adult_sit.anim" }
+	animation = { id = "direwolf_idle_restless"		type = "direwolf_adult_idle_restless.anim" }
+	animation = { id = "direwolf_idle_territorial"		type = "direwolf_adult_idle_territorial.anim" }
+	animation = { id = "direwolf_idle_shift"		type = "direwolf_adult_idle_shift.anim" }
+	animation = { id = "direwolf_idle_sniff"		type = "direwolf_adult_idle_sniff.anim" }
+	animation = { id = "direwolf_idle_sit"		type = "direwolf_adult_idle_sit.anim" }
+}
+
+skeletal_animation_set = {
+	name = "direwolf_animations"
+	reference_skeleton = "direwolf_mesh_adult_natural"
+
+	animation = { id = "direwolf_idle"		type = "direwolf_adult_idle.anim" }
+	animation = { id = "direwolf_howl"		type = "direwolf_adult_howl.anim" }
+	animation = { id = "direwolf_walk"		type = "direwolf_adult_walk.anim" }
+	animation = { id = "direwolf_trot"		type = "direwolf_adult_trot.anim" }
+	animation = { id = "direwolf_sniff"		type = "direwolf_adult_sniff.anim" }
+	animation = { id = "direwolf_sit"		type = "direwolf_adult_sit.anim" }
+	animation = { id = "direwolf_idle_restless"		type = "direwolf_adult_idle_restless.anim" }
+	animation = { id = "direwolf_idle_territorial"		type = "direwolf_adult_idle_territorial.anim" }
+	animation = { id = "direwolf_idle_shift"		type = "direwolf_adult_idle_shift.anim" }
+	animation = { id = "direwolf_idle_sniff"		type = "direwolf_adult_idle_sniff.anim" }
+	animation = { id = "direwolf_idle_sit"		type = "direwolf_adult_idle_sit.anim" }
 }
 
 pdxmesh = {
@@ -378,7 +424,7 @@ pdxmesh = {
 	file = "direwolf_pup.mesh"
 	scale = 0.90
 
-	import = { type = skeletal_animation_set  name = "direwolf_pup_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_juvenile_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -435,7 +481,7 @@ pdxmesh = {
 	file = "direwolf_pup.mesh"
 	scale = 0.90
 
-	import = { type = skeletal_animation_set  name = "direwolf_pup_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_juvenile_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -492,7 +538,7 @@ pdxmesh = {
 	file = "direwolf_pup.mesh"
 	scale = 0.90
 
-	import = { type = skeletal_animation_set  name = "direwolf_pup_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_juvenile_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -549,7 +595,7 @@ pdxmesh = {
 	file = "direwolf_pup.mesh"
 	scale = 0.90
 
-	import = { type = skeletal_animation_set  name = "direwolf_pup_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_juvenile_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -606,7 +652,7 @@ pdxmesh = {
 	file = "direwolf_pup.mesh"
 	scale = 0.90
 
-	import = { type = skeletal_animation_set  name = "direwolf_pup_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_juvenile_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -663,7 +709,7 @@ pdxmesh = {
 	file = "direwolf_pup.mesh"
 	scale = 0.90
 
-	import = { type = skeletal_animation_set  name = "direwolf_pup_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_juvenile_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -720,7 +766,7 @@ pdxmesh = {
 	file = "direwolf_adult.mesh"
 	scale = 1.20
 
-	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_subadult_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -777,7 +823,7 @@ pdxmesh = {
 	file = "direwolf_adult.mesh"
 	scale = 1.20
 
-	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_subadult_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -834,7 +880,7 @@ pdxmesh = {
 	file = "direwolf_adult.mesh"
 	scale = 1.20
 
-	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_subadult_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -891,7 +937,7 @@ pdxmesh = {
 	file = "direwolf_adult.mesh"
 	scale = 1.20
 
-	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_subadult_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -948,7 +994,7 @@ pdxmesh = {
 	file = "direwolf_adult.mesh"
 	scale = 1.20
 
-	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_subadult_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -1005,7 +1051,7 @@ pdxmesh = {
 	file = "direwolf_adult.mesh"
 	scale = 1.20
 
-	import = { type = skeletal_animation_set  name = "direwolf_animations" }
+	import = { type = skeletal_animation_set  name = "direwolf_subadult_animations" }
 
 	meshsettings = {
 		name = "direwolf_model"
@@ -1400,6 +1446,17 @@ pdxmesh = {
 	}
 }
 
+# direwolf_idle is a roster of clips that all start and end in the alert pose; a new one is rolled
+# each time one ends. The FIRST pick is not random in the engine, so every break clip opens with 5 s
+# of the alert idle - whatever is picked first, the wolf starts standing alert.
+# The alert state is listed LAST so its slice of the roll is the top 60-99 - where the fixed first
+# roll has been landing (it picked sniff, slice 70-90, when alert was listed first).
+# Chance = relative weight:
+#   alert 15 s (39) | 5 s alert + restless shift 5 s (24) | 5 s alert + sniff 9 s (24) | 5 s alert + sit 18.4 s (12)
+# -> on average a restless shift and a sniff about once a minute each, a sit break about every
+# 2 minutes (sit down, 15 s seated idle, stand up; ~13% of the time seated). Every other state is a
+# plain loop. direwolf_howl is a seated howl followed by 5 s of the seated idle, so the loop has a
+# breath between howls; direwolf_sit is the 15 s seated idle.
 entity = {
 	name = "direwolf_pup_albino_entity"
 	pdxmesh = "direwolf_mesh_pup_albino"
@@ -1407,10 +1464,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1426,10 +1483,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1445,10 +1502,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1464,10 +1521,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1483,10 +1540,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1502,10 +1559,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1521,10 +1578,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1540,10 +1597,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1559,10 +1616,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1578,10 +1635,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1597,10 +1654,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1616,10 +1673,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1635,10 +1692,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1654,10 +1711,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1673,10 +1730,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1692,10 +1749,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1711,10 +1768,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1730,10 +1787,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1749,10 +1806,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1768,10 +1825,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1787,10 +1844,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1806,10 +1863,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1825,10 +1882,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }
@@ -1844,10 +1901,10 @@ entity = {
 	get_state_from_parent = yes
 	default_state = "direwolf_idle"
 
-	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 50	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_restless"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 20	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
-	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 10	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_shift"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sniff"	chance = 24	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle_sit"	chance = 12	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
+	state = { name = "direwolf_idle"	animation = "direwolf_idle"	chance = 39	looping = no	next_state = "direwolf_idle"	animation_blend_time = 0.3 }
 	state = { name = "direwolf_howl"		animation = "direwolf_howl"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_walk"		animation = "direwolf_walk"		looping = yes	animation_blend_time = 0.3 }
 	state = { name = "direwolf_trot"		animation = "direwolf_trot"		looping = yes	animation_blend_time = 0.3 }

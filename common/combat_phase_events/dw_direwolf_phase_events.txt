@@ -1,18 +1,27 @@
-﻿dw_direwolf_maul_knight = {
+﻿# Direwolf combat phase events. Root = the bonded character, scope:combat_side
+# their side. The wolf is not a combatant itself, so it acts through its master:
+# every action has a knight and a commander variant, and the shared 5-day
+# dw_maul_cooldown (or dw_wolf_howled / dw_wolf_bolted) keeps both from firing.
+# What the wolf does depends on the master's battle stance (var:dw_battle_stance,
+# see dw_direwolf_set_battle_stance_effect) and on the wolf's temperament.
+
+dw_direwolf_maul_knight = {
 	type = knight
 
 	is_valid = {
-		has_trait = direwolf_companion
-		has_character_flag = dw_wolf_in_combat
-		NOT = { has_character_flag = dw_maul_cooldown }
-		dw_has_battle_ready_direwolf_trigger = yes
+		dw_wolf_can_act_in_battle_trigger = yes
+		OR = {
+			dw_battle_stance_is_hunt_knights_trigger = yes
+			dw_battle_stance_is_trigger = { STANCE = guard }
+			dw_battle_stance_is_trigger = { STANCE = hunt_commander }
+		}
 		scope:combat_side.enemy_side = {
 			any_side_knight = { is_alive = yes }
 		}
 	}
 
 	chance = {
-		base = 20
+		value = dw_direwolf_maul_weight_value
 	}
 
 	effect = {
@@ -24,20 +33,212 @@ dw_direwolf_maul_commander = {
 	type = commander
 
 	is_valid = {
-		has_trait = direwolf_companion
-		has_character_flag = dw_wolf_in_combat
-		NOT = { has_character_flag = dw_maul_cooldown }
-		dw_has_battle_ready_direwolf_trigger = yes
+		dw_wolf_can_act_in_battle_trigger = yes
+		OR = {
+			dw_battle_stance_is_hunt_knights_trigger = yes
+			dw_battle_stance_is_trigger = { STANCE = guard }
+			dw_battle_stance_is_trigger = { STANCE = hunt_commander }
+		}
 		scope:combat_side.enemy_side = {
 			any_side_knight = { is_alive = yes }
 		}
 	}
 
 	chance = {
-		base = 10
+		value = dw_direwolf_maul_weight_value
 	}
 
 	effect = {
 		dw_direwolf_combat_maul_effect = yes
+	}
+}
+
+dw_direwolf_hunt_commander_knight = {
+	type = knight
+
+	is_valid = {
+		dw_wolf_can_act_in_battle_trigger = yes
+		dw_battle_stance_is_trigger = { STANCE = hunt_commander }
+		scope:combat_side.enemy_side = {
+			exists = side_commander
+			side_commander = { is_alive = yes }
+		}
+	}
+
+	chance = {
+		value = dw_direwolf_hunt_commander_weight_value
+	}
+
+	effect = {
+		dw_direwolf_combat_hunt_commander_effect = yes
+	}
+}
+
+dw_direwolf_hunt_commander_commander = {
+	type = commander
+
+	is_valid = {
+		dw_wolf_can_act_in_battle_trigger = yes
+		dw_battle_stance_is_trigger = { STANCE = hunt_commander }
+		scope:combat_side.enemy_side = {
+			exists = side_commander
+			side_commander = { is_alive = yes }
+		}
+	}
+
+	chance = {
+		value = dw_direwolf_hunt_commander_weight_value
+	}
+
+	effect = {
+		dw_direwolf_combat_hunt_commander_effect = yes
+	}
+}
+
+dw_direwolf_guard_knight = {
+	type = knight
+
+	is_valid = {
+		dw_wolf_can_act_in_battle_trigger = yes
+		dw_battle_stance_is_trigger = { STANCE = guard }
+	}
+
+	chance = {
+		value = dw_direwolf_guard_weight_value
+	}
+
+	effect = {
+		dw_direwolf_combat_guard_effect = yes
+	}
+}
+
+dw_direwolf_guard_commander = {
+	type = commander
+
+	is_valid = {
+		dw_wolf_can_act_in_battle_trigger = yes
+		dw_battle_stance_is_trigger = { STANCE = guard }
+	}
+
+	chance = {
+		value = dw_direwolf_guard_weight_value
+	}
+
+	effect = {
+		dw_direwolf_combat_guard_effect = yes
+	}
+}
+
+dw_direwolf_howl_knight = {
+	type = knight
+
+	is_valid = {
+		dw_wolf_can_act_in_battle_trigger = yes
+		NOT = { has_character_flag = dw_wolf_howled }
+	}
+
+	chance = {
+		value = dw_direwolf_howl_weight_value
+	}
+
+	effect = {
+		dw_direwolf_combat_howl_effect = yes
+	}
+}
+
+dw_direwolf_howl_commander = {
+	type = commander
+
+	is_valid = {
+		dw_wolf_can_act_in_battle_trigger = yes
+		NOT = { has_character_flag = dw_wolf_howled }
+	}
+
+	chance = {
+		value = dw_direwolf_howl_weight_value
+	}
+
+	effect = {
+		dw_direwolf_combat_howl_effect = yes
+	}
+}
+
+dw_direwolf_bolt_knight = {
+	type = knight
+
+	is_valid = {
+		dw_wolf_can_act_in_battle_trigger = yes
+		var:bonded_direwolf = { has_trait = direwolf_skittish }
+	}
+
+	chance = {
+		base = 6
+	}
+
+	effect = {
+		dw_direwolf_combat_bolt_effect = yes
+	}
+}
+
+dw_direwolf_bolt_commander = {
+	type = commander
+
+	is_valid = {
+		dw_wolf_can_act_in_battle_trigger = yes
+		var:bonded_direwolf = { has_trait = direwolf_skittish }
+	}
+
+	chance = {
+		base = 6
+	}
+
+	effect = {
+		dw_direwolf_combat_bolt_effect = yes
+	}
+}
+
+dw_direwolf_misbite_knight = {
+	type = knight
+
+	is_valid = {
+		dw_wolf_can_act_in_battle_trigger = yes
+		var:bonded_direwolf = { has_trait = direwolf_savage }
+		scope:combat_side = {
+			any_side_knight = {
+				is_alive = yes
+				NOT = { this = root }
+			}
+		}
+	}
+
+	chance = {
+		base = 3
+	}
+
+	effect = {
+		dw_direwolf_combat_misbite_effect = yes
+	}
+}
+
+dw_direwolf_misbite_commander = {
+	type = commander
+
+	is_valid = {
+		dw_wolf_can_act_in_battle_trigger = yes
+		var:bonded_direwolf = { has_trait = direwolf_savage }
+		scope:combat_side = {
+			any_side_knight = {
+				is_alive = yes
+				NOT = { this = root }
+			}
+		}
+	}
+
+	chance = {
+		base = 3
+	}
+
+	effect = {
+		dw_direwolf_combat_misbite_effect = yes
 	}
 }

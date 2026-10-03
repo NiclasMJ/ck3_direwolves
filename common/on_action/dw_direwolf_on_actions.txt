@@ -46,6 +46,20 @@ on_travel_plan_movement = {
 	}
 }
 
+# Root = combat side. Hook through on_actions only: AGOT carries a large
+# effect block on on_combat_end_winner that a second effect block would clash with.
+on_combat_end_winner = {
+	on_actions = {
+		dw_direwolf_on_combat_end_winner
+	}
+}
+
+on_combat_end_loser = {
+	on_actions = {
+		dw_direwolf_on_combat_end_loser
+	}
+}
+
 dw_direwolf_on_birthday = {
 	effect = {
 		if = {
@@ -146,6 +160,13 @@ dw_direwolf_on_game_start = {
 			variable = dw_feral_wolves
 			limit = { is_alive = yes }
 			make_unprunable = yes
+		}
+
+		# coat roll for every wolf that does not have one yet (history wolves, saves from before it existed)
+		every_in_global_list = {
+			variable = dw_all_wolves
+			limit = { is_alive = yes }
+			dw_direwolf_ensure_coat_effect = yes
 		}
 
 		every_in_global_list = {
@@ -394,6 +415,70 @@ dw_direwolf_on_travel_movement = {
 			random = {
 				chance = 20
 				trigger_event = dw_direwolf.0700
+			}
+		}
+	}
+}
+
+# Root = winning combat side. Commanders and knights are both checked;
+# dw_post_battle_cd (set by dw_direwolf_post_battle_effect) keeps a character
+# found in both lists from rolling twice.
+dw_direwolf_on_combat_end_winner = {
+	effect = {
+		every_side_commander = {
+			limit = {
+				dw_wolf_was_in_battle_trigger = yes
+				NOT = { has_character_flag = dw_post_battle_cd }
+			}
+			dw_direwolf_post_battle_effect = { EVENT = dw_direwolf.1610  CHANCE = 35 }
+		}
+		every_side_knight = {
+			limit = {
+				dw_wolf_was_in_battle_trigger = yes
+				NOT = { has_character_flag = dw_post_battle_cd }
+			}
+			dw_direwolf_post_battle_effect = { EVENT = dw_direwolf.1610  CHANCE = 35 }
+		}
+	}
+}
+
+# Root = losing combat side; scope:wipe says whether the army was destroyed.
+dw_direwolf_on_combat_end_loser = {
+	effect = {
+		if = {
+			limit = {
+				exists = scope:wipe
+				scope:wipe = yes
+			}
+			every_side_commander = {
+				limit = {
+					dw_wolf_was_in_battle_trigger = yes
+					NOT = { has_character_flag = dw_post_battle_cd }
+				}
+				dw_direwolf_post_battle_effect = { EVENT = dw_direwolf.1630  CHANCE = 60 }
+			}
+			every_side_knight = {
+				limit = {
+					dw_wolf_was_in_battle_trigger = yes
+					NOT = { has_character_flag = dw_post_battle_cd }
+				}
+				dw_direwolf_post_battle_effect = { EVENT = dw_direwolf.1630  CHANCE = 60 }
+			}
+		}
+		else = {
+			every_side_commander = {
+				limit = {
+					dw_wolf_was_in_battle_trigger = yes
+					NOT = { has_character_flag = dw_post_battle_cd }
+				}
+				dw_direwolf_post_battle_effect = { EVENT = dw_direwolf.1620  CHANCE = 50 }
+			}
+			every_side_knight = {
+				limit = {
+					dw_wolf_was_in_battle_trigger = yes
+					NOT = { has_character_flag = dw_post_battle_cd }
+				}
+				dw_direwolf_post_battle_effect = { EVENT = dw_direwolf.1620  CHANCE = 50 }
 			}
 		}
 	}

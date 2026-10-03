@@ -5,7 +5,7 @@
 
 	direwolf_stage_pup = {
 		dna_modifiers = {
-			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_pup  range = { 0 1 } }
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_pup  value = dw_direwolf_coat_svalue }
 		}
 		weight = {
 			base = 0
@@ -35,7 +35,7 @@
 	}
 	direwolf_stage_juvenile = {
 		dna_modifiers = {
-			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_juvenile  range = { 0 1 } }
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_juvenile  value = dw_direwolf_coat_svalue }
 		}
 		weight = {
 			base = 0
@@ -67,7 +67,7 @@
 	}
 	direwolf_stage_subadult = {
 		dna_modifiers = {
-			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_subadult  range = { 0 1 } }
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_subadult  value = dw_direwolf_coat_svalue }
 		}
 		weight = {
 			base = 0
@@ -99,7 +99,7 @@
 	}
 	direwolf_stage_adult = {
 		dna_modifiers = {
-			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_adult  range = { 0 1 } }
+			accessory = { mode = replace  gene = gene_direwolf  template = direwolf_adult  value = dw_direwolf_coat_svalue }
 		}
 		weight = {
 			base = 0

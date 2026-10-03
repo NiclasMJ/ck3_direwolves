@@ -402,63 +402,41 @@ dw_hunt_feral_pack_decision = {
 	}
 }
 
-dw_take_wolf_to_war_decision = {
+dw_command_direwolf_in_war_decision = {
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
 	}
 
-	ai_check_interval = 0
+	ai_check_interval = 120
 	sort_order = 93
 
-	desc = dw_take_wolf_to_war_decision_desc
-	selection_tooltip = dw_take_wolf_to_war_decision_tooltip
-	confirm_text = dw_take_wolf_to_war_decision_confirm
+	desc = dw_command_direwolf_in_war_decision_desc
+	selection_tooltip = dw_command_direwolf_in_war_decision_tooltip
+	confirm_text = dw_command_direwolf_in_war_decision_confirm
 
 	is_shown = {
 		has_trait = direwolf_companion
+		dw_has_grown_direwolf_trigger = yes
+	}
+
+	is_valid = {
+		is_available = yes
+	}
+
+	effect = {
+		trigger_event = dw_direwolf.1600
+		show_as_tooltip = {
+			custom_tooltip = dw_command_direwolf_in_war_decision_effect_tt
+		}
+	}
+
+	ai_potential = {
+		is_at_war = yes
 		NOT = { has_character_flag = dw_wolf_in_combat }
 	}
 
-	is_valid = {
-		is_available = yes
-	}
-
-	effect = {
-		add_character_flag = dw_wolf_in_combat
-		dw_direwolf_refresh_combat_modifier_effect = yes
-		show_as_tooltip = {
-			custom_tooltip = dw_take_wolf_to_war_decision_effect_tt
-		}
-	}
-}
-
-dw_keep_wolf_from_war_decision = {
-	picture = {
-		reference = "gfx/interface/illustrations/decisions/decision_beyond_the_wall.dds"
-	}
-
-	ai_check_interval = 0
-	sort_order = 93
-
-	desc = dw_keep_wolf_from_war_decision_desc
-	selection_tooltip = dw_keep_wolf_from_war_decision_tooltip
-	confirm_text = dw_keep_wolf_from_war_decision_confirm
-
-	is_shown = {
-		has_trait = direwolf_companion
-		has_character_flag = dw_wolf_in_combat
-	}
-
-	is_valid = {
-		is_available = yes
-	}
-
-	effect = {
-		remove_character_flag = dw_wolf_in_combat
-		dw_direwolf_refresh_combat_modifier_effect = yes
-		show_as_tooltip = {
-			custom_tooltip = dw_keep_wolf_from_war_decision_effect_tt
-		}
+	ai_will_do = {
+		base = 100
 	}
 }
 

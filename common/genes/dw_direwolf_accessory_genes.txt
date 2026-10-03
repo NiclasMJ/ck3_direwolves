@@ -1,5 +1,7 @@
-﻿# A wolf stores ONE value for gene_direwolf and keeps it for life; the growth
-# portrait modifier only swaps which TEMPLATE that value is read against. The
+﻿# A wolf stores ONE coat value for life (var:dw_coat, rolled by
+# dw_direwolf_ensure_coat_effect, read via dw_direwolf_coat_svalue); the growth
+# portrait modifier only swaps which TEMPLATE that value is read against.
+# (`range = { 0 1 }` must not be used there: it re-rolls for every stage.) The
 # engine maps the value onto a template's list by cumulative weight in
 # declaration order, so the four non-albino stage lists must carry the SAME
 # coats in the SAME order with the SAME weights - otherwise one value lands on

@@ -1825,27 +1825,12 @@ dw_direwolf.1302 = {
 	}
 }
 
+# The wolf was killed in battle. Every other maul outcome goes to the battle
+# log and a toast instead (dw_direwolf_combat_resolve_maul_effect).
 dw_direwolf.1400 = {
 	type = character_event
 	title = dw_direwolf.1400.t
-
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = { scope:dw_maul_outcome = 1 }
-				desc = dw_direwolf.1400.desc.enemy_wounded
-			}
-			triggered_desc = {
-				trigger = { scope:dw_maul_outcome = 2 }
-				desc = dw_direwolf.1400.desc.enemy_killed
-			}
-			triggered_desc = {
-				trigger = { scope:dw_maul_outcome = 3 }
-				desc = dw_direwolf.1400.desc.wolf_wounded
-			}
-			desc = dw_direwolf.1400.desc.wolf_killed
-		}
-	}
+	desc = dw_direwolf.1400.desc.wolf_killed
 
 	theme = battle
 
@@ -1869,19 +1854,7 @@ dw_direwolf.1400 = {
 	}
 
 	option = {
-		name = dw_direwolf.1400.a
-		trigger = { scope:dw_maul_outcome <= 2 }
-		add_prestige = 50
-	}
-
-	option = {
-		name = dw_direwolf.1400.b
-		trigger = { scope:dw_maul_outcome = 3 }
-	}
-
-	option = {
 		name = dw_direwolf.1400.c
-		trigger = { scope:dw_maul_outcome = 4 }
 	}
 }
 
@@ -1910,5 +1883,521 @@ dw_direwolf.1500 = {
 
 	option = {
 		name = dw_direwolf.1500.a
+	}
+}
+
+# ---------------------------------------------------------------------------
+# Battle stance picker, from dw_command_direwolf_in_war_decision.
+# ---------------------------------------------------------------------------
+dw_direwolf.1600 = {
+	type = character_event
+	title = dw_direwolf.1600.t
+
+	desc = {
+		desc = dw_direwolf.1600.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { has_character_flag = dw_wolf_in_combat } }
+				desc = dw_direwolf.1600.current_kennel
+			}
+			triggered_desc = {
+				trigger = { dw_battle_stance_is_trigger = { STANCE = guard } }
+				desc = dw_direwolf.1600.current_guard
+			}
+			triggered_desc = {
+				trigger = { dw_battle_stance_is_trigger = { STANCE = hunt_commander } }
+				desc = dw_direwolf.1600.current_hunt_commander
+			}
+			triggered_desc = {
+				trigger = { dw_battle_stance_is_trigger = { STANCE = flanks } }
+				desc = dw_direwolf.1600.current_flanks
+			}
+			desc = dw_direwolf.1600.current_hunt_knights
+		}
+	}
+
+	theme = martial
+
+	left_portrait = {
+		character = scope:dw_stance_wolf
+		animation = direwolf_idle
+		camera = camera_direwolf
+	}
+	right_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		exists = var:bonded_direwolf
+	}
+
+	immediate = {
+		var:bonded_direwolf = { save_scope_as = dw_stance_wolf }
+	}
+
+	option = {
+		name = dw_direwolf.1600.guard
+		trigger = { NOT = { dw_battle_stance_is_trigger = { STANCE = guard } } }
+		custom_tooltip = dw_direwolf.1600.guard.tt
+		dw_direwolf_set_battle_stance_effect = { STANCE = guard }
+		ai_chance = {
+			base = 25
+			modifier = { add = 25  has_trait = craven }
+			modifier = { add = 20  has_trait = compassionate }
+			modifier = { add = 15  scope:dw_stance_wolf = { has_trait = direwolf_protective } }
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1600.hunt_knights
+		trigger = { NOT = { dw_battle_stance_is_hunt_knights_trigger = yes } }
+		custom_tooltip = dw_direwolf.1600.hunt_knights.tt
+		dw_direwolf_set_battle_stance_effect = { STANCE = hunt_knights }
+		ai_chance = {
+			base = 30
+			modifier = { add = 20  has_trait = brave }
+			modifier = { add = 15  has_trait = wrathful }
+			modifier = { add = 15  scope:dw_stance_wolf = { has_trait = direwolf_savage } }
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1600.hunt_commander
+		trigger = { NOT = { dw_battle_stance_is_trigger = { STANCE = hunt_commander } } }
+		custom_tooltip = dw_direwolf.1600.hunt_commander.tt
+		dw_direwolf_set_battle_stance_effect = { STANCE = hunt_commander }
+		ai_chance = {
+			base = 10
+			modifier = { add = 15  has_trait = brave }
+			modifier = { add = 10  has_trait = ambitious }
+			modifier = { add = 10  has_trait = arrogant }
+			modifier = { factor = 0.2  scope:dw_stance_wolf = { has_trait = direwolf_skittish } }
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1600.flanks
+		trigger = { NOT = { dw_battle_stance_is_trigger = { STANCE = flanks } } }
+		custom_tooltip = dw_direwolf.1600.flanks.tt
+		dw_direwolf_set_battle_stance_effect = { STANCE = flanks }
+		ai_chance = {
+			base = 25
+			modifier = { add = 10  has_trait = patient }
+			modifier = { add = 10  has_trait = diligent }
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1600.kennel
+		trigger = { has_character_flag = dw_wolf_in_combat }
+		custom_tooltip = dw_direwolf.1600.kennel.tt
+		dw_direwolf_kennel_effect = yes
+		ai_chance = {
+			base = 5
+			modifier = { add = 20  has_trait = craven }
+			modifier = { add = 40  scope:dw_stance_wolf = { has_trait = direwolf_skittish } }
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1600.keep
+		ai_chance = { base = 0 }
+	}
+}
+
+# ---------------------------------------------------------------------------
+# After the battle. Fired from dw_direwolf_on_combat_end_winner / _loser
+# (dw_direwolf_post_battle_effect) one day after the fight, so the winner's
+# prisoner-taking has already happened. scope:dw_battle_wolf is the wolf.
+# ---------------------------------------------------------------------------
+
+# Won: the wolf runs down the routing enemy.
+dw_direwolf.1610 = {
+	type = character_event
+	title = dw_direwolf.1610.t
+	desc = dw_direwolf.1610.desc
+
+	theme = battle
+
+	left_portrait = {
+		character = scope:dw_battle_wolf
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+	right_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		exists = scope:dw_battle_wolf
+		scope:dw_battle_wolf = { is_alive = yes }
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_growl
+	}
+
+	option = {
+		name = dw_direwolf.1610.a
+		add_prestige = 100
+		add_dread = 5
+		random = {
+			chance = 25
+			scope:dw_battle_wolf = {
+				if = {
+					limit = {
+						NOR = {
+							has_trait = wounded_1
+							has_trait = wounded_2
+							has_trait = wounded_3
+						}
+					}
+					add_trait = wounded_1
+				}
+			}
+		}
+		ai_chance = {
+			base = 40
+			modifier = { add = 20  has_trait = wrathful }
+			modifier = { add = 20  has_trait = sadistic }
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1610.b
+		dw_direwolf_deepen_bond_effect = yes
+		add_stress = minor_stress_loss
+		ai_chance = {
+			base = 40
+			modifier = { add = 20  has_trait = compassionate }
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1610.c
+		trigger = { scope:dw_battle_wolf = { has_trait = direwolf_savage } }
+		add_dread = 10
+		add_piety = minor_piety_loss
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 10
+			modifier = { add = 30  has_trait = sadistic }
+		}
+	}
+}
+
+# Lost: the wolf turns on the pursuers - or comes for its captured master.
+dw_direwolf.1620 = {
+	type = character_event
+	title = dw_direwolf.1620.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { is_imprisoned = yes }
+				desc = dw_direwolf.1620.desc_captured
+			}
+			desc = dw_direwolf.1620.desc
+		}
+	}
+
+	theme = battle
+
+	left_portrait = {
+		character = scope:dw_battle_wolf
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+	right_portrait = {
+		character = root
+		animation = worry
+	}
+
+	trigger = {
+		exists = scope:dw_battle_wolf
+		scope:dw_battle_wolf = { is_alive = yes }
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_growl
+	}
+
+	option = {
+		name = dw_direwolf.1620.a
+		random_list = {
+			30 = {
+				save_scope_value_as = { name = dw_retreat_wolf_fate  value = 0 }
+				custom_tooltip = dw_direwolf.1620.wolf_unhurt_tt
+			}
+			50 = {
+				save_scope_value_as = { name = dw_retreat_wolf_fate  value = 1 }
+				scope:dw_battle_wolf = {
+					if = {
+						limit = { NOT = { has_trait = wounded_3 } }
+						add_trait = wounded_2
+					}
+				}
+			}
+			20 = {
+				save_scope_value_as = { name = dw_retreat_wolf_fate  value = 2 }
+				scope:dw_battle_wolf = {
+					make_unprunable = yes
+					death = { death_reason = death_battle }
+				}
+			}
+		}
+		if = {
+			limit = { scope:dw_retreat_wolf_fate < 2 }
+			create_character_memory = {
+				type = dw_direwolf_saved_me_memory
+				participants = { dw_wolf = scope:dw_battle_wolf }
+			}
+			if = {
+				limit = { is_imprisoned = yes }
+				random = {
+					chance = 40
+					send_interface_toast = {
+						type = event_toast_effect_good
+						title = dw_direwolf.1620.freed_toast
+						left_icon = scope:dw_battle_wolf
+						release_from_prison = yes
+					}
+				}
+			}
+			else = {
+				add_character_modifier = {
+					modifier = dw_direwolf_covered_retreat_modifier
+					years = 1
+				}
+			}
+		}
+		ai_chance = {
+			base = 30
+			modifier = { add = 20  has_trait = brave }
+			modifier = { add = 20  is_imprisoned = yes }
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1620.b
+		if = {
+			limit = { is_imprisoned = no }
+			add_prestige = -50
+		}
+		ai_chance = {
+			base = 30
+			modifier = { add = 20  has_trait = craven }
+			modifier = { add = 20  has_trait = compassionate }
+		}
+	}
+}
+
+# Lost with the army wiped out: the wolf did not come back.
+dw_direwolf.1630 = {
+	type = character_event
+	title = dw_direwolf.1630.t
+	desc = dw_direwolf.1630.desc
+
+	theme = battle
+
+	left_portrait = {
+		character = root
+		animation = war_over_loss
+	}
+
+	trigger = {
+		exists = scope:dw_battle_wolf
+		scope:dw_battle_wolf = { is_alive = yes }
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_howl_single
+		# The flag expires on its own, so a wolf can never stay missing forever
+		# if its master dies before 1631/1632 fires.
+		scope:dw_battle_wolf = {
+			add_character_flag = {
+				flag = dw_wolf_missing
+				years = 3
+			}
+		}
+		dw_direwolf_refresh_combat_modifier_effect = yes
+	}
+
+	option = {
+		name = dw_direwolf.1630.a
+		add_character_modifier = {
+			modifier = dw_direwolf_searching_modifier
+			days = 90
+		}
+		custom_tooltip = dw_direwolf.1630.a.tt
+		trigger_event = {
+			id = dw_direwolf.1631
+			days = { 30 90 }
+		}
+		ai_chance = {
+			base = 60
+			modifier = { add = 20  has_trait = compassionate }
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1630.b
+		custom_tooltip = dw_direwolf.1630.b.tt
+		trigger_event = {
+			id = dw_direwolf.1632
+			days = { 365 730 }
+		}
+		ai_chance = {
+			base = 40
+			modifier = { add = 20  has_trait = callous }
+		}
+	}
+}
+
+# The search ends.
+dw_direwolf.1631 = {
+	type = character_event
+	title = dw_direwolf.1631.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:dw_found_outcome = 1 }
+				desc = dw_direwolf.1631.desc_found
+			}
+			desc = dw_direwolf.1631.desc_dead
+		}
+	}
+
+	theme = battle
+
+	left_portrait = {
+		character = scope:dw_battle_wolf
+		animation = direwolf_idle
+		camera = camera_direwolf
+	}
+	right_portrait = {
+		character = root
+		animation = worry
+	}
+
+	trigger = {
+		exists = scope:dw_battle_wolf
+		scope:dw_battle_wolf = { is_alive = yes }
+	}
+
+	on_trigger_fail = {
+		scope:dw_battle_wolf ?= { remove_character_flag = dw_wolf_missing }
+	}
+
+	immediate = {
+		scope:dw_battle_wolf = { remove_character_flag = dw_wolf_missing }
+		remove_character_modifier = dw_direwolf_searching_modifier
+		random_list = {
+			80 = {
+				save_scope_value_as = { name = dw_found_outcome  value = 1 }
+				scope:dw_battle_wolf = {
+					if = {
+						limit = {
+							NOR = {
+								has_trait = wounded_1
+								has_trait = wounded_2
+								has_trait = wounded_3
+							}
+						}
+						add_trait = wounded_1
+					}
+				}
+				dw_direwolf_refresh_combat_modifier_effect = yes
+			}
+			20 = {
+				save_scope_value_as = { name = dw_found_outcome  value = 2 }
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1631.a
+		trigger = { scope:dw_found_outcome = 1 }
+		dw_direwolf_deepen_bond_effect = yes
+	}
+
+	option = {
+		name = dw_direwolf.1631.b
+		trigger = { scope:dw_found_outcome = 2 }
+		scope:dw_battle_wolf = {
+			make_unprunable = yes
+			death = { death_reason = death_battle }
+		}
+	}
+}
+
+# Left to find its own way: it comes home, or it does not.
+dw_direwolf.1632 = {
+	type = character_event
+	title = dw_direwolf.1632.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:dw_return_outcome = 1 }
+				desc = dw_direwolf.1632.desc_returned
+			}
+			desc = dw_direwolf.1632.desc_wild
+		}
+	}
+
+	theme = battle
+
+	left_portrait = {
+		character = scope:dw_battle_wolf
+		animation = direwolf_howl
+		camera = camera_direwolf
+	}
+	right_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	trigger = {
+		exists = scope:dw_battle_wolf
+		scope:dw_battle_wolf = { is_alive = yes }
+	}
+
+	on_trigger_fail = {
+		scope:dw_battle_wolf ?= { remove_character_flag = dw_wolf_missing }
+	}
+
+	immediate = {
+		play_music_cue = dw_wolf_howl_single
+		scope:dw_battle_wolf = { remove_character_flag = dw_wolf_missing }
+		random_list = {
+			50 = {
+				save_scope_value_as = { name = dw_return_outcome  value = 1 }
+				dw_direwolf_refresh_combat_modifier_effect = yes
+			}
+			50 = {
+				save_scope_value_as = { name = dw_return_outcome  value = 2 }
+			}
+		}
+	}
+
+	option = {
+		name = dw_direwolf.1632.a
+		trigger = { scope:dw_return_outcome = 1 }
+		dw_direwolf_deepen_bond_effect = yes
+	}
+
+	option = {
+		name = dw_direwolf.1632.b
+		trigger = { scope:dw_return_outcome = 2 }
+		scope:dw_battle_wolf = {
+			dw_break_direwolf_bond_effect = yes
+			dw_direwolf_go_feral_effect = yes
+		}
 	}
 }
