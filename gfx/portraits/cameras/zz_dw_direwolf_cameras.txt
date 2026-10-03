@@ -1,11 +1,26 @@
-﻿camera_direwolf_pup = {
+﻿# All direwolf cameras orbit dragon_origin, which sits on the ground between the
+# wolf's paws (the wolf faces -Z). Both meshes are exported so that at pdxmesh
+# scale 1.0 the eyes are 86.6 units up - the old model's eye height - so camera
+# HEIGHTS carry over from the old wolf unchanged. Depth does not: the new wolf is
+# shorter, its idle body centre is 21.9 units forward of the origin (old: 9.4)
+# for both the pup and the adult mesh, so camera_direwolf_view (adult, 1.35)
+# looks at z = -30.
+# camera_direwolf_pup / _young are camera_direwolf_view scaled about the origin
+# (by 0.635 / 0.864). Scaling about the paws leaves the ground plane where it is
+# on screen, so every stage stands on the same patch of the painted background
+# instead of being centred in the sky; the pup reads ~70% of the adult's size,
+# juvenile/subadult ~90%. (A fixed 480 radius aimed at the pup's own centre is
+# what made it hover mid-frame.)
+# The seated clips (sit, howl) keep the front paws planted, so a sitting wolf
+# leans back but stays inside the same frame.
+camera_direwolf_pup = {
 	camera = {
-		position = cylindrical{ 480 39 -25 }
+		position = cylindrical{ 305 62 -25 }
 		position_node = {
 			default = dragon_origin
 		}
 
-		look_at = { 0 33 -6 }
+		look_at = { 0 52 -19 }
 		look_at_node = {
 			default = dragon_origin
 		}
@@ -19,12 +34,12 @@
 
 camera_direwolf_young = {
 	camera = {
-		position = cylindrical{ 480 68 -25 }
+		position = cylindrical{ 415 84 -25 }
 		position_node = {
 			default = dragon_origin
 		}
 
-		look_at = { 0 58 -10 }
+		look_at = { 0 71 -26 }
 		look_at_node = {
 			default = dragon_origin
 		}
@@ -43,7 +58,7 @@ camera_direwolf_view = {
 			default = dragon_origin
 		}
 
-		look_at = { 0 82 -14 }
+		look_at = { 0 82 -30 }
 		look_at_node = {
 			default = dragon_origin
 		}
@@ -56,19 +71,25 @@ camera_direwolf_view = {
 }
 
 # The head cameras orbit dragon_origin, which sits between the wolf's FEET at
-# z = 0 - the face is another ~94 units forward (-Z) of it, measured. So the
-# radius is NOT the distance to the face: a radius that equals the face offset
-# drops the camera right on top of the muzzle, side-on. Each radius/height below
-# is derived from "150 units in front of the face, 14 deg off its axis, 8 deg
-# above it", converted to cylindrical about the origin, then scaled per stage.
+# z = 0 - the eyes are another 69.0 units forward (-Z) of it on the adult mesh
+# and 60.1 on the pup mesh (idle, scale 1.0; eye height 86.6 / 85.2), measured.
+# So the radius is NOT the distance to the face: a radius that equals the face
+# offset drops the camera right on top of the muzzle, side-on. Each camera keeps
+# the old cameras' offset from the face (pup 90 units, young 177, adult 142;
+# 14-17 deg off its axis, 4-8 deg above it) and is re-centred on the new eyes,
+# converted to cylindrical about the origin:
+#   pup   = pup mesh x 0.60 -> eyes y 51 z -36
+#   young = midway between juvenile (pup mesh x 0.90, eyes y 77 z -54) and
+#           subadult (adult mesh x 1.20, eyes y 104 z -83) -> y 90 z -68
+#   adult = adult mesh x 1.35 -> eyes y 117 z -93
 camera_direwolf_head_pup = {
 	camera = {
-		position = cylindrical{ 145 65 -9 }
+		position = cylindrical{ 124 64 -11 }
 		position_node = {
 			default = dragon_origin
 		}
 
-		look_at = { 0 53 -57 }
+		look_at = { 0 52 -36 }
 		look_at_node = {
 			default = dragon_origin
 		}
@@ -82,12 +103,12 @@ camera_direwolf_head_pup = {
 
 camera_direwolf_head_young = {
 	camera = {
-		position = cylindrical{ 273 113 -9 }
+		position = cylindrical{ 242 112 -10 }
 		position_node = {
 			default = dragon_origin
 		}
 
-		look_at = { 0 92 -99 }
+		look_at = { 0 91 -68 }
 		look_at_node = {
 			default = dragon_origin
 		}
@@ -101,12 +122,12 @@ camera_direwolf_head_young = {
 
 camera_direwolf_head = {
     camera = {
-        position = cylindrical{ 270 131 -9 }
+        position = cylindrical{ 233 131 -10 }
         position_node = {
             default = dragon_origin
         }
 
-        look_at = { 0 121 -131 }
+        look_at = { 0 121 -93 }
         look_at_node = {
             default = dragon_origin
         }
@@ -125,7 +146,7 @@ camera_direwolf = {
 			default = dragon_origin
 		}
 
-		look_at = { 0 82 -14 }
+		look_at = { 0 82 -30 }
 		look_at_node = {
 			default = dragon_origin
 		}

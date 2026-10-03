@@ -1435,5 +1435,10 @@ entity = {
 	state = { name = "direwolf_idle"	animation = "body_idle_1"	looping = yes }
 	state = { name = "direwolf_howl"	animation = "body_idle_1"	looping = yes }
 	state = { name = "direwolf_walk"	animation = "body_idle_1"	looping = yes }
+	state = { name = "direwolf_trot"	animation = "body_idle_1"	looping = yes }
+	state = { name = "direwolf_sniff"	animation = "body_idle_1"	looping = yes }
+	state = { name = "direwolf_sit"	animation = "body_idle_1"	looping = yes }
+	state = { name = "direwolf_idle_restless"	animation = "body_idle_1"	looping = yes }
+	state = { name = "direwolf_idle_territorial"	animation = "body_idle_1"	looping = yes }
 	#END DIREWOLVES
 }

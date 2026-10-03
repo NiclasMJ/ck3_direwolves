@@ -57,3 +57,103 @@ direwolf_walk = {
     female = male
     girl = boy
 }
+
+direwolf_trot = {
+    male = {
+        default = { head = "idle"  torso = "idle" }
+
+        wolf = {
+            animation = { head = "idle"  torso = "direwolf_trot" }
+            weight = {
+                base = 0
+                modifier = {
+                    add = 100
+                    portrait_has_trait_trigger = { TRAIT = direwolf }
+                }
+            }
+        }
+    }
+    boy = male
+    female = male
+    girl = boy
+}
+
+direwolf_sniff = {
+    male = {
+        default = { head = "idle"  torso = "idle" }
+
+        wolf = {
+            animation = { head = "idle"  torso = "direwolf_sniff" }
+            weight = {
+                base = 0
+                modifier = {
+                    add = 100
+                    portrait_has_trait_trigger = { TRAIT = direwolf }
+                }
+            }
+        }
+    }
+    boy = male
+    female = male
+    girl = boy
+}
+
+direwolf_sit = {
+    male = {
+        default = { head = "idle"  torso = "idle" }
+
+        wolf = {
+            animation = { head = "idle"  torso = "direwolf_sit" }
+            weight = {
+                base = 0
+                modifier = {
+                    add = 100
+                    portrait_has_trait_trigger = { TRAIT = direwolf }
+                }
+            }
+        }
+    }
+    boy = male
+    female = male
+    girl = boy
+}
+
+direwolf_idle_restless = {
+    male = {
+        default = { head = "idle"  torso = "idle" }
+
+        wolf = {
+            animation = { head = "idle"  torso = "direwolf_idle_restless" }
+            weight = {
+                base = 0
+                modifier = {
+                    add = 100
+                    portrait_has_trait_trigger = { TRAIT = direwolf }
+                }
+            }
+        }
+    }
+    boy = male
+    female = male
+    girl = boy
+}
+
+direwolf_idle_territorial = {
+    male = {
+        default = { head = "idle"  torso = "idle" }
+
+        wolf = {
+            animation = { head = "idle"  torso = "direwolf_idle_territorial" }
+            weight = {
+                base = 0
+                modifier = {
+                    add = 100
+                    portrait_has_trait_trigger = { TRAIT = direwolf }
+                }
+            }
+        }
+    }
+    boy = male
+    female = male
+    girl = boy
+}

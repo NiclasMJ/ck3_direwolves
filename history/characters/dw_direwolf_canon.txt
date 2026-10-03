@@ -80,8 +80,7 @@ dw_direwolf_lady = {
 		make_unprunable = yes
 	}
 	8298.6.6 = {
-		death = { death_reason = death_execution }
-		killer = Stark_3
+		death = { death_reason = death_execution  killer = Stark_3 }
 	}
 }
 
