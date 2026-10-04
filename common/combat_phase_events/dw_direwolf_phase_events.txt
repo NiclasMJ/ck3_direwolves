@@ -15,7 +15,7 @@ dw_direwolf_maul_knight = {
 	}
 
 	chance = {
-		value = dw_direwolf_maul_weight_value
+		base = dw_direwolf_maul_weight_value
 	}
 
 	effect = {
@@ -39,7 +39,7 @@ dw_direwolf_maul_commander = {
 	}
 
 	chance = {
-		value = dw_direwolf_maul_weight_value
+		base = dw_direwolf_maul_weight_value
 	}
 
 	effect = {
@@ -60,7 +60,7 @@ dw_direwolf_hunt_commander_knight = {
 	}
 
 	chance = {
-		value = dw_direwolf_hunt_commander_weight_value
+		base = dw_direwolf_hunt_commander_weight_value
 	}
 
 	effect = {
@@ -81,7 +81,7 @@ dw_direwolf_hunt_commander_commander = {
 	}
 
 	chance = {
-		value = dw_direwolf_hunt_commander_weight_value
+		base = dw_direwolf_hunt_commander_weight_value
 	}
 
 	effect = {
@@ -98,7 +98,7 @@ dw_direwolf_guard_knight = {
 	}
 
 	chance = {
-		value = dw_direwolf_guard_weight_value
+		base = dw_direwolf_guard_weight_value
 	}
 
 	effect = {
@@ -115,7 +115,7 @@ dw_direwolf_guard_commander = {
 	}
 
 	chance = {
-		value = dw_direwolf_guard_weight_value
+		base = dw_direwolf_guard_weight_value
 	}
 
 	effect = {
@@ -132,7 +132,7 @@ dw_direwolf_howl_knight = {
 	}
 
 	chance = {
-		value = dw_direwolf_howl_weight_value
+		base = dw_direwolf_howl_weight_value
 	}
 
 	effect = {
@@ -149,7 +149,7 @@ dw_direwolf_howl_commander = {
 	}
 
 	chance = {
-		value = dw_direwolf_howl_weight_value
+		base = dw_direwolf_howl_weight_value
 	}
 
 	effect = {

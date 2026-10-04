@@ -523,13 +523,12 @@ dw_direwolf_howl_weight_value = {
 }
 
 # The wolf's coat roll
+# Portrait context is a weak scope and cannot read character variables, so the
+# coat comes only from the global band lists (filed by dw_direwolf_ensure_coat_effect).
+# Each band's midpoint lands on the same coat in the gene templates.
 dw_direwolf_coat_svalue = {
 	value = 0.5
 	if = {
-		limit = { has_variable = dw_coat }
-		value = var:dw_coat
-	}
-	else_if = {
 		limit = { is_target_in_global_variable_list = { name = dw_coat_black  target = this } }
 		value = 0.03125
 	}

@@ -13,6 +13,7 @@
 
 	8291.1.1 = {
 		birth = yes
+		set_variable = { name = dw_coat  value = 0.09375 } # dark grey coat, fixed
 		make_unprunable = yes
 	}
 	8296.1.1 = {
@@ -36,7 +37,14 @@ dw_direwolf_greywind = {
 
 	8296.1.1 = {
 		birth = yes
+		set_variable = { name = dw_coat  value = 0.28125 } # grey coat, fixed
 		make_unprunable = yes
+	}
+	8299.12.15 = {
+		death = {
+			death_reason = death_bloody_wedding # The Red Wedding
+			killer = Frey_1 #Walder Frey
+		}
 	}
 }
 
@@ -57,6 +65,7 @@ dw_direwolf_ghost = {
 
 	8296.1.1 = {
 		birth = yes
+		set_variable = { name = dw_coat  value = 0.28125 } # grey coat, fixed
 		make_unprunable = yes
 	}
 }
@@ -77,6 +86,7 @@ dw_direwolf_lady = {
 
 	8296.1.1 = {
 		birth = yes
+		set_variable = { name = dw_coat  value = 0.28125 } # grey coat, fixed
 		make_unprunable = yes
 	}
 	8298.6.6 = {
@@ -101,6 +111,7 @@ dw_direwolf_nymeria = {
 
 	8296.1.1 = {
 		birth = yes
+		set_variable = { name = dw_coat  value = 0.28125 } # grey coat, fixed
 		make_unprunable = yes
 	}
 	8298.5.1 = {
@@ -126,6 +137,7 @@ dw_direwolf_summer = {
 
 	8296.1.1 = {
 		birth = yes
+		set_variable = { name = dw_coat  value = 0.90625 } # red coat, fixed
 		make_unprunable = yes
 	}
 }
@@ -145,6 +157,7 @@ dw_direwolf_shaggydog = {
 
 	8296.1.1 = {
 		birth = yes
+		set_variable = { name = dw_coat  value = 0.09375 } # dark grey coat, fixed
 		make_unprunable = yes
 	}
 }

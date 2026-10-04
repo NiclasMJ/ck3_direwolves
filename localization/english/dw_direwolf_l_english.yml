@@ -416,9 +416,8 @@
  dw_direwolf.1104.a:0 "The wild wins this day."
  dw_command_direwolf_in_war_decision:0 "Command Your Wolf in War"
  dw_command_direwolf_in_war_decision_tooltip:0 "Decide how your direwolf fights - at your side, in the enemy's line, at their commander's throat, along the flanks, or not at all."
- dw_command_direwolf_in_war_decision_desc:0 "A direwolf is worth a dozen swords in the press of battle, and men who would not flinch from a blade will break and run before its jaws. But a beast in the fray is a beast that can be speared or ridden down like any other.\n\nWhere it goes when the lines meet is your choice. What it does once it gets there is partly its own."
+ dw_command_direwolf_in_war_decision_desc:0 "A direwolf is worth a dozen swords in the press of battle. Choose where it fights, or keep it home."
  dw_command_direwolf_in_war_decision_confirm:0 "Call the wolf"
- dw_command_direwolf_in_war_decision_effect_tt:0 "Choose your direwolf's #V battle stance#!"
  death_direwolf_mauled:0 "was mauled to death by a direwolf"
  death_direwolf_mauled_killer:0 "was mauled to death by [TARGET_CHARACTER.GetUIName]"
  dw_direwolf.1200.t:0 "The Wolf and the Dragon"
@@ -474,13 +473,6 @@
  DW_DIREWOLF_TREE_GEN_4:0 "Fifth Generation"
 
  # Battle stances
- dw_direwolf.1600.t:0 "The Wolf Goes to War"
- dw_direwolf.1600.desc:0 "[dw_stance_wolf.GetShortUINameNoTooltip] watches the camp being struck the way it watches deer at the treeline - very still, very interested. It knows something is coming. It does not yet know what you want of it.\n\n"
- dw_direwolf.1600.current_kennel:0 "#I For now, it stays behind when the army marches.#!"
- dw_direwolf.1600.current_guard:0 "#I For now, it fights at your side and nowhere else.#!"
- dw_direwolf.1600.current_hunt_knights:0 "#I For now, it goes into the enemy line after their knights.#!"
- dw_direwolf.1600.current_hunt_commander:0 "#I For now, it hunts the man who leads them.#!"
- dw_direwolf.1600.current_flanks:0 "#I For now, it runs the flanks and harries the stragglers.#!"
  dw_direwolf.1600.guard:0 "Stay with me."
  dw_direwolf.1600.guard.tt:0 "#V Guard#!: the wolf keeps the press off you, wounding knights who come too close and lending you #P +4#! [prowess|E] in the moment. It rarely duels, so it is rarely in danger."
  dw_direwolf.1600.hunt_knights:0 "Into their line."
@@ -491,7 +483,11 @@
  dw_direwolf.1600.flanks.tt:0 "#V Harry the Flanks#!: no duels, little danger. Enemy armies suffer more casualties, and the wolf howls more often."
  dw_direwolf.1600.kennel:0 "Not this war."
  dw_direwolf.1600.kennel.tt:0 "#V Kennel#!: the wolf stays home. No bonus, no risk."
- dw_direwolf.1600.keep:0 "Leave it as it is."
+ dw_stance_guard_tooltip:0 "#V Guard#!: the wolf keeps the press off you, wounding knights who come too close and lending you #P +4#! [prowess|E] in the moment. It rarely duels, so it is rarely in danger."
+ dw_stance_hunt_knights_tooltip:0 "#V Hunt Knights#!: the wolf goes after the enemy's knights - wounding or killing them, or dying in the attempt. #weak (The old way.)#!"
+ dw_stance_hunt_commander_tooltip:0 "#V Hunt the Commander#!: rarely gets close, and a commander is well guarded. When it does, the commander may be maimed or killed - and the wolf is far likelier to die."
+ dw_stance_flanks_tooltip:0 "#V Harry the Flanks#!: no duels, little danger. Enemy armies suffer more casualties, and the wolf howls more often."
+ dw_stance_kennel_tooltip:0 "#V Kennel#!: the wolf stays home. No bonus, no risk."
 
 # Battle log. CHARACTER is the wolf, TARGET_CHARACTER the man it fought.
  dw_bl_maul_wounded_friendly:0 "Our direwolf [CHARACTER.GetShortUINameNoTooltip] dragged down [TARGET_CHARACTER.GetShortUINameNoTooltip] and mauled [TARGET_CHARACTER.GetHerHim]!"

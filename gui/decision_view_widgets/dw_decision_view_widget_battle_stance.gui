@@ -1,0 +1,80 @@
+﻿vbox = {
+	name = "dw_decision_view_widget_battle_stance"
+	layoutpolicy_horizontal = expanding
+	layoutpolicy_vertical = expanding
+	ignoreinvisible = yes
+
+	text_label_center = {
+		text = "SELECT_VALID_OPTION"
+	}
+
+	scrollbox = {
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+		size = { 470 166 }
+
+		blockoverride "scrollbox_content" {
+			vbox = {
+				margin_top = 10
+				datamodel = "[DecisionViewWidgetOptionList.GetEntries]"
+				spacing = 6
+
+				item = {
+					DwBattleStanceOptionItem = {}
+				}
+			}
+		}
+
+		blockoverride "scrollbox_background_fade" {}
+	}
+}
+
+types DwBattleStanceOptionTypes
+{
+	type DwBattleStanceOptionItem = button_standard {
+		size = { 450 60 }
+		margin = { 10 10 }
+
+		onclick = "[DecisionViewWidgetOptionList.OnSelect(Entry.Self)]"
+		enabled = "[Entry.IsEnabled]"
+		tooltip = "[Entry.GetTooltip]"
+		down = "[Entry.IsSelected]"
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			spacing = 10
+			margin_left = 10
+
+			icon = {
+				name = "option_icon"
+				size = { 45 45 }
+				texture = "[Entry.GetIcon]"
+				visible = "[Not( Entry.IsFlatIcon )]"
+			}
+
+			highlight_icon_building = {
+				name = "flat_option_icon"
+				size = { 45 45 }
+				texture = "[Entry.GetIcon]"
+				visible = "[Entry.IsFlatIcon]"
+			}
+
+			vbox = {
+				name = "option_info"
+
+				layoutpolicy_vertical = expanding
+				margin_bottom = 5
+
+				text_single = {
+					name = "option_type"
+					text = "[Entry.GetName]"
+					max_width = 250
+					align = left
+				}
+			}
+
+			expand = {}
+		}
+	}
+}

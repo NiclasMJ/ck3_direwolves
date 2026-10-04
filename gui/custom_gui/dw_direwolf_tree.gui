@@ -1,4 +1,4 @@
-types DirewolfTreeView
+﻿types DirewolfTreeView
 {
 	type dw_direwolf_tree_node = container {
 		size = { 150 190 }
@@ -108,24 +108,11 @@ window = {
 	layer = middle
 	using = Window_Background_Dragon_Tree
 	datacontext = "[GetPlayer]"
-	datacontext = "[GetVariableSystem]"
-	visible = "[And(And(GetVariableSystem.Exists('dw_direwolf_tree_visible'), IsInGame), GetPlayer.MakeScope.Var('dw_tree_stump').IsSet)]"
+	visible = "[And(IsInGame, GetPlayer.MakeScope.Var('dw_tree_stump').IsSet)]"
 
 	state = {
 		name = _show
 		alpha = 1
-	}
-
-	state = {
-		name = _hide
-		on_start = "[GetVariableSystem.Clear('dw_direwolf_tree_visible')]"
-	}
-
-	state = {
-		name = dismiss
-		next = _hide
-		trigger_when = "[Not(GetVariableSystem.Exists('dw_direwolf_tree_visible'))]"
-		on_finish = "[GetScriptedGui('dw_close_direwolf_tree').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End)]"
 	}
 
 	widget = {
@@ -261,7 +248,7 @@ window = {
 					button_close = {
 						parentanchor = top|right
 						tooltip = "CLOSE_TOOLTIP"
-						onclick = "[GetVariableSystem.Clear('dw_direwolf_tree_visible')]"
+						onclick = "[GetScriptedGui('dw_close_direwolf_tree').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 						clicksound = "event:/SFX/UI/Generic/sfx_ui_generic_close"
 						using = Animation_ShowHide_Standard
 					}

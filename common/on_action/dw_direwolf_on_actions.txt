@@ -155,12 +155,6 @@ dw_direwolf_on_game_start = {
 			}
 		}
 
-		every_in_global_list = {
-			variable = dw_feral_wolves
-			limit = { is_alive = yes }
-			make_unprunable = yes
-		}
-
 		# coat roll for every wolf that does not have one yet (history wolves)
 		every_in_global_list = {
 			variable = dw_all_wolves
@@ -212,7 +206,6 @@ dw_direwolf_yearly_global_pulse = {
 		if = {
 			limit = {
 				NOT = { has_global_variable = dw_canon_litter_done }
-				has_game_rule = agot_story_historical_events_historical_outcomes
 				dw_direwolf_canon_history_exists_trigger = no
 				current_date >= 8296.1.1
 				character:Stark_3 ?= { is_alive = yes }

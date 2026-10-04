@@ -421,13 +421,157 @@ dw_command_direwolf_in_war_decision = {
 
 	is_valid = {
 		is_available = yes
+		exists = var:bonded_direwolf
+	}
+
+	widget = {
+		gui = "dw_decision_view_widget_battle_stance"
+		controller = decision_option_list_controller
+
+		item = {
+			value = dw_stance_guard
+			localization = dw_direwolf.1600.guard
+			current_description = dw_direwolf.1600.guard.tt
+			icon = "gfx/interface/icons/traits/direwolf.dds"
+			is_valid = {
+				NOT = { dw_battle_stance_is_trigger = { STANCE = guard } }
+			}
+			ai_chance = {
+				value = 25
+				if = {
+					limit = { has_trait = craven }
+					add = 25
+				}
+				if = {
+					limit = { has_trait = compassionate }
+					add = 20
+				}
+				if = {
+					limit = { var:bonded_direwolf = { has_trait = direwolf_protective } }
+					add = 15
+				}
+			}
+		}
+
+		item = {
+			value = dw_stance_hunt_knights
+			localization = dw_direwolf.1600.hunt_knights
+			current_description = dw_direwolf.1600.hunt_knights.tt
+			icon = "gfx/interface/icons/traits/direwolf.dds"
+			is_valid = {
+				NOT = { dw_battle_stance_is_hunt_knights_trigger = yes }
+			}
+			ai_chance = {
+				value = 30
+				if = {
+					limit = { has_trait = brave }
+					add = 20
+				}
+				if = {
+					limit = { has_trait = wrathful }
+					add = 15
+				}
+				if = {
+					limit = { var:bonded_direwolf = { has_trait = direwolf_savage } }
+					add = 15
+				}
+			}
+		}
+
+		item = {
+			value = dw_stance_hunt_commander
+			localization = dw_direwolf.1600.hunt_commander
+			current_description = dw_direwolf.1600.hunt_commander.tt
+			icon = "gfx/interface/icons/traits/direwolf.dds"
+			is_valid = {
+				NOT = { dw_battle_stance_is_trigger = { STANCE = hunt_commander } }
+			}
+			ai_chance = {
+				value = 10
+				if = {
+					limit = { has_trait = brave }
+					add = 15
+				}
+				if = {
+					limit = { has_trait = ambitious }
+					add = 10
+				}
+				if = {
+					limit = { has_trait = arrogant }
+					add = 10
+				}
+				if = {
+					limit = { var:bonded_direwolf = { has_trait = direwolf_skittish } }
+					multiply = 0.2
+				}
+			}
+		}
+
+		item = {
+			value = dw_stance_flanks
+			localization = dw_direwolf.1600.flanks
+			current_description = dw_direwolf.1600.flanks.tt
+			icon = "gfx/interface/icons/traits/direwolf.dds"
+			is_valid = {
+				NOT = { dw_battle_stance_is_trigger = { STANCE = flanks } }
+			}
+			ai_chance = {
+				value = 25
+				if = {
+					limit = { has_trait = patient }
+					add = 10
+				}
+				if = {
+					limit = { has_trait = diligent }
+					add = 10
+				}
+			}
+		}
+
+		item = {
+			value = dw_stance_kennel
+			localization = dw_direwolf.1600.kennel
+			current_description = dw_direwolf.1600.kennel.tt
+			icon = "gfx/interface/icons/traits/direwolf.dds"
+			is_valid = {
+				has_character_flag = dw_wolf_in_combat
+			}
+			ai_chance = {
+				value = 5
+				if = {
+					limit = { has_trait = craven }
+					add = 20
+				}
+				if = {
+					limit = { var:bonded_direwolf = { has_trait = direwolf_skittish } }
+					add = 40
+				}
+			}
+		}
 	}
 
 	effect = {
-		trigger_event = dw_direwolf.1600
-		show_as_tooltip = {
-			custom_tooltip = dw_command_direwolf_in_war_decision_effect_tt
+		if = {
+			limit = { scope:dw_stance_guard = yes }
+			dw_direwolf_set_battle_stance_effect = { STANCE = guard }
 		}
+		else_if = {
+			limit = { scope:dw_stance_hunt_knights = yes }
+			dw_direwolf_set_battle_stance_effect = { STANCE = hunt_knights }
+		}
+		else_if = {
+			limit = { scope:dw_stance_hunt_commander = yes }
+			dw_direwolf_set_battle_stance_effect = { STANCE = hunt_commander }
+		}
+		else_if = {
+			limit = { scope:dw_stance_flanks = yes }
+			dw_direwolf_set_battle_stance_effect = { STANCE = flanks }
+		}
+		else_if = {
+			limit = { scope:dw_stance_kennel = yes }
+			dw_direwolf_kennel_effect = yes
+		}
+		var:bonded_direwolf = { save_scope_as = dw_stance_wolf }
 	}
 
 	ai_potential = {

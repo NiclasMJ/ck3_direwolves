@@ -1,4 +1,4 @@
-dw_direwolf_tree_check = {
+﻿dw_direwolf_tree_check = {
 	scope = character
 
 	is_shown = {

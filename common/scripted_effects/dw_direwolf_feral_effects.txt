@@ -38,8 +38,6 @@ dw_direwolf_go_feral_effect = {
         add_trait = direwolf_wild
         clear_variable_list = dw_packmates
         add_character_flag = dw_feral
-
-        make_unprunable = yes
     }
 
     add_to_global_variable_list = { name = dw_feral_wolves  target = scope:dw_new_feral }
@@ -402,7 +400,6 @@ dw_direwolf_create_wild_wolf_effect = {
     }
     scope:new_direwolf = {
         add_character_flag = dw_feral
-        make_unprunable = yes
         dw_direwolf_ensure_coat_effect = yes
     }
     add_to_global_variable_list = { name = dw_all_wolves     target = scope:new_direwolf }
