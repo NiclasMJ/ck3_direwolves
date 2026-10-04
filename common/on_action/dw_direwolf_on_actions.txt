@@ -46,8 +46,7 @@ on_travel_plan_movement = {
 	}
 }
 
-# Root = combat side. Hook through on_actions only: AGOT carries a large
-# effect block on on_combat_end_winner that a second effect block would clash with.
+# Root = combat side. 
 on_combat_end_winner = {
 	on_actions = {
 		dw_direwolf_on_combat_end_winner
@@ -162,7 +161,7 @@ dw_direwolf_on_game_start = {
 			make_unprunable = yes
 		}
 
-		# coat roll for every wolf that does not have one yet (history wolves, saves from before it existed)
+		# coat roll for every wolf that does not have one yet (history wolves)
 		every_in_global_list = {
 			variable = dw_all_wolves
 			limit = { is_alive = yes }
@@ -420,9 +419,7 @@ dw_direwolf_on_travel_movement = {
 	}
 }
 
-# Root = winning combat side. Commanders and knights are both checked;
-# dw_post_battle_cd (set by dw_direwolf_post_battle_effect) keeps a character
-# found in both lists from rolling twice.
+# Root = winning combat side.
 dw_direwolf_on_combat_end_winner = {
 	effect = {
 		every_side_commander = {
@@ -442,7 +439,7 @@ dw_direwolf_on_combat_end_winner = {
 	}
 }
 
-# Root = losing combat side; scope:wipe says whether the army was destroyed.
+# Root = losing combat side.
 dw_direwolf_on_combat_end_loser = {
 	effect = {
 		if = {

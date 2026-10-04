@@ -1,10 +1,4 @@
-﻿# Direwolf combat phase events. Root = the bonded character, scope:combat_side
-# their side. The wolf is not a combatant itself, so it acts through its master:
-# every action has a knight and a commander variant, and the shared 5-day
-# dw_maul_cooldown (or dw_wolf_howled / dw_wolf_bolted) keeps both from firing.
-# What the wolf does depends on the master's battle stance (var:dw_battle_stance,
-# see dw_direwolf_set_battle_stance_effect) and on the wolf's temperament.
-
+﻿# Direwolf combat phase events.
 dw_direwolf_maul_knight = {
 	type = knight
 

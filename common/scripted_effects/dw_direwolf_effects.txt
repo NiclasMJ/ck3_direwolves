@@ -1,9 +1,4 @@
-﻿# Rolls the wolf's coat once and keeps it for life (see dw_direwolf_coat_svalue).
-# var:dw_coat is a position on the coat lists of gene_direwolf (all four stages keep them in the same
-# order and weights). Character variables do not survive death, so the coat is ALSO recorded by
-# putting the wolf into one global list per coat; a dead wolf's portrait reads the list instead.
-# Never remove wolves from these lists - the dead ones are exactly why they exist.
-# The weights below must match the coat weights in common/genes/dw_direwolf_accessory_genes.txt.
+﻿# Rolls the wolf's coat
 dw_direwolf_ensure_coat_effect = {
     if = {
         limit = {
@@ -190,13 +185,6 @@ dw_direwolf_deepen_bond_effect = {
     }
 }
 
-# Names come from the culture, not from script. Every direwolf template sets
-# culture = culture:wolf_culture, so leaving `name` off create_character makes
-# the engine draw a gender-correct name from that culture's list -
-# common/culture/name_lists/dw_direwolf_name_lists_wolf.txt. Add, remove or
-# re-gender names THERE; nothing here needs to change. The canon Stark wolves
-# (and their mother Winter) are the only ones still named explicitly, because
-# those names are fixed by the books - see dw_direwolf_give_canon_pup_effect.
 dw_create_direwolf_effect = {
     create_character = {
         location = $OWNER$.location
@@ -213,8 +201,7 @@ dw_create_direwolf_effect = {
     add_to_global_variable_list = { name = dw_all_wolves  target = scope:new_direwolf }
 }
 
-# The two wrappers below are the albino roll, not a name roll - call sites read
-# "5 = albino / 95 = ordinary". Both let the culture name the wolf.
+# The two wrappers below are the albino roll
 dw_direwolf_roll_name_effect = {
     dw_create_direwolf_effect = { OWNER = $OWNER$  TEMPLATE = $TEMPLATE$ }
 }
@@ -1042,12 +1029,7 @@ dw_direwolf_call_to_court_effect = {
 }
 
 # ---------------------------------------------------------------------------
-# Combat phase actions. Root = the bonded character (knight or commander);
-# scope:combat_side is the side they fight on. Every action writes to the
-# battle summary and sends the player a toast; only the wolf's death opens a
-# full event (dw_direwolf.1400).
-# Battle-log loc keys need _friendly and _enemy variants; CHARACTER is the
-# left portrait (always the wolf), TARGET_CHARACTER the right.
+# Combat phase actions.
 # ---------------------------------------------------------------------------
 
 dw_direwolf_battle_log_effect = {
@@ -1101,7 +1083,7 @@ dw_direwolf_combat_maul_effect = {
     }
 }
 
-# Go for the enemy commander. Harder to reach, worth far more.
+# Go for the enemy commander. Harder to reach
 dw_direwolf_combat_hunt_commander_effect = {
     if = {
         limit = {
@@ -1126,9 +1108,7 @@ dw_direwolf_combat_hunt_commander_effect = {
     }
 }
 
-# Wolf vs scope:dw_maul_knight. dw_direwolf_maul_win_chance_value reads
-# scope:dw_maul_knight, so every target is saved under that name.
-# dw_maul_outcome: 1 target wounded, 2 target killed, 3 wolf wounded, 4 wolf killed.
+# Wolf vs scope:dw_maul_knight
 dw_direwolf_combat_resolve_maul_effect = {
     var:bonded_direwolf = { save_scope_as = dw_maul_wolf }
 
@@ -1243,7 +1223,7 @@ dw_direwolf_combat_resolve_maul_effect = {
     }
 }
 
-# Guard stance: the wolf keeps the press off its master.
+# Guard stance
 dw_direwolf_combat_guard_effect = {
     var:bonded_direwolf = { save_scope_as = dw_maul_wolf }
     save_scope_as = dw_wolf_master
@@ -1356,7 +1336,7 @@ dw_direwolf_combat_howl_effect = {
     }
 }
 
-# Skittish wolves can break and run. It is out of the fight for a while.
+# Skittish wolves can break and run. They're out of the fight for a while.
 dw_direwolf_combat_bolt_effect = {
     var:bonded_direwolf = { save_scope_as = dw_maul_wolf }
 
@@ -1384,7 +1364,7 @@ dw_direwolf_combat_bolt_effect = {
     }
 }
 
-# Savage wolves do not always tell friend from foe.
+# Savage wolves can accidentally attack their own men. (I heard Umbers are particularly tasty)
 dw_direwolf_combat_misbite_effect = {
     var:bonded_direwolf = { save_scope_as = dw_maul_wolf }
     save_scope_as = dw_wolf_master
@@ -1433,8 +1413,6 @@ dw_direwolf_combat_misbite_effect = {
     }
 }
 
-# Root = a character who fought with their wolf. Rolls one post-battle event,
-# a day later so the winner's prisoner-taking has resolved first.
 dw_direwolf_post_battle_effect = {
     add_character_flag = {
         flag = dw_post_battle_cd

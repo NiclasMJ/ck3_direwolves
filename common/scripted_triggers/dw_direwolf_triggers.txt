@@ -137,9 +137,7 @@ dw_has_battle_ready_direwolf_trigger = {
 	}
 }
 
-# Battle stances. dw_wolf_in_combat means "the wolf goes to war"; the stance
-# lives in var:dw_battle_stance. A wolf sent to war before stances existed has
-# the flag but no variable, and fights as hunt_knights - the old behaviour.
+# Battle stances
 dw_battle_stance_is_trigger = {
 	has_character_flag = dw_wolf_in_combat
 	exists = var:dw_battle_stance
@@ -154,7 +152,7 @@ dw_battle_stance_is_hunt_knights_trigger = {
 	}
 }
 
-# Shared core of every wolf combat phase event. Root is the bonded character.
+# Shared core of every wolf combat phase event
 dw_wolf_can_act_in_battle_trigger = {
 	has_trait = direwolf_companion
 	has_character_flag = dw_wolf_in_combat
@@ -163,7 +161,7 @@ dw_wolf_can_act_in_battle_trigger = {
 	NOT = { has_character_flag = dw_wolf_bolted }
 }
 
-# Looser than battle-ready: after a battle the wolf is very likely wounded.
+# Looser than battle-ready
 dw_wolf_was_in_battle_trigger = {
 	has_trait = direwolf_companion
 	has_character_flag = dw_wolf_in_combat

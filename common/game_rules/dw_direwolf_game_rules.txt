@@ -13,7 +13,7 @@
 }
 
 dw_pack_rank_system = {
-	default = dw_pack_rank_system_active
+	default = dw_pack_rank_system_inactive # Most people dislike it ;C So I make it deactivated as the standard
 
 	categories = {
 		dw

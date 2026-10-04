@@ -522,12 +522,7 @@ dw_direwolf_howl_weight_value = {
 	}
 }
 
-# The wolf's coat roll, 0..1, read by gfx/portraits/portrait_modifiers/01_dw_direwolf_growth.txt.
-# Set once per wolf by dw_direwolf_ensure_coat_effect; every growth stage reads the SAME value, so a
-# wolf keeps its coat from pup to adult. (The stages used `range = { 0 1 }`, which re-rolls per stage.)
-# A living wolf has var:dw_coat. A dead wolf no longer has its variables, so its coat comes from the
-# global coat list it was filed in (the centre of that coat's band - same coat). 0.5 is only a
-# fallback for a wolf that was never rolled.
+# The wolf's coat roll
 dw_direwolf_coat_svalue = {
 	value = 0.5
 	if = {
