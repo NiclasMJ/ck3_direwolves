@@ -1,8 +1,5 @@
 ﻿types DirewolfTreeView
 {
-	# One wolf: portrait, name, and - recursively - its own litter underneath.
-	# Data comes from the tree stories through GetGlobalVariable, never from
-	# GetPlayer, so the tree also opens in observer mode.
 	type dw_direwolf_tree_item = container {
 		name = "dw_direwolf_tree_item"
 		ignoreinvisible = yes
@@ -61,7 +58,6 @@
 				}
 			}
 
-			# The litter: a stem down from this wolf, a bar across, then the pups.
 			flowcontainer = {
 				direction = vertical
 				parentanchor = hcenter
@@ -115,7 +111,6 @@
 		}
 	}
 
-	# The founder sits at the top and has nothing above it to connect to.
 	type dw_direwolf_tree_root_item = dw_direwolf_tree_item {
 		blockoverride "line_to_parent" {}
 	}
