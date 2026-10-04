@@ -1687,22 +1687,12 @@ dw_direwolf_bond_canon_history_pup_effect = {
 		}
 	}
 }
-
-# Registers every canon wolf in the permanent registry, whether or not it gets bonded.
-# A dead wolf is a "weak" character scope: the game refuses every variable
-# operation on it (has_variable, add_to_variable_list, ...). So parentage is NOT
-# stored on the wolves. Instead every wolf ever created is kept in one global
-# list, and the tree finds children by matching real_mother / real_father
-# against it - those links keep working on weak scopes.
 dw_direwolf_register_wolf_effect = {
 	if = {
 		limit = { NOT = { is_target_in_global_variable_list = { name = dw_wolf_registry  target = this } } }
 		add_to_global_variable_list = { name = dw_wolf_registry  target = this }
 	}
 }
-
-# Adds one wolf to the registry by history id. Runs in the CALLER's scope, so it
-# works for wolves that are already dead (their own scope rejects variable work).
 dw_direwolf_register_canon_wolf_effect = {
 	if = {
 		limit = {
@@ -1732,10 +1722,6 @@ dw_direwolf_bond_canon_history_effect = {
 	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_11  WOLF = dw_direwolf_shaggydog COAT_VALUE = 0.09375 }
 }
 
-
-# Everything the tree needs lives on stories owned by one host character, because
-# dead wolves are weak scopes that reject variables. Rebuilding on each open keeps
-# old saves working and costs only a handful of stories.
 dw_direwolf_tree_pick_host_effect = {
 	if = {
 		limit = { exists = title:c_ruins.holder }
@@ -1752,9 +1738,6 @@ dw_direwolf_tree_pick_host_effect = {
 		}
 	}
 }
-
-# One parent story per wolf that has children: this_parent plus its child_container.
-# The GUI walks those stories to draw each litter under its parent.
 dw_direwolf_tree_build_generation_effect = {
 	scope:dw_tree_story = {
 		every_in_list = {
@@ -1796,8 +1779,6 @@ dw_direwolf_tree_build_generation_effect = {
 					}
 					save_temporary_scope_as = dw_tree_kid
 					scope:dw_tree_story = {
-						# A pup whose mother and father are both in the tree would otherwise
-						# be drawn under each of them: it is placed under the first one only.
 						if = {
 							limit = { NOT = { is_target_in_variable_list = { name = dw_tree_all  target = scope:dw_tree_kid } } }
 							add_to_variable_list = { name = $INTO$      target = scope:dw_tree_kid }
@@ -1812,8 +1793,6 @@ dw_direwolf_tree_build_generation_effect = {
 		}
 	}
 }
-
-# Ends the stories of the previous tree and forgets it. Safe to call when no tree is open.
 dw_direwolf_tree_clear_effect = {
 	if = {
 		limit = { exists = global_var:dw_tree_host }
