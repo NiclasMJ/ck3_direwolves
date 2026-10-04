@@ -244,6 +244,8 @@ dw_direwolf_create_canon_pup_effect = {
     add_to_global_variable_list = { name = dw_all_wolves  target = scope:new_direwolf }
 
     scope:new_direwolf = {
+        # Named wolves have a fixed coat: file it before the roll can run.
+        set_variable = { name = dw_coat  value = $COAT_VALUE$ }
         add_trait = direwolf_wild
         add_trait = $TEMPER$
         add_trait = $BUILD$
@@ -274,7 +276,7 @@ dw_direwolf_give_canon_pup_effect = {
             save_scope_as = dw_canon_child
         }
         hidden_effect = {
-            dw_direwolf_create_canon_pup_effect = { NAME = $NAME$  GENDER = $GENDER$  TEMPER = $TEMPER$  BUILD = $BUILD$  COAT = $COAT$ }
+            dw_direwolf_create_canon_pup_effect = { NAME = $NAME$  GENDER = $GENDER$  TEMPER = $TEMPER$  BUILD = $BUILD$  COAT = $COAT$  COAT_VALUE = $COAT_VALUE$ }
         }
     }
 }
@@ -282,12 +284,12 @@ dw_direwolf_give_canon_pup_effect = {
 dw_direwolf_canon_litter_effect = {
     dw_direwolf_create_canon_mother_effect = { LOCATION = root.location }
 
-    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_6   NAME = "Greywind"   GENDER = male    TEMPER = direwolf_savage      BUILD = direwolf_massive  COAT = direwolf }
-    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_7   NAME = "Ghost"      GENDER = male    TEMPER = direwolf_protective  BUILD = direwolf_runt     COAT = direwolf_albino }
-    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_8   NAME = "Lady"       GENDER = female  TEMPER = direwolf_docile      BUILD = direwolf          COAT = direwolf }
-    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_9   NAME = "Nymeria"    GENDER = female  TEMPER = direwolf_savage      BUILD = direwolf_massive  COAT = direwolf }
-    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_10  NAME = "Summer"     GENDER = male    TEMPER = direwolf_protective  BUILD = direwolf          COAT = direwolf }
-    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_11  NAME = "Shaggydog"  GENDER = male    TEMPER = direwolf_savage      BUILD = direwolf          COAT = direwolf }
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_6   NAME = "Greywind"   GENDER = male    TEMPER = direwolf_savage      BUILD = direwolf_massive  COAT = direwolf         COAT_VALUE = 0.09375 }
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_7   NAME = "Ghost"      GENDER = male    TEMPER = direwolf_protective  BUILD = direwolf_runt     COAT = direwolf_albino  COAT_VALUE = 0.5 }
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_8   NAME = "Lady"       GENDER = female  TEMPER = direwolf_docile      BUILD = direwolf          COAT = direwolf         COAT_VALUE = 0.28125 }
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_9   NAME = "Nymeria"    GENDER = female  TEMPER = direwolf_savage      BUILD = direwolf_massive  COAT = direwolf         COAT_VALUE = 0.28125 }
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_10  NAME = "Summer"     GENDER = male    TEMPER = direwolf_protective  BUILD = direwolf          COAT = direwolf         COAT_VALUE = 0.90625 }
+    dw_direwolf_give_canon_pup_effect = { FLAG = is_Stark_11  NAME = "Shaggydog"  GENDER = male    TEMPER = direwolf_savage      BUILD = direwolf          COAT = direwolf         COAT_VALUE = 0.03125 }
 
     dw_direwolf_kill_canon_mother_effect = yes
 }
@@ -1635,6 +1637,10 @@ dw_direwolf_bond_canon_history_pup_effect = {
 			}
 
 			character:$WOLF$ = {
+				if = {
+					limit = { NOT = { has_variable = dw_coat } }
+					set_variable = { name = dw_coat  value = $COAT_VALUE$ }
+				}
 				dw_direwolf_set_growth_stage_effect = yes
 				if = {
 					limit = {
@@ -1660,12 +1666,12 @@ dw_direwolf_bond_canon_history_pup_effect = {
 }
 
 dw_direwolf_bond_canon_history_effect = {
-	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_6   WOLF = dw_direwolf_greywind }
-	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_7   WOLF = dw_direwolf_ghost }
-	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_8   WOLF = dw_direwolf_lady }
-	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_9   WOLF = dw_direwolf_nymeria }
-	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_10  WOLF = dw_direwolf_summer }
-	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_11  WOLF = dw_direwolf_shaggydog }
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_6   WOLF = dw_direwolf_greywind  COAT_VALUE = 0.09375 }
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_7   WOLF = dw_direwolf_ghost     COAT_VALUE = 0.5 }
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_8   WOLF = dw_direwolf_lady      COAT_VALUE = 0.28125 }
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_9   WOLF = dw_direwolf_nymeria   COAT_VALUE = 0.28125 }
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_10  WOLF = dw_direwolf_summer    COAT_VALUE = 0.90625 }
+	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_11  WOLF = dw_direwolf_shaggydog COAT_VALUE = 0.03125 }
 }
 
 
