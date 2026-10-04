@@ -2025,7 +2025,6 @@ dw_direwolf.1620 = {
 			20 = {
 				save_scope_value_as = { name = dw_retreat_wolf_fate  value = 2 }
 				scope:dw_battle_wolf = {
-					make_unprunable = yes
 					death = { death_reason = death_battle }
 				}
 			}
@@ -2210,7 +2209,6 @@ dw_direwolf.1631 = {
 		name = dw_direwolf.1631.b
 		trigger = { scope:dw_found_outcome = 2 }
 		scope:dw_battle_wolf = {
-			make_unprunable = yes
 			death = { death_reason = death_battle }
 		}
 	}

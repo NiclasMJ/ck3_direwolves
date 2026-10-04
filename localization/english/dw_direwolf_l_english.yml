@@ -462,15 +462,8 @@
  dw_direwolf.1500.a:0 "There is a hole in the world."
  DW_DIREWOLF_TREE_TT:0 "#I Click to see this direwolf's lineage#!"
  DW_DIREWOLF_TREE_TITLE:0 "The Wolf Line"
- DW_DIREWOLF_TREE_MEMBERS:0 "Wolves: #V [GetPlayer.MakeScope.Var('dw_tree_total').GetValue|0]#!"
- DW_DIREWOLF_TREE_LIVING:0 "Still living: #V [GetPlayer.MakeScope.Var('dw_tree_living').GetValue|0]#!"
- DW_DIREWOLF_TREE_DEAD:0 "dead"
- DW_DIREWOLF_TREE_OUT_OF:0 "out of [Character.GetMother.GetFirstNameNoTooltip]"
- DW_DIREWOLF_TREE_GEN_0:0 "The Old Blood"
- DW_DIREWOLF_TREE_GEN_1:0 "Second Generation"
- DW_DIREWOLF_TREE_GEN_2:0 "Third Generation"
- DW_DIREWOLF_TREE_GEN_3:0 "Fourth Generation"
- DW_DIREWOLF_TREE_GEN_4:0 "Fifth Generation"
+ DW_DIREWOLF_TREE_MEMBERS:0 "Wolves: #V [GetGlobalVariable('dw_tree_being_shown').Var('dw_tree_total').GetValue|0]#!"
+ DW_DIREWOLF_TREE_LIVING:0 "Still living: #V [GetGlobalVariable('dw_tree_being_shown').Var('dw_tree_living').GetValue|0]#!"
 
  # Battle stances
  dw_direwolf.1600.guard:0 "Stay with me."

@@ -1,101 +1,123 @@
 ﻿types DirewolfTreeView
 {
-	type dw_direwolf_tree_node = container {
-		size = { 150 190 }
+	# One wolf: portrait, name, and - recursively - its own litter underneath.
+	# Data comes from the tree stories through GetGlobalVariable, never from
+	# GetPlayer, so the tree also opens in observer mode.
+	type dw_direwolf_tree_item = container {
+		name = "dw_direwolf_tree_item"
 		ignoreinvisible = yes
 
 		flowcontainer = {
 			direction = vertical
-			parentanchor = hcenter
 			ignoreinvisible = yes
-			margin = { 8 0 }
+			margin = { 14 0 }
 
-			button = {
-				size = { 100 120 }
+			container = {
 				parentanchor = hcenter
-				#DIREWOLVES FIXED: Character.OpenCharacterWindow / Character.GetTooltip are not
-				# real data functions. Vanilla clickable-portrait idiom is DefaultOnCharacterClick
-				# plus a container_character_tooltip tooltipwidget.
-				onclick = "[DefaultOnCharacterClick( Character.GetID )]"
-				using = tooltip_ne
+				ignoreinvisible = yes
 
-				tooltipwidget = {
-					container_character_tooltip = {}
+				block "line_to_parent" {
+					line = {
+						using = Line_DynastyTree
+						parentanchor = hcenter
+						from = { 0 -10 }
+						to = { 0 14 }
+					}
 				}
 
-				portrait_head_small = {
-					datacontext = "[Character]"
+				flowcontainer = {
+					direction = vertical
 					parentanchor = hcenter
+					ignoreinvisible = yes
+					datacontext = "[Scope.GetCharacter]"
+
+					button = {
+						size = { 100 120 }
+						parentanchor = hcenter
+						onclick = "[DefaultOnCharacterClick( Character.GetID )]"
+						using = tooltip_ne
+
+						tooltipwidget = {
+							container_character_tooltip = {}
+						}
+
+						portrait_head_small = {
+							datacontext = "[Character]"
+							parentanchor = hcenter
+						}
+					}
+
+					text_single = {
+						parentanchor = hcenter
+						autoresize = no
+						size = { 150 24 }
+						elide = right
+						align = center
+						max_width = 150
+						raw_text = "[Character.GetFirstNameNicknamedNoTooltip|V]"
+						default_format = "#credits_subheader"
+						tooltip = "[Character.GetFirstNameNicknamedNoTooltip|V]"
+					}
 				}
 			}
 
-			text_single = {
+			# The litter: a stem down from this wolf, a bar across, then the pups.
+			flowcontainer = {
+				direction = vertical
 				parentanchor = hcenter
-				autoresize = no
-				size = { 150 24 }
-				elide = right
-				align = center
-				max_width = 150
-				raw_text = "[Character.GetFirstNameNicknamedNoTooltip|V]"
-				default_format = "#credits_subheader"
-				tooltip = "[Character.GetFirstNameNicknamedNoTooltip|V]"
-			}
+				ignoreinvisible = yes
+				datacontext = "[Scope.GetCharacter]"
+				visible = "[GetScriptedGui('dw_direwolf_tree_has_children').IsShown( GuiScope.SetRoot( Character.MakeScope ).End )]"
 
-			text_single = {
-				parentanchor = hcenter
-				autoresize = yes
-				default_format = "#weak"
-				visible = "[Character.IsDeadAndValid]"
-				text = "DW_DIREWOLF_TREE_DEAD"
-			}
+				widget = {
+					parentanchor = hcenter
 
-			text_single = {
-				parentanchor = hcenter
-				autoresize = yes
-				default_format = "#low"
-				visible = "[Character.GetMother.IsValid]"
-				text = "DW_DIREWOLF_TREE_OUT_OF"
-			}
-		}
-	}
+					line = {
+						resizeparent = yes
+						using = Line_DynastyTree
+						from = { 0 0 }
+						to = { 0 34 }
+					}
+				}
 
-	type dw_direwolf_tree_row = flowcontainer {
-		direction = vertical
-		ignoreinvisible = yes
-		parentanchor = hcenter
-		margin = { 0 12 }
+				widget = {
+					parentanchor = hcenter
+					size = { 94% 4 }
 
-		text_single = {
-			parentanchor = hcenter
-			autoresize = yes
-			default_format = "#credits_header"
-			block "row_label" {}
-		}
+					background = {
+						position = { 0 34 }
+						texture = "gfx/lines/line_diffuse_07.dds"
+						color = { 0.86 0.87 0.87 1 }
+					}
+				}
 
-		widget = {
-			parentanchor = hcenter
-			size = { 100% 4 }
+				container = {
+					parentanchor = hcenter
 
-			background = {
-				texture = "gfx/lines/line_diffuse_07.dds"
-				color = { 0.86 0.87 0.87 1 }
-			}
-		}
+					dynamicgridbox = {
+						datamodel = "[GetGlobalVariable('dw_tree_being_shown').GetList('parent_story_container')]"
 
-		container = {
-			parentanchor = hcenter
+						item = {
+							dynamicgridbox = {
+								visible = "[ObjectsEqual(Scope.Var('this_parent').Char, Character.Self)]"
+								datamodel = "[Scope.GetList('child_container')]"
+								flipdirection = yes
 
-			dynamicgridbox = {
-				flipdirection = yes
-				block "row_model" {}
-
-				item = {
-					dw_direwolf_tree_node = {
-						datacontext = "[Scope.GetCharacter]"
+								item = {
+									recursive = yes
+									dw_direwolf_tree_item = {}
+								}
+							}
+						}
 					}
 				}
 			}
 		}
+	}
+
+	# The founder sits at the top and has nothing above it to connect to.
+	type dw_direwolf_tree_root_item = dw_direwolf_tree_item {
+		blockoverride "line_to_parent" {}
 	}
 }
 
@@ -107,12 +129,24 @@ window = {
 	movable = no
 	layer = middle
 	using = Window_Background_Dragon_Tree
-	datacontext = "[GetPlayer]"
-	visible = "[And(IsInGame, GetPlayer.MakeScope.Var('dw_tree_stump').IsSet)]"
+	datacontext = "[GetVariableSystem]"
+	visible = "[And(And(GetVariableSystem.Exists('dw_direwolf_tree_visible'), IsInGame), GetGlobalVariable('dw_tree_being_shown').IsSet)]"
 
 	state = {
 		name = _show
 		alpha = 1
+	}
+
+	state = {
+		name = _hide
+		on_finish = "[GetVariableSystem.Clear('dw_direwolf_tree_visible')]"
+	}
+
+	state = {
+		name = dismiss
+		next = _hide
+		trigger_when = "[Not(GetVariableSystem.Exists('dw_direwolf_tree_visible'))]"
+		on_finish = "[GetScriptedGui('dw_close_direwolf_tree').Execute( GuiScope.SetRoot( GetGlobalVariable('dw_tree_being_shown').Var('dw_tree_founder').Char.MakeScope ).End )]"
 	}
 
 	widget = {
@@ -146,42 +180,11 @@ window = {
 							resizeparent = yes
 							ignoreinvisible = yes
 
-							dw_direwolf_tree_row = {
-								blockoverride "row_label" { text = "DW_DIREWOLF_TREE_GEN_0" }
-								blockoverride "row_model" {
-									datamodel = "[GetPlayer.MakeScope.GetList('dw_tree_gen_0')]"
-								}
-							}
+							dynamicgridbox = {
+								datamodel = "[GetGlobalVariable('dw_tree_being_shown').GetList('dw_tree_gui')]"
 
-							dw_direwolf_tree_row = {
-								visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( GetPlayer.MakeScope.GetList('dw_tree_gen_1') ), '(int32)1' )]"
-								blockoverride "row_label" { text = "DW_DIREWOLF_TREE_GEN_1" }
-								blockoverride "row_model" {
-									datamodel = "[GetPlayer.MakeScope.GetList('dw_tree_gen_1')]"
-								}
-							}
-
-							dw_direwolf_tree_row = {
-								visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( GetPlayer.MakeScope.GetList('dw_tree_gen_2') ), '(int32)1' )]"
-								blockoverride "row_label" { text = "DW_DIREWOLF_TREE_GEN_2" }
-								blockoverride "row_model" {
-									datamodel = "[GetPlayer.MakeScope.GetList('dw_tree_gen_2')]"
-								}
-							}
-
-							dw_direwolf_tree_row = {
-								visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( GetPlayer.MakeScope.GetList('dw_tree_gen_3') ), '(int32)1' )]"
-								blockoverride "row_label" { text = "DW_DIREWOLF_TREE_GEN_3" }
-								blockoverride "row_model" {
-									datamodel = "[GetPlayer.MakeScope.GetList('dw_tree_gen_3')]"
-								}
-							}
-
-							dw_direwolf_tree_row = {
-								visible = "[GreaterThanOrEqualTo_int32( GetDataModelSize( GetPlayer.MakeScope.GetList('dw_tree_gen_4') ), '(int32)1' )]"
-								blockoverride "row_label" { text = "DW_DIREWOLF_TREE_GEN_4" }
-								blockoverride "row_model" {
-									datamodel = "[GetPlayer.MakeScope.GetList('dw_tree_gen_4')]"
+								item = {
+									dw_direwolf_tree_root_item = {}
 								}
 							}
 						}
@@ -248,7 +251,7 @@ window = {
 					button_close = {
 						parentanchor = top|right
 						tooltip = "CLOSE_TOOLTIP"
-						onclick = "[GetScriptedGui('dw_close_direwolf_tree').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						onclick = "[GetVariableSystem.Clear('dw_direwolf_tree_visible')]"
 						clicksound = "event:/SFX/UI/Generic/sfx_ui_generic_close"
 						using = Animation_ShowHide_Standard
 					}

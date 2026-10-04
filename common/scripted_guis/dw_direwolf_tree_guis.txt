@@ -7,18 +7,45 @@
 			real_father ?= { has_trait = direwolf }
 			real_mother ?= { has_trait = direwolf }
 			any_child = { has_trait = direwolf }
+			any_in_global_list = {
+				variable = dw_wolf_registry
+				limit = {
+					OR = {
+						real_mother ?= root
+						real_father ?= root
+					}
+				}
+			}
 		}
 	}
 }
 
+# Does this wolf have children in the tree? Drives the connector lines in the GUI.
+dw_direwolf_tree_has_children = {
+	scope = character
+
+	is_shown = {
+		any_in_global_list = {
+			variable = dw_wolf_registry
+			limit = {
+				OR = {
+					real_mother ?= root
+					real_father ?= root
+				}
+			}
+		}
+	}
+}
+
+# Root is the wolf whose tree was clicked - never the player, so this also works
+# in observer mode. Nothing is written to the wolf itself (it may be dead).
 dw_open_direwolf_tree = {
 	scope = character
-	saved_scopes = { opened_character }
 
 	effect = {
 		dw_direwolf_tree_clear_effect = yes
 
-		scope:opened_character = { save_scope_as = dw_tree_walker }
+		save_scope_as = dw_tree_walker
 
 		while = {
 			count = 5
@@ -32,30 +59,40 @@ dw_open_direwolf_tree = {
 			}
 		}
 
-		set_variable = {
-			name = dw_tree_stump
-			value = scope:dw_tree_walker
-		}
+		dw_direwolf_tree_pick_host_effect = yes
 
-		add_to_variable_list = { name = dw_tree_gen_0  target = scope:dw_tree_walker }
-		add_to_variable_list = { name = dw_tree_all    target = scope:dw_tree_walker }
+		if = {
+			limit = { exists = scope:dw_tree_host }
 
-		dw_direwolf_tree_descend_effect = { FROM = dw_tree_gen_0  INTO = dw_tree_gen_1 }
-		dw_direwolf_tree_descend_effect = { FROM = dw_tree_gen_1  INTO = dw_tree_gen_2 }
-		dw_direwolf_tree_descend_effect = { FROM = dw_tree_gen_2  INTO = dw_tree_gen_3 }
-		dw_direwolf_tree_descend_effect = { FROM = dw_tree_gen_3  INTO = dw_tree_gen_4 }
+			set_global_variable = { name = dw_tree_host  value = scope:dw_tree_host }
+			scope:dw_tree_host = {
+				create_story = {
+					type = dw_direwolf_tree_structure
+					save_scope_as = dw_tree_story
+				}
+			}
+			scope:dw_tree_story = {
+				set_variable = { name = dw_tree_founder  value = scope:dw_tree_walker }
+				add_to_variable_list = { name = dw_tree_gui    target = scope:dw_tree_walker }
+				add_to_variable_list = { name = dw_tree_gen_0  target = scope:dw_tree_walker }
+				add_to_variable_list = { name = dw_tree_all    target = scope:dw_tree_walker }
+			}
+			set_global_variable = { name = dw_tree_being_shown  value = scope:dw_tree_story }
 
-		set_variable = {
-			name = dw_tree_total
-			value = dw_direwolf_tree_size_value
-		}
-		set_variable = {
-			name = dw_tree_living
-			value = dw_direwolf_tree_living_value
+			dw_direwolf_tree_build_generation_effect = { FROM = dw_tree_gen_0  INTO = dw_tree_gen_1 }
+			dw_direwolf_tree_build_generation_effect = { FROM = dw_tree_gen_1  INTO = dw_tree_gen_2 }
+			dw_direwolf_tree_build_generation_effect = { FROM = dw_tree_gen_2  INTO = dw_tree_gen_3 }
+			dw_direwolf_tree_build_generation_effect = { FROM = dw_tree_gen_3  INTO = dw_tree_gen_4 }
+
+			scope:dw_tree_story = {
+				set_variable = { name = dw_tree_total   value = dw_direwolf_tree_size_value }
+				set_variable = { name = dw_tree_living  value = dw_direwolf_tree_living_value }
+			}
 		}
 	}
 }
 
+# Rooted at the tree's founder, so closing needs no player either.
 dw_close_direwolf_tree = {
 	scope = character
 

@@ -359,7 +359,8 @@
 					icon_round_button_base = {}
 
 					button_dynasty_tree = {
-						onclick = "[GetScriptedGui('dw_open_direwolf_tree').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'opened_character', Character.MakeScope ).End )]"
+						onclick = "[GetVariableSystem.Toggle('dw_direwolf_tree_visible')]"
+						onclick = "[GetScriptedGui('dw_open_direwolf_tree').Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
 						size = { 25 25 }
 						parentanchor = center
 					}

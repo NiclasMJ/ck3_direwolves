@@ -1,0 +1,15 @@
+﻿# Containers for the direwolf family tree, built fresh each time the tree is opened.
+# Dead wolves are "weak" scopes that cannot hold variables, so the tree structure
+# lives on these stories (owned by the ruins holder) instead of on the wolves.
+
+dw_direwolf_tree_structure = { # dw_tree_founder, dw_tree_gui, parent_story_container, dw_tree_gen_0..4, dw_tree_all, dw_tree_total, dw_tree_living
+	on_setup = {}
+	on_end = {}
+	on_owner_death = {}
+}
+
+dw_direwolf_tree_parent = { # this_parent, child_container
+	on_setup = {}
+	on_end = {}
+	on_owner_death = {}
+}

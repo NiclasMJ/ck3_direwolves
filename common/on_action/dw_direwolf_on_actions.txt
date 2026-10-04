@@ -77,6 +77,8 @@ dw_direwolf_on_death = {
 		if = {
 			limit = { has_trait = direwolf }
 			remove_list_global_variable = { name = dw_all_wolves  target = this }
+			# Valid here (the wolf is already dead): keeps it in the family tree.
+			make_unprunable = yes
 		}
 
 		if = {
@@ -129,6 +131,8 @@ dw_direwolf_on_death = {
 
 dw_direwolf_on_game_start = {
 	effect = {
+		# Idempotent: rebuilds the family-tree registry, also in saves made before it existed.
+		dw_direwolf_register_canon_wolves_effect = yes
 		dynasty:dynn_Stark ?= {
 			dw_direwolf_mark_dynasty_wolf_blooded_effect = yes
 		}
@@ -153,6 +157,12 @@ dw_direwolf_on_game_start = {
 				}
 				add_to_global_variable_list = { name = dw_all_wolves  target = this }
 			}
+		}
+
+		# every living wolf also belongs in the family-tree registry
+		every_in_global_list = {
+			variable = dw_all_wolves
+			dw_direwolf_register_wolf_effect = yes
 		}
 
 		# coat roll for every wolf that does not have one yet (history wolves)

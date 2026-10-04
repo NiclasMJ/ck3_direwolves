@@ -403,6 +403,7 @@ dw_direwolf_create_wild_wolf_effect = {
         dw_direwolf_ensure_coat_effect = yes
     }
     add_to_global_variable_list = { name = dw_all_wolves     target = scope:new_direwolf }
+    scope:new_direwolf = { dw_direwolf_register_wolf_effect = yes }
     add_to_global_variable_list = { name = dw_feral_wolves   target = scope:new_direwolf }
     add_to_global_variable_list = { name = dw_spawning_pack  target = scope:new_direwolf }
 }

@@ -199,6 +199,7 @@ dw_create_direwolf_effect = {
     scope:new_direwolf = { dw_direwolf_ensure_coat_effect = yes }
 
     add_to_global_variable_list = { name = dw_all_wolves  target = scope:new_direwolf }
+    scope:new_direwolf = { dw_direwolf_register_wolf_effect = yes }
 }
 
 # The two wrappers below are the albino roll
@@ -242,6 +243,7 @@ dw_direwolf_create_canon_pup_effect = {
     }
     add_courtier = scope:new_direwolf
     add_to_global_variable_list = { name = dw_all_wolves  target = scope:new_direwolf }
+    scope:new_direwolf = { dw_direwolf_register_wolf_effect = yes }
 
     scope:new_direwolf = {
         # Named wolves have a fixed coat: file it before the roll can run.
@@ -427,7 +429,6 @@ dw_direwolf_grieve_effect = {
         limit = { exists = var:bonded_direwolf }
 
         var:bonded_direwolf = {
-            make_unprunable = yes
             save_scope_as = dw_dead_wolf
         }
 
@@ -1231,7 +1232,6 @@ dw_direwolf_combat_resolve_maul_effect = {
                         TARGET_RIGHT = no
                     }
                     scope:dw_maul_wolf = {
-                        make_unprunable = yes
                         death = {
                             death_reason = death_battle
                             killer = scope:dw_maul_knight
@@ -1614,7 +1614,6 @@ dw_direwolf_create_canon_mother_effect = {
 			add_trait = direwolf_massive
 			add_trait = direwolf_protective
 			dw_direwolf_set_growth_stage_effect = yes
-			make_unprunable = yes
 		}
 	}
 }
@@ -1689,6 +1688,41 @@ dw_direwolf_bond_canon_history_pup_effect = {
 	}
 }
 
+# Registers every canon wolf in the permanent registry, whether or not it gets bonded.
+# A dead wolf is a "weak" character scope: the game refuses every variable
+# operation on it (has_variable, add_to_variable_list, ...). So parentage is NOT
+# stored on the wolves. Instead every wolf ever created is kept in one global
+# list, and the tree finds children by matching real_mother / real_father
+# against it - those links keep working on weak scopes.
+dw_direwolf_register_wolf_effect = {
+	if = {
+		limit = { NOT = { is_target_in_global_variable_list = { name = dw_wolf_registry  target = this } } }
+		add_to_global_variable_list = { name = dw_wolf_registry  target = this }
+	}
+}
+
+# Adds one wolf to the registry by history id. Runs in the CALLER's scope, so it
+# works for wolves that are already dead (their own scope rejects variable work).
+dw_direwolf_register_canon_wolf_effect = {
+	if = {
+		limit = {
+			exists = character:$WOLF$
+			NOT = { is_target_in_global_variable_list = { name = dw_wolf_registry  target = character:$WOLF$ } }
+		}
+		add_to_global_variable_list = { name = dw_wolf_registry  target = character:$WOLF$ }
+	}
+}
+
+dw_direwolf_register_canon_wolves_effect = {
+	dw_direwolf_register_canon_wolf_effect = { WOLF = dw_direwolf_mother }
+	dw_direwolf_register_canon_wolf_effect = { WOLF = dw_direwolf_greywind }
+	dw_direwolf_register_canon_wolf_effect = { WOLF = dw_direwolf_ghost }
+	dw_direwolf_register_canon_wolf_effect = { WOLF = dw_direwolf_lady }
+	dw_direwolf_register_canon_wolf_effect = { WOLF = dw_direwolf_nymeria }
+	dw_direwolf_register_canon_wolf_effect = { WOLF = dw_direwolf_summer }
+	dw_direwolf_register_canon_wolf_effect = { WOLF = dw_direwolf_shaggydog }
+}
+
 dw_direwolf_bond_canon_history_effect = {
 	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_6   WOLF = dw_direwolf_greywind  COAT_VALUE = 0.28125 }
 	dw_direwolf_bond_canon_history_pup_effect = { ID = Stark_7   WOLF = dw_direwolf_ghost     COAT_VALUE = 0.28125 }
@@ -1699,55 +1733,122 @@ dw_direwolf_bond_canon_history_effect = {
 }
 
 
-dw_direwolf_tree_descend_effect = {
-	every_in_list = {
-		variable = $FROM$
-		every_child = {
-			limit = { has_trait = direwolf }
-			save_temporary_scope_as = dw_tree_kid
-			root = {
-				add_to_variable_list = { name = $INTO$      target = scope:dw_tree_kid }
-				add_to_variable_list = { name = dw_tree_all  target = scope:dw_tree_kid }
+# Everything the tree needs lives on stories owned by one host character, because
+# dead wolves are weak scopes that reject variables. Rebuilding on each open keeps
+# old saves working and costs only a handful of stories.
+dw_direwolf_tree_pick_host_effect = {
+	if = {
+		limit = { exists = title:c_ruins.holder }
+		title:c_ruins.holder = { save_scope_as = dw_tree_host }
+	}
+	else_if = {
+		limit = { exists = global_var:dw_tree_host }
+		global_var:dw_tree_host = { save_scope_as = dw_tree_host }
+	}
+	else = {
+		random_ruler = {
+			limit = { is_alive = yes }
+			save_scope_as = dw_tree_host
+		}
+	}
+}
+
+# One parent story per wolf that has children: this_parent plus its child_container.
+# The GUI walks those stories to draw each litter under its parent.
+dw_direwolf_tree_build_generation_effect = {
+	scope:dw_tree_story = {
+		every_in_list = {
+			variable = $FROM$
+			save_temporary_scope_as = dw_tree_parent
+			if = {
+				limit = {
+					any_in_global_list = {
+						variable = dw_wolf_registry
+						limit = {
+							OR = {
+								real_mother ?= scope:dw_tree_parent
+								real_father ?= scope:dw_tree_parent
+							}
+						}
+					}
+				}
+
+				scope:dw_tree_host = {
+					create_story = {
+						type = dw_direwolf_tree_parent
+						save_scope_as = dw_tree_parent_story
+					}
+				}
+				scope:dw_tree_parent_story = {
+					set_variable = { name = this_parent  value = scope:dw_tree_parent }
+				}
+				scope:dw_tree_story = {
+					add_to_variable_list = { name = parent_story_container  target = scope:dw_tree_parent_story }
+				}
+
+				every_in_global_list = {
+					variable = dw_wolf_registry
+					limit = {
+						OR = {
+							real_mother ?= scope:dw_tree_parent
+							real_father ?= scope:dw_tree_parent
+						}
+					}
+					save_temporary_scope_as = dw_tree_kid
+					scope:dw_tree_story = {
+						# A pup whose mother and father are both in the tree would otherwise
+						# be drawn under each of them: it is placed under the first one only.
+						if = {
+							limit = { NOT = { is_target_in_variable_list = { name = dw_tree_all  target = scope:dw_tree_kid } } }
+							add_to_variable_list = { name = $INTO$      target = scope:dw_tree_kid }
+							add_to_variable_list = { name = dw_tree_all  target = scope:dw_tree_kid }
+							scope:dw_tree_parent_story = {
+								add_to_variable_list = { name = child_container  target = scope:dw_tree_kid }
+							}
+						}
+					}
+				}
 			}
 		}
 	}
 }
 
+# Ends the stories of the previous tree and forgets it. Safe to call when no tree is open.
 dw_direwolf_tree_clear_effect = {
 	if = {
-		limit = { has_variable_list = dw_tree_all }
-		clear_variable_list = dw_tree_all
+		limit = { exists = global_var:dw_tree_host }
+		global_var:dw_tree_host = {
+			every_owned_story = {
+				limit = {
+					OR = {
+						story_type = dw_direwolf_tree_structure
+						story_type = dw_direwolf_tree_parent
+					}
+				}
+				end_story = yes
+			}
+		}
 	}
 	if = {
-		limit = { has_variable_list = dw_tree_gen_0 }
-		clear_variable_list = dw_tree_gen_0
+		limit = { exists = title:c_ruins.holder }
+		title:c_ruins.holder = {
+			every_owned_story = {
+				limit = {
+					OR = {
+						story_type = dw_direwolf_tree_structure
+						story_type = dw_direwolf_tree_parent
+					}
+				}
+				end_story = yes
+			}
+		}
 	}
 	if = {
-		limit = { has_variable_list = dw_tree_gen_1 }
-		clear_variable_list = dw_tree_gen_1
+		limit = { has_global_variable = dw_tree_being_shown }
+		remove_global_variable = dw_tree_being_shown
 	}
 	if = {
-		limit = { has_variable_list = dw_tree_gen_2 }
-		clear_variable_list = dw_tree_gen_2
-	}
-	if = {
-		limit = { has_variable_list = dw_tree_gen_3 }
-		clear_variable_list = dw_tree_gen_3
-	}
-	if = {
-		limit = { has_variable_list = dw_tree_gen_4 }
-		clear_variable_list = dw_tree_gen_4
-	}
-	if = {
-		limit = { has_variable = dw_tree_stump }
-		remove_variable = dw_tree_stump
-	}
-	if = {
-		limit = { has_variable = dw_tree_total }
-		remove_variable = dw_tree_total
-	}
-	if = {
-		limit = { has_variable = dw_tree_living }
-		remove_variable = dw_tree_living
+		limit = { has_global_variable = dw_tree_host }
+		remove_global_variable = dw_tree_host
 	}
 }
